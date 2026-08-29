@@ -83,5 +83,10 @@ push:
 	git push origin overleaf
 	git checkout main
 
-# pull-push shortcut
+zotero:
+	git add refs_zotero_phd.bib
+	git commit -m "update zotero bib"
+
+# shortcuts
 pp: pull push
+pz: zotero pp
