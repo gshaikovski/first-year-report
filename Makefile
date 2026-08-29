@@ -55,3 +55,33 @@ clean:
 	rm -f *.glg *.glo *.gls *.idx *.ild *.ind *.ist *.ilg *.iso *.out
 	rm -f *.pstex *.pstex_t
 	rm -f thesis.pdf
+
+# My edits
+
+## format: format content tex files
+fmt:
+	tex-fmt --nowrap thesis.tex sections/*
+
+## pull from overleaf
+pull:
+	git fetch --all
+	git pull origin main
+	git checkout overleaf
+	git reset upstream/main --hard
+	git push origin overleaf
+	git checkout main
+	git rebase overleaf
+	git push origin main
+
+## push to overleaf
+push:
+	git fetch --all
+	git push origin main
+	git checkout overleaf
+	git rebase main
+	git push upstream HEAD:main
+	git push origin overleaf
+	git checkout main
+
+# pull-push shortcut
+pp: pull push
