@@ -2,19 +2,29 @@
 
 The open problem addressed in this work is understanding and improving the learning algorithms and methods that allow artificial neural networks, specifically sequence models with Transformer architecture \citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, to solve complex goal-oriented problems.
 Such problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions \citep{condellProblemSolvingTechniques2010,reedProblemSolving2023}; solutions often involve choosing optimal decisions and making step-by-step plans to reach the goal.
-This criteria is very broad and can include everything from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
+These criteria are very broad and can include everything from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
 This thesis by no means attempts to solve all of them; instead, it aims to evaluate current methods of learning such problem-solving abilities from data, the mechanisms that trained sequence models use to solve such problems, the role of problem representation and problem-agnostic intermediate computation in learning and solution generation, and propose improvements that can lead to more capable neural problem-solvers.
 
-Current state-of-the-art solutions in artificial intelligence are split along
+Current state-of-the-art solutions to this problem are split into two clusters.
+First, there are tree search methods with a learned evaluation function which is usually implemented as a neural network.
+Examples include Monte Carlo Tree Search \citep{coulomEfficientSelectivityBackup2007,kocsisBanditBasedMonteCarlo2006,swiechowskiMonteCarloTree2023} augmented with a learned policy and value networks \citep{silverMasteringChessShogi2017,schrittwieserMasteringAtariGo2020} and A* search \citep{hartFormalBasisHeuristic1968} with a learned heuristic \citep{agostinelliSolvingRubiksCube2019}.
+These methods have the advantage of using a sound search process that designer can understand, verify, and tune.
+This architectural simplicity is also the source of their major limitation: the algorithms are manually designed and tuned, and remain fixed afterwards, which limits their generality and adaptability.
+
+The second cluster consists of language models pre-trained on a large natural language corpus and finetuned with reinforcement learning from human feedback or verifiable rewards to solve such problems using intermediate reasoning steps \citep{}
+
+haoReasoningLanguageModel2023
 
 
 
-In artificial intelligence, heuristic-based state-space search is one of the fundamental methods for solving such problems: a traversal of a graph of states under a transition rule and an evaluation function that prunes the search tree to make the procedure tractable \citep{hartFormalBasisHeuristic1968,newell1972human,russel2010}.
 
-Tree search algorithms are sound problem-solving methods which ; yet, they require state representation and transition functions to be defined ahead of time, and their optimality depends on the choice of the evaluation function, all of which are ill-defined for real-world complex tasks.
 
-Search is sound and complete
-Neural networks build representations from data
-Combining them - Alphago
-Still, search is an external procedure, not an internal problem-solving process
+% In artificial intelligence, heuristic-based state-space search is one of the fundamental methods for solving such problems: a traversal of a graph of states under a transition rule and an evaluation function that prunes the search tree to make the procedure tractable \citep{hartFormalBasisHeuristic1968,newell1972human,russel2010}.
+
+% Tree search algorithms are sound problem-solving methods which ; yet, they require state representation and transition functions to be defined ahead of time, and their optimality depends on the choice of the evaluation function, all of which are ill-defined for real-world complex tasks.
+
+% Search is sound and complete
+% Neural networks build representations from data
+% Combining them - Alphago
+% Still, search is an external procedure, not an internal problem-solving process
 
