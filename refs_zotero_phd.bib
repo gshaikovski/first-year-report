@@ -34,6 +34,22 @@
   file = {/Users/george/Zotero/storage/B422U3HV/Agarwal et al. - 2024 - Learning to Play Atari in a World of Tokens.pdf}
 }
 
+@article{agostinelliSolvingRubiksCube2019,
+  title = {Solving the {{Rubik}}'s Cube with Deep Reinforcement Learning and Search},
+  author = {Agostinelli, Forest and McAleer, Stephen and Shmakov, Alexander and Baldi, Pierre},
+  year = 2019,
+  month = jul,
+  journal = {Nature Machine Intelligence},
+  volume = {1},
+  number = {8},
+  pages = {356--363},
+  issn = {2522-5839},
+  doi = {10.1038/s42256-019-0070-z},
+  urldate = {2026-08-30},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/8RTT8MLJ/Agostinelli et al. - 2019 - Solving the Rubik’s cube with deep reinforcement learning and search.pdf}
+}
+
 @misc{akterFrontLoadingReasoningSynergy2025,
   title = {Front-{{Loading Reasoning}}: {{The Synergy}} between {{Pretraining}} and {{Post-Training Data}}},
   shorttitle = {Front-{{Loading Reasoning}}},
@@ -530,6 +546,23 @@
   langid = {english},
   keywords = {Analogies,Experts,Gestalt approach,Novices,Problem solving},
   file = {/Users/george/Zotero/storage/5KA7RRNJ/Condell et al. - 2010 - Problem solving techniques in cognitive science.pdf}
+}
+
+@inproceedings{coulomEfficientSelectivityBackup2007,
+  title = {Efficient {{Selectivity}} and {{Backup Operators}} in {{Monte-Carlo Tree Search}}},
+  booktitle = {Computers and {{Games}}},
+  author = {Coulom, R{\'e}mi},
+  editor = {{van den Herik}, H. Jaap and Ciancarini, Paolo and Donkers, H. H. L. M. (Jeroen)},
+  year = 2007,
+  pages = {72--83},
+  publisher = {Springer},
+  address = {Berlin, Heidelberg},
+  doi = {10.1007/978-3-540-75538-8_7},
+  abstract = {A Monte-Carlo evaluation consists in estimating a position by averaging the outcome of several random continuations. The method can serve as an evaluation function at the leaves of a min-max tree. This paper presents a new framework to combine tree search with Monte-Carlo evaluation, that does not separate between a min-max phase and a Monte-Carlo phase. Instead of backing-up the min-max value close to the root, and the average value at some depth, a more general backup operator is defined that progressively changes from averaging to min-max as the number of simulations grows. This approach provides a fine-grained control of the tree growth, at the level of individual simulations, and allows efficient selectivity. The resulting algorithm was implemented in a 9\texttimes 9 Go-playing program, Crazy Stone, that won the 10th KGS computer-Go tournament.},
+  isbn = {978-3-540-75538-8},
+  langid = {english},
+  keywords = {Black String,Good Move,Random Game,Random Simulation,Tree Search},
+  file = {/Users/george/Zotero/storage/J6PPVY3J/Coulom - 2007 - Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search.pdf}
 }
 
 @article{deepseek-aiDeepSeekR1IncentivizingReasoning2025,
@@ -1485,6 +1518,23 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/Users/george/Zotero/storage/GZK94UVA/Kipf et al. - 2020 - Contrastive Learning of Structured World Models.pdf}
+}
+
+@inproceedings{kocsisBanditBasedMonteCarlo2006,
+  title = {Bandit {{Based Monte-Carlo Planning}}},
+  booktitle = {Machine {{Learning}}: {{ECML}} 2006},
+  author = {Kocsis, Levente and Szepesv{\'a}ri, Csaba},
+  editor = {F{\"u}rnkranz, Johannes and Scheffer, Tobias and Spiliopoulou, Myra},
+  year = 2006,
+  pages = {282--293},
+  publisher = {Springer},
+  address = {Berlin, Heidelberg},
+  doi = {10.1007/11871842_29},
+  abstract = {For large state-space Markovian Decision Problems Monte-Carlo planning is one of the few viable approaches to find near-optimal solutions. In this paper we introduce a new algorithm, UCT, that applies bandit ideas to guide Monte-Carlo planning. In finite-horizon or discounted MDPs the algorithm is shown to be consistent and finite sample bounds are derived on the estimation error due to sampling. Experimental results show that in several domains, UCT is significantly more efficient than its alternatives.},
+  isbn = {978-3-540-46056-5},
+  langid = {english},
+  keywords = {Bandit Problem,Drift Condition,Failure Probability,Multiarmed Bandit,Multiarmed Bandit Problem},
+  file = {/Users/george/Zotero/storage/CKT3IUCF/Kocsis and Szepesvári - 2006 - Bandit Based Monte-Carlo Planning.pdf}
 }
 
 @misc{koulLearningFiniteState2018,
@@ -2684,28 +2734,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Multiagent Systems},
   file = {/Users/george/Zotero/storage/A6GUERDS/Świechowski et al. - 2023 - Monte Carlo Tree Search A Review of Recent Modifications and Applications.pdf}
-}
-
-@article{swiechowskiMonteCarloTree2023a,
-  title = {Monte {{Carlo Tree Search}}: {{A Review}} of {{Recent Modifications}} and {{Applications}}},
-  shorttitle = {Monte {{Carlo Tree Search}}},
-  author = {{\'S}wiechowski, Maciej and Godlewski, Konrad and Sawicki, Bartosz and Ma{\'n}dziuk, Jacek},
-  year = 2023,
-  month = mar,
-  journal = {Artificial Intelligence Review},
-  volume = {56},
-  number = {3},
-  eprint = {2103.04931},
-  primaryclass = {cs.AI},
-  pages = {2497--2562},
-  issn = {0269-2821, 1573-7462},
-  doi = {10.1007/s10462-022-10228-y},
-  urldate = {2026-08-30},
-  abstract = {Monte Carlo Tree Search (MCTS) is a powerful approach to designing game-playing bots or solving sequential decision problems. The method relies on intelligent tree search that balances exploration and exploitation. MCTS performs random sampling in the form of simulations and stores statistics of actions to make more educated choices in each subsequent iteration. The method has become a state-of-theart technique for combinatorial games. However, in more complex games (e.g. those with a high branching factor or real-time ones) as well as in various practical domains (e.g. transportation, scheduling or security) an efficient MCTS application often requires its problemdependent modification or integration with other techniques. Such domain-specific modifications and hybrid approaches are the main focus of this survey. The last major MCTS survey was published in 2012. Contributions that appeared since its release are of particular interest for this review.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Multiagent Systems},
-  file = {/Users/george/Zotero/storage/Q7QZLGYC/Świechowski et al. - 2023 - Monte Carlo Tree Search A Review of Recent Modifications and Applications.pdf}
 }
 
 @misc{teamKimiK3Open2026,
