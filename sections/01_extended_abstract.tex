@@ -1,10 +1,20 @@
 \chapter{Extended Abstract}
 
 The open problem addressed in this work is understanding and improving the learning algorithms and methods that allow artificial neural networks, specifically sequence models with Transformer architecture \citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, to solve complex goal-oriented problems.
-Examples of such problems range from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
-The list is very broad, however all the problems in it are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions, and solutions often involve choosing optimal decisions and making step-by-step plans to reach the goal \citep{condellProblemSolvingTechniques2010,reedProblemSolving2023}.
-This thesis by no means attempts to solve all of them; instead, it aims to investigate the mechanisms that current sequence models use to solve such problems, methods to learn such capabilities from data and their limitations, the role of problem representation and problem-solving demonstrations in learning, and propose improvements that can lead to more capable and systematic neural reasoners.
+Such problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions \citep{condellProblemSolvingTechniques2010,reedProblemSolving2023}; solutions often involve choosing optimal decisions and making step-by-step plans to reach the goal.
+This criteria is very broad and can include everything from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
+This thesis by no means attempts to solve all of them; instead, it aims to evaluate current methods of learning such problem-solving abilities from data, the mechanisms that trained sequence models use to solve such problems, the role of problem representation and problem-agnostic intermediate computation in learning and solution generation, and propose improvements that can lead to more capable neural problem-solvers.
 
-The ability to solve complex goal-oriented problems problems with constrained cognitive resources is one of the hallmarks of natural intelligence.
-In artificial intelligence, heuristic-based state-space search is the seminal method that addresses this problem: a traversal of a graph of states under a transition rule and an evaluation function that prunes the search tree to make the procedure tractable \citep{hartFormalBasisHeuristic1968,newell1972human,russel2010}.
-Tree search methods are powerful but they can 
+Current state-of-the-art solutions in artificial intelligence are split along
+
+
+
+In artificial intelligence, heuristic-based state-space search is one of the fundamental methods for solving such problems: a traversal of a graph of states under a transition rule and an evaluation function that prunes the search tree to make the procedure tractable \citep{hartFormalBasisHeuristic1968,newell1972human,russel2010}.
+
+Tree search algorithms are sound problem-solving methods which ; yet, they require state representation and transition functions to be defined ahead of time, and their optimality depends on the choice of the evaluation function, all of which are ill-defined for real-world complex tasks.
+
+Search is sound and complete
+Neural networks build representations from data
+Combining them - Alphago
+Still, search is an external procedure, not an internal problem-solving process
+
