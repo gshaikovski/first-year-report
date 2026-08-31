@@ -1,5 +1,19 @@
 \chapter{Extended Abstract}
 
+The open problem addressed in this thesis is how autoregressive language models can learn to solve sequential reasoning and pathfinding problems using structured search-based strategies, with better compute and sample efficiency than current approaches.
+Pathfinding  problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions.
+Solving these problems involves creating step-by-step plans that reach the goal.
+These criteria are very broad and can include everything from solving mazes and mathematical puzzles, to proving theorems and automating scientific work.
+This thesis by no means attempts to solve all these tasks.
+Instead, its focus is to understand and improve the methods of learning reasoning as a structured search process that language models execute (`search-augmented' reasoning, or SA), determine the role of problem representation and intermediate computation on reasoning and solution generation, and evaluate its efficacy on these pathfinding problems compared to the existing methods of learning to reason.
+The thesis aims to contribute a new insight into when and why search-augmented reasoning in language models is beneficial and a new methodology for instantiating it efficiently.
+
+Search-augmented reasoning is part of 
+
+
+
+
+
 The open problem addressed in this work is understanding and improving the learning algorithms and methods that allow artificial neural networks, specifically sequence models with Transformer architecture \citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, to solve complex goal-oriented problems.
 Such problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions \citep{condellProblemSolvingTechniques2010,reedProblemSolving2023}; solutions often involve choosing optimal decisions and making step-by-step plans to reach the goal.
 These criteria are very broad and can include everything from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
