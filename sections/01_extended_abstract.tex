@@ -1,44 +1,38 @@
 \chapter{Extended Abstract}
 
-The open problem addressed in this thesis is how autoregressive language models can learn to solve sequential reasoning and pathfinding problems using structured search-based strategies, with better compute and sample efficiency than current approaches.
+The open problem addressed in this thesis is how autoregressive language models can learn to solve sequential pathfinding problems using structured and systematic search-augmented reasoning~(SA), with better compute and sample efficiency than current approaches.
 Pathfinding  problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions.
 Solving these problems involves creating step-by-step plans that reach the goal.
 These criteria are very broad and can include everything from solving mazes and mathematical puzzles, to proving theorems and automating scientific work.
 This thesis by no means attempts to solve all these tasks.
-Instead, its focus is to understand and improve the methods of learning reasoning as a structured search process that language models execute (`search-augmented' reasoning, or SA), determine the role of problem representation and intermediate computation on reasoning and solution generation, and evaluate its efficacy on these pathfinding problems compared to the existing methods of learning to reason.
-The thesis aims to contribute a new insight into when and why search-augmented reasoning in language models is beneficial and a new methodology for instantiating it efficiently.
+Instead, it aims to contribute a new insight into when and why SA reasoning in language models is beneficial for solving such tasks, and a new methodology for instantiating SA reasoning efficiently.
 
-Search-augmented reasoning is part of 
+Search-augmented reasoning is a type of intermediate computation used to improve performance of language models on complex problems.
+It is contrasted with implicit solution-only~(SO) reasoning where language models generate a solution directly after receiving a problem in its input.
+In the context of pathfinding tasks, the latter implies that a model produces an optimal path from the initial state to the goal state directly after the problem specification.
+This makes SO reasoning the most computationally efficient approach, for training and test-time generation, and it also requires only the solution data.
+However, it also forces every decoded step of the solution to be correct, and sometimes, to produce even the first step correctly, the model must solve the entire problem \textit{a priori}.
+This constraint can make it hard for the model to learn to solve the task, requiring exponentially more data and/or larger model.
+With intermediate computation, a model can compute a solution in-sequence instead of in-depth, unrolling computation over theoretically unlimited number of token positions before decoding the first step of the solution.
+Such intermediate reasoning traces can include additional deliberation about the problem, e.g., analysis of problem's structure, inferences about potential solutions, and trial and error attempts to solve the problem.
+Many language-based complex tasks that involve pathfinding as part of the solution, such as planning or solving math problems, benefit from intermediate reasoning, so any improvement can result in more capable language models.
+This framework can further be expanded to non-deterministic problems and environment interactions by re-framing an optimal path solution as the best guess of the future trajectory, with the language model acting as policy that combines action model with a world model of the environment.
+However, these improvements must be evaluated against added cost of intermediate reasoning traces relative to SO reasoning, which includes significantly higher compute resources and additional reasoning data.
 
+Reasoning in the intermediate tokens can be formalised as a form of search: the model explores potential solutions, evaluates its steps, and abandons unpromising directions.
+If the process is bootstrapped from reasoning data that is neither structured nor systematic and conducted in human-like prose, a model may develop inefficient and unsound reasoning strategies that can hurt performance.
+Systematic, sound, and efficient reasoning that imitates a search algorithm more closely may help to overcome these issues.
+However, it suffers from a limitation: search trace data is usually not readily available for a given problem and must be generated, and if it can be generated then there already must exist a process that can use search to solve the problem.
+A simple example is maze navigation: using procedure cloning to train a language model to search through a maze depends on availability of a symbolic solver that can search through the maze.
+This thesis asks the following questions:
 
+\begin{enumerate}[leftmargin=9pt, topsep=0pt]
+    \item When is SA reasoning that follows a structured search process beneficial, compared to implicit SO reasoning, and when is it optional or even detrimental?
+    \item How does problem structure and its representation influence relative performance and efficiency of SA and SO reasoning?
+    \item Can we achieve performance of SA reasoning with other types of intermediate reasoning that do not require search traces?
+    \item For the tasks where SA reasoning is the most optimal method to achieve high performance, how can the reasoning data for it be obtained if it does not yet exist?
+\end{enumerate}
 
+The following paragraphs illuminate why each question is important to answer, the gaps that currently exist in the literature, and how this project proposes to address them.
 
-
-The open problem addressed in this work is understanding and improving the learning algorithms and methods that allow artificial neural networks, specifically sequence models with Transformer architecture \citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, to solve complex goal-oriented problems.
-Such problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions \citep{condellProblemSolvingTechniques2010,reedProblemSolving2023}; solutions often involve choosing optimal decisions and making step-by-step plans to reach the goal.
-These criteria are very broad and can include everything from solving mathematical puzzles and playing adversarial board games, to proving theorems and automating scientific work.
-This thesis by no means attempts to solve all of them; instead, it aims to evaluate current methods of learning such problem-solving abilities from data, the mechanisms that trained sequence models use to solve such problems, the role of problem representation and problem-agnostic intermediate computation in learning and solution generation, and propose improvements that can lead to more capable neural problem-solvers.
-
-Current state-of-the-art solutions to this problem are split into two clusters.
-First, there are tree search methods with a learned evaluation function which is usually implemented as a neural network.
-Examples include Monte Carlo Tree Search \citep{coulomEfficientSelectivityBackup2007,kocsisBanditBasedMonteCarlo2006,swiechowskiMonteCarloTree2023} augmented with a learned policy and value networks \citep{silverMasteringChessShogi2017,schrittwieserMasteringAtariGo2020} and A* search \citep{hartFormalBasisHeuristic1968} with a learned heuristic \citep{agostinelliSolvingRubiksCube2019}.
-These methods have the advantage of using a sound search process that designer can understand, verify, and tune.
-This architectural simplicity is also the source of their major limitation: the algorithms are manually designed and tuned, and remain fixed afterwards, which limits their generality and adaptability.
-
-The second cluster consists of language models pre-trained on a large natural language corpus and finetuned with reinforcement learning from human feedback or verifiable rewards to solve such problems using intermediate reasoning steps \citep{}
-
-haoReasoningLanguageModel2023
-
-
-
-
-
-% In artificial intelligence, heuristic-based state-space search is one of the fundamental methods for solving such problems: a traversal of a graph of states under a transition rule and an evaluation function that prunes the search tree to make the procedure tractable \citep{hartFormalBasisHeuristic1968,newell1972human,russel2010}.
-
-% Tree search algorithms are sound problem-solving methods which ; yet, they require state representation and transition functions to be defined ahead of time, and their optimality depends on the choice of the evaluation function, all of which are ill-defined for real-world complex tasks.
-
-% Search is sound and complete
-% Neural networks build representations from data
-% Combining them - Alphago
-% Still, search is an external procedure, not an internal problem-solving process
-
+\textbf{When does SA reasoning that follows a structured search process beneficial for performance, compared to implicit SO reasoning, and when is it optional or even detrimental?}
