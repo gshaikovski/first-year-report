@@ -1,30 +1,52 @@
 \chapter{Extended Abstract}
 
-The open problem addressed in this thesis is how autoregressive language models can learn to solve sequential pathfinding problems using structured and systematic search-augmented reasoning~(SA), with better compute and sample efficiency than current approaches.
-Pathfinding  problems are characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and restrictions on these transitions.
-Solving these problems involves creating step-by-step plans that reach the goal.
-These criteria are very broad and can include everything from solving mazes and mathematical puzzles, to proving theorems and automating scientific work.
-This thesis by no means attempts to solve all these tasks.
-Instead, it aims to contribute a new insight into when and why SA reasoning in language models is beneficial for solving such tasks, and a new methodology for instantiating SA reasoning efficiently.
+The open question addressed in this thesis is how autoregressive language models can learn to solve sequential state-space search problems using structured and systematic search-augmented reasoning~(SA)~\citep{lehnertBetterPlanningTransformers2024}, with reasonable compute and sample efficiency.
+A state-space search problem is characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and, optionally, a path-cost function~\citep{russel2010,newell1972human}.
+A solution to such a problem is a step-by-step plan that reaches a goal and, optionally, minimises a path cost.
+Solving it with SA reasoning means to explore state-space graph as a search tree before producing any solution: follow different branches, evaluate child states, and switch to exploring other directions, either through backtracking as in depth-first search~\citep{russel2010}, or via keeping stock of expanded nodes and their cost and heuristic values~\citep{hartFormalBasisHeuristic1968}.
+Such systematic exploration is conducted in the model's own context, so that by the time the model explored enough, the entire exploration ``trace'' is ready to be synthesised into a solution path to the goal.
 
-Search-augmented reasoning is a type of intermediate computation used to improve performance of language models on complex problems.
-It is contrasted with implicit solution-only~(SO) reasoning where language models generate a solution directly after receiving a problem in its input.
-In the context of pathfinding tasks, the latter implies that a model produces an optimal path from the initial state to the goal state directly after the problem specification.
-This makes SO reasoning the most computationally efficient approach, for training and test-time generation, and it also requires only the solution data.
-However, it also forces every decoded step of the solution to be correct, and sometimes, to produce even the first step correctly, the model must solve the entire problem \textit{a priori}.
-This constraint can make it hard for the model to learn to solve the task, requiring exponentially more data and/or larger model.
-With intermediate computation, a model can compute a solution in-sequence instead of in-depth, unrolling computation over theoretically unlimited number of token positions before decoding the first step of the solution.
-Such intermediate reasoning traces can include additional deliberation about the problem, e.g., analysis of problem's structure, inferences about potential solutions, and trial and error attempts to solve the problem.
-Many language-based complex tasks that involve pathfinding as part of the solution, such as planning or solving math problems, benefit from intermediate reasoning, so any improvement can result in more capable language models.
-This framework can further be expanded to non-deterministic problems and environment interactions by re-framing an optimal path solution as the best guess of the future trajectory, with the language model acting as policy that combines action model with a world model of the environment.
-However, these improvements must be evaluated against added cost of intermediate reasoning traces relative to SO reasoning, which includes significantly higher compute resources and additional reasoning data.
+The following is an argument for why this open question is important to address.
+The benefit of producing intermediate reasoning traces before giving the final answer has already been demonstrated theoretically~\citep{merrillExpressivePowerTransformers2024,liChainThoughtEmpowers2024} and empirically, where mathematical and logical reasoning problems showed the biggest gains~\citep{spragueToCoTorNot2025,weiChainofThoughtPromptingElicits2023,nyeShowYourWork2021}.
+%% [OK] As hedged ("may"): overthinking (arXiv:2412.21187), underthinking /
+%% thought-switching (arXiv:2501.18585), unfaithful in-the-wild CoT
+%% (arXiv:2503.08679), and strategy lock-in from fixed traces
+%% (arXiv:2504.07052) are all documented.
+%% [NUANCE] The counterweight should be acknowledged somewhere: bootstrapping
+%% from human-like prose is currently the *most successful known recipe* (R1,
+%% Nature 2025; STaR), prose behaviours in the base model are what enable RL
+%% self-improvement (arXiv:2503.01307), and "inefficient" traces can even
+%% train better at fixed token budgets (arXiv:2507.05362). Keep as a risk,
+%% not a rule.
+Yet, the most successful recipe for developing intermediate reasoning in practice is bootstrapping it from post-training data that is neither structured nor systematic and conducted in human-like prose~\citep{deepseek-aiDeepSeekR1IncentivizingReasoning2025,guhaOpenThoughtsDataRecipes2025,lambertTulu3Pushing2025}.
+Models trained on such reasoning data demonstrate inefficient and unsound reasoning strategies that hurt performance~\citep{chenNOTThinkThat2025,wangThoughtsAreAll,arcuschinChainofThoughtReasoningWild,pipisWaitWaitWait2026}.
+I hypothesise that systematic, sound, and efficient reasoning that imitates a search algorithm more closely may help to overcome these issues~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024,kimASTROTeachingLanguage2025,gandhiFourHabitsHighly2025}.
+It may especially benefit many complex tasks that involve a form of search, e.g., planning and mathematical puzzles, proving theorems and, more speculatively, automating scientific work~\citep{newell1972human,langleyScientificDiscovery1987}.
+Additionally, a better understanding of advantages and limitations of language models applied to state-space search problems will help to improve their architectures and learning methods more broadly.
+%% [GEORGE] citations are wrong here. We need citations for transformers as world models that do action and environment simulation in context, e.g. IRIS. The idea is that in-context search is like internalising MCTS before making the next move.
+For example, this framework can further be expanded to non-deterministic problems and environment interactions by re-framing an optimal path solution as the best guess of the future trajectory, with the language model acting as a policy and as a world model of the environment~\citep{haoReasoningLanguageModel2023,haWorldModels2018}.
+Thus, establishing a clear case for utility of SA reasoning and maturing its methodology can lead to its adoption in practice.
 
-Reasoning in the intermediate tokens can be formalised as a form of search: the model explores potential solutions, evaluates its steps, and abandons unpromising directions.
-If the process is bootstrapped from reasoning data that is neither structured nor systematic and conducted in human-like prose, a model may develop inefficient and unsound reasoning strategies that can hurt performance.
-Systematic, sound, and efficient reasoning that imitates a search algorithm more closely may help to overcome these issues.
-However, it suffers from a limitation: search trace data is usually not readily available for a given problem and must be generated, and if it can be generated then there already must exist a process that can use search to solve the problem.
-A simple example is maze navigation: using procedure cloning to train a language model to search through a maze depends on availability of a symbolic solver that can search through the maze.
-This thesis asks the following questions:
+Existing studies that apply transformers to search problems do not adequately evaluate and develop SA reasoning.
+The literature can be split into three categories.
+First, there are theoretical studies of transformers on graph-based search problems.
+However, most of the tasks involve computing a single token answer to a query about the graph, such as reachability tasks, and not planning an optimal path explicitly~\citep{sanfordUnderstandingTransformerReasoning2024,saparovTransformersStruggleLearn2025,abbeHowFarCan2024}.
+In the case of few works which do investigate optimal path decoding in search tasks, they exclusively focus on decoding correct solutions directly after the problem formulation~\citep{bachmannPitfallsNexttokenPrediction2025} --- the regime we call solution-only~(SO) reasoning following terminology introduced by \citet{lehnertBetterPlanningTransformers2024}.
+Hence, conclusions of this line of work about transformers' capabilities to solve search tasks are incomplete without considering intermediate computation like SA reasoning that can help to solve the search tasks.
+
+Second, there is work that compares SA and SO reasoning on algorithmic search problems, with seminal studies by \citet{lehnertBetterPlanningTransformers2024} and \citet{gandhiStreamSearchSoS2024}.
+The literature asserts that SA reasoning generally outperforms SO reasoning \citep{gandhiStreamSearchSoS2024,lehnertBetterPlanningTransformers2024,valmeekamSemanticsUnreasonableEffectiveness2025,qinBacktrackNotBacktrack2025,kangLinTreeImprovingLLM2026,suDualformerControllableFast2025}, however questions remain whether this advantage justifies the cost.
+Specifically, the evidence suggests that SA reasoning is less sample and compute efficient, and may be unnecessary or even detrimental to performance, compared to direct solution-only~(SO) reasoning~\citep{qinBacktrackNotBacktrack2025,lehnertBetterPlanningTransformers2024}, corrupted or unrelated search traces~\citep{valmeekamSemanticsUnreasonableEffectiveness2025,suDualformerControllableFast2025} or other forms of intermediate reasoning~\citep{haoTrainingLargeLanguage2025}.
+However, most prior studies draw conclusions from a fixed model size, a fixed dataset size, and they do not investigate the influence of the problem structure, complexity, and its representation on the result.
+It is therefore unclear whether these conclusions persist as model size, dataset size, and problem structure change.
+
+Third, various technical reports have documented how large language models with impressive reasoning capabilities are trained~\citep{yangQwen3TechnicalReport2025,deepseek-aiDeepSeekR1IncentivizingReasoning2025,lambertTulu3Pushing2025,teamKimiK3Open2026}.
+The post-training data that instils reasoning capabilities does not seem to be constructed to follow a systematic reasoning process that mimics a search algorithm~\citep{lambertTulu3Pushing2025,guhaOpenThoughtsDataRecipes2025}.
+An evaluation of effective problem-solving strategies in their reasoning traces that would constitute parts of SA reasoning --- ``verification, backtracking, subgoal setting, and backward chaining'' --- shows they do not appear systematically, although their presence correlates with higher performance and yields the most benefit from reinforcement learning with verifiable rewards~\citep{gandhiFourHabitsHighly2025}.
+
+In conclusion, the state-of-the-art shows evidence that SA reasoning can be beneficial as a reasoning strategy in language models applied to complex search problems.
+However, it does not adequately measure its performance improvement and utility compared to SO or other forms of reasoning, does not show how it can be applied to different problems effectively and what problems will benefit from it the most, and does not specify how SA reasoning can be instantiated efficiently if search trace data for a given problem does not exist yet.
+I ask the following questions:
 
 \begin{enumerate}[leftmargin=9pt, topsep=0pt]
     \item When is SA reasoning that follows a structured search process beneficial, compared to implicit SO reasoning, and when is it optional or even detrimental?
@@ -33,6 +55,25 @@ This thesis asks the following questions:
     \item For the tasks where SA reasoning is the most optimal method to achieve high performance, how can the reasoning data for it be obtained if it does not yet exist?
 \end{enumerate}
 
-The following paragraphs illuminate why each question is important to answer, the gaps that currently exist in the literature, and how this project proposes to address them.
+In what follows, I will describe the state of literature on each question specifically, and how I propose to address it.
 
-\textbf{When does SA reasoning that follows a structured search process beneficial for performance, compared to implicit SO reasoning, and when is it optional or even detrimental?}
+\textbf{When is SA reasoning beneficial for search problems, compared to implicit SO reasoning, and when is it optional or even detrimental?}
+
+The first step towards clarifying utility of SA reasoning is comparing it to SO reasoning baselines.
+SO reasoning is the most computationally efficient approach per training example and per test-time generation, and it also requires only final solution data.
+By comparison, an intermediate search trace in SA reasoning significantly increases training and test-time compute requirements per sample~\citep{qinBacktrackNotBacktrack2025}, and extra search trace data must be generated if it is not already available~\citep{kimASTROTeachingLanguage2025}.
+However, SO reasoning forces every decoded step of the solution to be correct, and sometimes, to produce even the first step correctly, the model must solve the entire problem \textit{a priori}~\citep{bachmannPitfallsNexttokenPrediction2025,gandhiStreamSearchSoS2024}.
+Empirical and theoretical investigations show that this constraint is benign for some search problems as parallelisable tasks admit shortcut solutions for which traces are unnecessary~\citep{lehnertBetterPlanningTransformers2024,qinBacktrackNotBacktrack2025,liuTransformersLearnShortcuts2023,sanfordUnderstandingTransformerReasoning2024,yeTransformersProvablyLearn2026,wangALPINEUnveilingPlanning2024}, yet it can make it hard to learn other tasks, requiring exponentially more data and/or larger model~\citep{wenSparseDependenceSparse2025,fengRevealingMysteryChain2023}.
+At the same time, SA reasoning does not force the model to produce correct solution path immediately, while systematic exploration informed by problem representation may be easier to learn, potentially requiring \textit{less} data or compute to reach in-distribution generalisation~\citep{wenSparseDependenceSparse2025,abbeHowFarCan2024}.
+Thus, it is not obvious which approach is better for a given problem.
+The literature misses a controlled comparison of SA and SO reasoning across model sizes, dataset sizes, and problem structure and complexity that would measure their relative performance against their compute and sample efficiency.
+The closest from-scratch study of trace supervision against relative training compute uses a single architecture and no search tasks~\citep{pengmeiKineticsReasoning2025}; \citet{lehnertBetterPlanningTransformers2024} sweep model sizes but do not investigate compute requirements, and they stop short as SO reasoning reaches performance of SA.
+
+The first study of this project already highlights the two learning regimes of SA reasoning: a search-efficient regime where SA outperforms SO on efficiency, and search-optional regime where SO reasoning achieves the same performance with a comparable amount of data and compute, or less. Crucially, model training can switch between these regimes even when applied to the same type of problem but with certain rules changed between its variants.
+An example of this is changing rules of the Countdown game from regular arithmetic to modular.
+The study provides evidence that changing model depth and width is unlikely to change the learning regime, which appears to be entirely determined by problem structure and its representation.
+The novel result is an unambiguous demonstration that for some search problems, SA reasoning is the most sample and compute-efficient method to generalise in-distribution.
+I am planning to extend this work to more search problems and also add more problem complexity levels to the existing tasks, to further strengthen the hypothesis for the existence of two learning regimes and narrow down the factors that determine the regime for a given problem.
+
+\textbf{How does problem structure and its representation influence relative performance and efficiency of SA and SO reasoning?}
+
