@@ -22,10 +22,11 @@ Yet, the most successful recipe for developing intermediate reasoning in practic
 Models trained on such reasoning data demonstrate inefficient and unsound reasoning strategies that hurt performance~\citep{chenNOTThinkThat2025,wangThoughtsAreAll,arcuschinChainofThoughtReasoningWild,pipisWaitWaitWait2026}.
 I hypothesise that systematic, sound, and efficient reasoning that imitates a search algorithm more closely may help to overcome these issues~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024,kimASTROTeachingLanguage2025,gandhiFourHabitsHighly2025}.
 It may especially benefit many complex tasks that involve a form of search, e.g., planning and mathematical puzzles, proving theorems and, more speculatively, automating scientific work~\citep{newell1972human,langleyScientificDiscovery1987}.
-Additionally, a better understanding of advantages and limitations of language models applied to state-space search problems will help to improve their architectures and learning methods more broadly.
+Additionally, systematic SA reasoning that follows a process we understand and can verify promises to be easier to monitor, interpret, and manipulate than unstructured free-form chain-of-thought~\citep{arcuschinChainofThoughtReasoningWild}.
+Finally, a better understanding of advantages and limitations of language models applied to state-space search problems will help to improve their architectures and learning methods more broadly.
 %% [GEORGE] citations are wrong here. We need citations for transformers as world models that do action and environment simulation in context, e.g. IRIS. The idea is that in-context search is like internalising MCTS before making the next move.
 For example, this framework can further be expanded to non-deterministic problems and environment interactions by re-framing an optimal path solution as the best guess of the future trajectory, with the language model acting as a policy and as a world model of the environment~\citep{haoReasoningLanguageModel2023,haWorldModels2018}.
-Thus, establishing a clear case for utility of SA reasoning and maturing its methodology can lead to its adoption in practice.
+Thus, I hope that establishing a clear case for utility of SA reasoning and maturing its methodology will lead to its adoption in practice.
 
 Existing studies that apply transformers to search problems do not adequately evaluate and develop SA reasoning.
 The literature can be split into three categories.
