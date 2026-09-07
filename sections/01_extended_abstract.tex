@@ -8,36 +8,25 @@ Such systematic exploration is conducted in the model's own context, so that by 
 
 The following is an argument for why this open question is important to address.
 The benefit of producing intermediate reasoning traces before giving the final answer has already been demonstrated theoretically~\citep{merrillExpressivePowerTransformers2024,liChainThoughtEmpowers2024} and empirically~\citep{spragueToCoTorNot2025,weiChainofThoughtPromptingElicits2023,nyeShowYourWork2021}, where mathematical and logical reasoning problems showed the biggest gains.
-%% [OK] As hedged ("may"): overthinking (arXiv:2412.21187), underthinking /
-%% thought-switching (arXiv:2501.18585), unfaithful in-the-wild CoT
-%% (arXiv:2503.08679), and strategy lock-in from fixed traces
-%% (arXiv:2504.07052) are all documented.
-%% [NUANCE] The counterweight should be acknowledged somewhere: bootstrapping
-%% from human-like prose is currently the *most successful known recipe* (R1,
-%% Nature 2025; STaR), prose behaviours in the base model are what enable RL
-%% self-improvement (arXiv:2503.01307), and "inefficient" traces can even
-%% train better at fixed token budgets (arXiv:2507.05362). Keep as a risk,
-%% not a rule.
 Yet, the most successful recipe for developing intermediate reasoning in practice is bootstrapping it from post-training data that is neither structured nor systematic and conducted in human-like prose~\citep{deepseek-aiDeepSeekR1IncentivizingReasoning2025,guhaOpenThoughtsDataRecipes2025,lambertTulu3Pushing2025}.
 Models trained on such reasoning data demonstrate inefficient and unsound reasoning strategies that hurt performance~\citep{chenNOTThinkThat2025,wangThoughtsAreAll,arcuschinChainofThoughtReasoningWild,pipisWaitWaitWait2026}.
 I hypothesise that systematic, sound, and efficient reasoning that imitates a search algorithm more closely may help to overcome these issues~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024,kimASTROTeachingLanguage2025,gandhiFourHabitsHighly2025}.
-It may especially benefit many complex tasks that involve a form of search, e.g., planning, mathematical puzzles, proving theorems, and, more speculatively, scientific discovery~\citep{newell1972human,langleyScientificDiscovery1987}.
+It may especially benefit many complex tasks that involve a form of search, for example, planning, mathematical problems, theorems proving, and, more speculatively, scientific discovery~\citep{newell1972human,langleyScientificDiscovery1987}.
 Additionally, systematic SA reasoning that follows a process we understand and can verify promises to be easier to monitor, interpret, and manipulate than unstructured free-form chain-of-thought reasoning~\citep{arcuschinChainofThoughtReasoningWild}.
 Finally, a better understanding of the advantages and limitations of language models applied to state-space search problems will help to improve their architectures and learning methods more broadly.
-%% [GEORGE] citations are wrong here. We need citations for transformers as world models that do action and environment simulation in context, e.g. IRIS. The idea is that in-context search is like internalising MCTS before making the next move.
-For example, this framework can further be expanded to non-deterministic problems and environment interactions by reframing an optimal path solution as the best guess of the future trajectory, with the language model acting as a policy and as a world model of the environment~\citep{haoReasoningLanguageModel2023,haWorldModels2018}.
+For example, this framework can further be expanded to non-deterministic problems and environment interactions by reframing an optimal path solution as the best guess of the future trajectory, with the language model acting as a policy and as a world model of the environment~\citep{haoReasoningLanguageModel2023,haWorldModels2018,micheliTransformersAreSampleEfficient2023}.
 Thus, I hope that establishing a clear case for the utility of SA reasoning and maturing its methodology will lead to its adoption in practice.
 
 Despite the potential practical benefits of SA reasoning, existing studies applying transformers to search problems do not adequately evaluate and develop SA reasoning.
 The literature can be split into three categories.
 First, there are theoretical studies of transformers on graph-based search problems.
 However, most of the tasks involve computing a single-token answer to a query about the graph, such as reachability tasks, rather than explicitly planning an optimal path~\citep{sanfordUnderstandingTransformerReasoning2024,abbeHowFarCan2024}.
-In the few works that do investigate optimal path decoding in search tasks, they find that transformers struggle to search on graphs, either implicating teacher-forcing of critical path tokens that incentivises the model to cheat~\citep{bachmannPitfallsNexttokenPrediction2025} or showing model depth as a bottleneck to learning larger graphs~\citep{saparovTransformersStruggleLearn2025}.
-Hence, conclusions from this line of work on the capabilities of transformers for solving search tasks are incomplete, as they fail to consider intermediate computation such as SA reasoning that can help solve these tasks.
+In the few works that do investigate optimal path decoding in search tasks, they find that transformers struggle to search on graphs, either implicating teacher-forcing of critical path tokens that incentivise the model to cheat~\citep{bachmannPitfallsNexttokenPrediction2025} or showing model depth as a bottleneck to learning larger graphs~\citep{saparovTransformersStruggleLearn2025}.
+Hence, conclusions from this line of work on the capabilities of transformers for solving search tasks are incomplete, as they fail to consider intermediate computation such as SA reasoning which can help solve these tasks.
 
 Second, there is work that compares SA reasoning to direct solution-only~(SO) reasoning on algorithmic search problems, with seminal studies by \citet{lehnertBetterPlanningTransformers2024} and \citet{gandhiStreamSearchSoS2024}.
-In the context of search problems, an SO model can decode correct solution paths directly after the problem formulation.
-The literature asserts that SA reasoning can generally outperform SO reasoning \citep{gandhiStreamSearchSoS2024,lehnertBetterPlanningTransformers2024,valmeekamSemanticsUnreasonableEffectiveness2025,qinBacktrackNotBacktrack2025,kangLinTreeImprovingLLM2026,suDualformerControllableFast2025}; however, it remains unclear whether this advantage justifies the sample and computational costs of SA reasoning.
+In the context of search problems, an SO model decodes correct solution paths directly after the problem formulation.
+The literature asserts that SA reasoning generally outperforms SO reasoning \citep{gandhiStreamSearchSoS2024,lehnertBetterPlanningTransformers2024,valmeekamSemanticsUnreasonableEffectiveness2025,qinBacktrackNotBacktrack2025,kangLinTreeImprovingLLM2026,suDualformerControllableFast2025}; however, it remains unclear whether this advantage justifies the sample and computational costs of SA reasoning.
 Specifically, the evidence suggests that SA reasoning is less sample- and compute-efficient, and may be unnecessary, and even detrimental to performance in some instances, compared to direct SO reasoning~\citep{qinBacktrackNotBacktrack2025,lehnertBetterPlanningTransformers2024}, corrupted or unrelated search traces~\citep{valmeekamSemanticsUnreasonableEffectiveness2025,suDualformerControllableFast2025} or other forms of intermediate reasoning~\citep{haoTrainingLargeLanguage2025}.
 However, most prior studies draw conclusions based on a fixed model size and a fixed dataset size, and do not investigate the influence of the problem structure, complexity, and its representation on the results.
 It is therefore unclear whether these conclusions persist as model size, dataset size, and problem structure change.
@@ -53,7 +42,7 @@ Therefore, my thesis will explore the following questions:
 \begin{enumerate}
     \item When is SA reasoning that follows a structured search process beneficial, compared to implicit SO reasoning, and when is it optional or even detrimental?
     \item How do problem structure and its representation influence relative performance and efficiency of SA and SO reasoning?
-    \item Can we achieve the performance of SA reasoning with other types of intermediate reasoning that do not require search traces?
+    \item Can other types of intermediate reasoning, which do not require search traces, achieve performance of SA reasoning?
     \item Can SA reasoning achieve length generalisation, and can it be better than SO reasoning or other types of reasoning?
 \end{enumerate}
 
@@ -87,8 +76,8 @@ I am planning to extend this work to additional search problems and add more com
 
 \bigskip
 
-The previous section quantifies the efficiency and performance advantages of SA reasoning over SO reasoning on specific search problems in the search-efficient regime, and suggests that the problem structure and its representation alone determine the problem's learning regime.
-Therefore, I propose to explore next how to expand on this result and to demonstrate that (1) the regimes are indeed determined by the problem structure, (2) isolate the factors in its structure and representation that cause a specific regime, and (3) uncover the mechanisms by which they influence the learning process.
+The previous section quantifies the efficiency and performance advantages of SA reasoning over SO reasoning on specific search problems in the search-efficient regime, and suggests the problem structure and its representation alone determine the problem's learning regime.
+Next, I propose to expand on this result and (1) demonstrate that the regimes are indeed determined by the problem structure, (2) isolate the factors in its structure and representation that cause a specific regime, and (3) uncover the mechanisms by which they influence the learning process.
 The experiments with the Countdown game documented in the first study provide the clearest example of how changing the problem structure (in the case of Countdown, from regular arithmetic to modular arithmetic) changes the learning regime: regular Countdown is search-optional, while modular Countdown is search-efficient.
 
 The influence of search problem structure and representation on learning SA and SO reasoning is not documented in the literature, but a similar question has been investigated for other tasks under SO training.
@@ -99,13 +88,13 @@ Yet, an in-context graph does not guarantee learnability: next-token prediction 
 In a separate literature stream, theory on intermediate computation in transformers offers candidate predictors of when intermediate supervision is required: the globality degree of the target distribution~\citep{abbeHowFarCan2024}, RASP-L programmability~\citep{zhouWhatAlgorithmsCan2023}, and the locality of dependencies in the training data~\citep{prystawskiWhyThinkStep2023}.
 On modular arithmetic specifically, the grokking literature shows SO models can generalise abruptly long after overfitting while primitive operations are easy to learn~\citep{powerGrokkingGeneralization2022,nandaProgressMeasuresGrokking2023}, pointing to a potential mechanism that may explain the modular Countdown result in our study.
 
-The current literature, as well as our own experiments, suggests potential factors that determine the learning regime: the state graph being in context, the locality of the transition function, or the existence of a cheap heuristic.
+The current literature and our own experiments suggest potential factors that determine the learning regime: the state graph being in context, the locality of the transition function, or the existence of a cheap heuristic.
 However, each may not be a factor, and there may be additional factors we have not yet identified.
 Hence, for the next step in the project, I propose investigating additional problems in which the problem structure can change without fundamentally altering the task.
 Maze navigation from the current study might not be the right task for this; however, other grid tasks without an in-context grid, such as chess or other board games, can help isolate the effect of the in-context graph on the learning regime and locality of the transition function.
 For heuristics, many search tasks can be modified to remove their effect, as our study did with Countdown; however, we should diversify from arithmetic tasks and find other non-grid tasks with similar properties, as regular-vs-modular arithmetic can become a confounding factor.
 
-The goal of this endeavour is therefore to identify the factors that determine the learning regime by performing controlled ablations on the problem structure and observing its effects.
+The goal is to identify the factors that determine the learning regime by performing controlled ablations on the problem structure and observing its effects.
 Then, an intervention study with these factors will demonstrate their causal effects on the learning regime and the predictive power of sample and computational efficiency on a given search task.
 I also intend to further consult the literature that attempts to theoretically explain learnability as a function of data distribution and representation.
 Finally, I will attempt to match current formalisms to our setting to determine whether they can predict the relevant features that cause the learning regime, or surface the gaps in theory if they cannot.
@@ -113,32 +102,32 @@ The outcome of this study will be a causal and predictive framework that shows w
 
 \bigskip
 
-\textbf{Can we achieve performance of SA reasoning with other types of intermediate reasoning that do not require search traces?}
+\textbf{Can other types of intermediate reasoning, which do not require search traces, achieve performance of SA reasoning?}
 
 \bigskip
 
 Another interesting result in the first study of this project is that training on valid search traces unrelated to a given modular Countdown problem nevertheless improves the algorithm's sample efficiency compared to the SO reasoning baseline.
-This raises a question: \emph{is SA reasoning required to solve all search problems?}
-Answering this question has some clear consequences: 
+This raises a question: is SA reasoning required to solve all search problems?
+Answering this question has some clear consequences.
 First, if an alternative reasoning method replicates the efficiency of SA reasoning without search trace data, it can simplify the model development pipeline when such data traces are not readily available.
 Second, a method with shorter traces or overall less computation can push the frontier of compute efficiency for search problems beyond SA reasoning, which is bound to search structure and semantics in its traces.
 
 The chain-of-thought~(CoT) literature has investigated alternative approaches to intermediate computation extensively, however none have applied them to search problems.
 The methods can be ordered by how much structure they retain in the intermediate trace.
 On one end, content-free filler and pause tokens are prefix tokens with no semantic information appended to language model input; they help on some algorithmic tasks~\citep{goyalPauseTokens2024,pfauLetsThinkDot2024}, but provably add parallel width rather than the serial depth that search requires~\citep{londonPauseExpressivity2025,pfauLetsThinkDot2024}.
-Next, there exist CoT methods that introduce intermediate traces that follow a valid reasoning structure but whose content is invalid for the task at hand, for example, via corruption of reasoning conclusions; yet, they achieve similar accuracy on arithmetic and multi-hop reasoning datasets as valid traces~\citep{wangUnderstandingCoTPrompting2023}.
+Next, there exist intermediate traces that follow a valid reasoning structure but whose content is invalid for the task at hand, for example, via corruption of reasoning conclusions; yet, they achieve similar accuracy on arithmetic and multi-hop reasoning datasets as valid traces~\citep{wangUnderstandingCoTPrompting2023}.
 Finally, there are the mechanisms that supply genuine serial computation relevant to the task but without symbolic traces: continuous latent states as reasoning ``tokens'' that can encode multiple search frontiers in superposition~\citep{haoTrainingLargeLanguage2025,zhuReasoningSuperpositionTheoretical2025}, looped and recurrent-depth architectures~\citep{saunshiLoopedTransformers2025,geipingRecurrentDepth2025}, and curricula that internalise an explicit trace and then delete it~\citep{dengExplicitToImplicitCoT2024,zelikmanQuietSTaR2024}.
 
-Applying these approaches directly to search problems has not yet yielded useful results.
-Preliminary experiments with pause and filler tokens showed that they are trivially learnable by the model, thereby collapsing the learning task into SO reasoning mode.
+Applying these approaches directly to search problems has not yielded useful results yet.
+Preliminary experiments with pause and filler tokens showed they are trivially learnable by the model, thereby collapsing the learning task into SO reasoning mode.
 Learning maze navigation with corrupted or unrelated search traces works on par with SA reasoning~\citep{suDualformerControllableFast2025,valmeekamSemanticsUnreasonableEffectiveness2025}.
 However, I observed that the model learns to ignore these traces once it generalises in-distribution, effectively also collapsing to SO reasoning which, in search-optional problems like maze navigation, is expected to perform similarly to SA reasoning.
 Only on modular Countdown did training with unrelated traces improve sample efficiency over SO reasoning, although it still did not achieve ID generalisation, while using pause tokens did not produce any effect at all.
 Finally, latent reasoning or looped or recurrent-depth architectures have not been tried yet, not least because it is not trivial to make them work.
 
-These preliminary results, paired with our conclusions in the first study, suggest that investigating the question of alternative traces and their performance on search problems requires observing their effect in both search-optional and search-efficient regimes.
-Observing only a single regime, as was done so far in related work on search problems~\citep{suDualformerControllableFast2025,valmeekamSemanticsUnreasonableEffectiveness2025} can lead to wrong conclusions about their utility.
-Although my attempts to find alternative intermediate traces that generalise on search-efficient tasks as SA traces so far failed, performance of unrelated traces on modular Countdown provides a possible direction for next steps.
+These preliminary results, paired with our conclusions in the first study, suggest that investigating alternative traces and their performance on search problems requires observing their effect in both search-optional and search-efficient regimes.
+Observing only a single regime, as was done so far in related work on search problems~\citep{suDualformerControllableFast2025,valmeekamSemanticsUnreasonableEffectiveness2025}, can lead to wrong conclusions about their utility.
+Although my attempts to find alternative intermediate traces that generalise to search-efficient tasks as SA traces have so far failed, the performance of unrelated traces on modular Countdown provides a possible direction for next steps.
 Hence, I will be investigating the mechanisms in the learning algorithm and transformer architecture that lead to higher sample efficiency of unrelated traces in the search-efficient regime, check whether they merely help to train SO reasoning mode more efficiently or they are actually involved in solution computation even after the model generalises in-distribution, and attempt to replicate the mechanism with a synthetic trace.
 From there, I intend to investigate latent reasoning methods~\citep{haoTrainingLargeLanguage2025,zhuReasoningSuperpositionTheoretical2025} and recurrent-depth methods~\citep{saunshiLoopedTransformers2025,geipingRecurrentDepth2025} to investigate if SA reasoning can be amortised into recursive steps with latent states instead of unrolled in the token space.
 The goal of this stage will be a method that either achieves the learning efficiency of SA reasoning on search-efficient tasks without search traces, or explains why this is not possible.
@@ -149,21 +138,21 @@ The goal of this stage will be a method that either achieves the learning effici
 
 \bigskip
 
-Search algorithms which SA models learn to imitate are size-agnostic by construction.
+Search algorithms that SA models learn to imitate are size-agnostic by construction.
 For example, A* search can find a solution to a maze navigation task with any grid size, although larger grids will require more time and memory~\citep{russel2010}.
 However, the preceding investigations of SA reasoning are posed in the context of in-distribution~(ID) generalisation, i.e., when and why SA reasoning is more accurate and efficient than SO or other forms of reasoning on search problems similar to those encountered in training.
-At the same time, performance of neural networks that learn from data is known to be sensitive to how close a given test-time task is to the training distribution~\citep{geirhosShortcutLearning2020}.
-Therefore, to close the gap in the analysis of SA reasoning capabilities, the final question of this project asks how well SA reasoning generalises OOD, is it better at it than SO reasoning or other forms of intermediate traces, and how can it be improved.
+At the same time, the performance of neural networks that learn from data is known to be sensitive to how close a given test-time task is to the training distribution~\citep{geirhosShortcutLearning2020}.
+Therefore, to close the gap in the analysis of SA reasoning capabilities, the final question of this project asks how well SA reasoning generalises to out-of-distribution (OOD) examples, whether it is better at it than SO reasoning or other forms of intermediate traces, and how it can be improved.
 
-Length generalisation, or size extrapolation --- an ability to solve problems with size that exceeds any of the problems in a training set --- is an important type of OOD generalisation for algorithmic reasoners in general, and SA reasoning models in particular~\citep{anilExploringLengthGeneralization2022,velickovicCLRSAlgorithmicReasoning2022}.
-It is also fundamentally an exact test of OOD generalisation: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned; thus, it is the accepted operational test of algorithm learning~\citep{zhouWhatAlgorithmsCan2023,anilExploringLength2022}.
-Length generalisation is an evidence that a model learned internal representations and token-level outputs that are consistent with a neural implementation of a search algorithm and not some other procedure.
-This also matters for interpretability and faithfulness of intermediate traces w.r.t. optimal path solution.
+Length generalisation, or size extrapolation --- the ability to solve problems with size that exceeds any of the problems in a training set --- is an important type of OOD generalisation for algorithmic reasoners in general, and SA reasoning models in particular~\citep{anilExploringLengthGeneralization2022,velickovicCLRSAlgorithmicReasoning2022}.
+It is also fundamentally an exact test of OOD generalisation: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned; thus, it is the standard operational test for learning algorithmic reasoning~\citep{zhouWhatAlgorithmsCan2023,anilExploringLength2022}.
+Length generalisation is evidence that a model learned internal representations and token-level outputs that are consistent with a neural implementation of a search algorithm and not some other procedure.
+This also matters for interpretability and faithfulness of intermediate traces w.r.t.\ the optimal path solution.
 A demonstration of when and how SA reasoning extrapolates would therefore contribute an instrument for studying OOD generalisation in transformers beyond this thesis.
 Length generalisation also has practical utility when larger problems are intractable for symbolic solvers, for example, large Sokoban puzzles, and thus the training set does not include their samples.
 A model that can generalise in length from data will be able to solve larger problems at test time after training on smaller examples; a model that does not generalise in length is bound to solve only the problems that are already tractable for symbolic solvers.
 
-Outside search, length generalisation in autoregressive transformers has been studied on arithmetic, logic, and state tracking tasks.
+Outside search, length generalisation in autoregressive transformers has been studied for arithmetic, logic, and state tracking tasks.
 \citet{anilExploringLength2022} showed that naive training does not extrapolate regardless of model scale, but using prompting and intermediate scratchpad templates with step-by-step solutions improves accuracy.
 Success on arithmetic tasks comes from hand-engineering position structure to match task structure~\citep{kazemnejadNoPE2023,mcleishAbacus2024,choPositionCoupling2024}, but can flip across random seeds~\citep{zhouTransformersCanAchieve2024}.
 Theoretical studies proposed conditions for length generalisation on algorithmic tasks: transformer can length generalise on a task which can be solved by a short RASP program for any input size~\citep{zhouWhatAlgorithmsCan2023}, or if algorithm execution can follow an ``inductive'' computation flow, i.e., every next step only depends on the current state~\citep{houTuringPrograms2024,abbeHowFarCan2024}, with recent theory proving that transformers with chain-of-thought can achieve length generalisation for state tracking \citep{huangProvableCoTLengthGen2025}.
@@ -182,12 +171,12 @@ The mechanism of length generalisation here is not an algorithmic size extrapola
 
 Addressing length generalisation of SA reasoning is the most challenging goal of this project.
 The result from \citep{caiExtrapolationAssociationLength2025} suggests our current setup is unlikely to generalise.
-For example, taking the best SA model trained on modular Countdown with length 3, which was evaluated in the first study, and testing it on length 4 and 5 puzzles results in severe drop in performance.
-This setup is, therefore, serves as a control baseline.
-To improve length generalisation, I turn to current transformer theory reviewed in the beginning of this section which suggests that, with the right problem structure and trace format, length generalisation can be achieved on an arbitrary task.
+For example, taking the best SA model trained on modular Countdown with length 3, which was evaluated in the first study, and testing it on length-4 and length-5 puzzles results in a severe drop in performance.
+This setup therefore serves as a control baseline.
+To improve length generalisation, I turn to current transformer theory reviewed at the beginning of this section which suggests that, with the right problem structure and trace format, length generalisation can be achieved on an arbitrary task.
 The gap, therefore, is that the conditions on structure and trace that the theory predicts to generalise have not been instantiated on search problems, neither with SA nor SO reasoning.
 Applying this theory to search problems will also stress-test its predictions or claims to universality, as search tasks are arguably more challenging to learn than arithmetic or state tracking tasks investigated in the theory literature.
-The most obvious first step is to attempt to convert search traces into ``inductive'' format such that next step only depends on the previous one can help~\citep{abbeHowFarCan2024,houTuringPrograms2024}; the trace format in prior work and our first study require transformer to track intermediate search states across the entire trace.
+The most obvious first step is to attempt to convert search traces into ``inductive'' format such that the next step only depends on the previous one, which can help~\citep{abbeHowFarCan2024,houTuringPrograms2024}; the trace format in prior work and our first study require transformer to track intermediate search states across the entire trace.
 I also intend to check how search problems can be expressed in RASP language~\citep{weissThinkingTransformers2021,zhouWhatAlgorithmsCan2023}, which has not been done before, and test a prediction by \citet{zhouWhatAlgorithmsCan2023} that any problem which a fixed RASP program can solve for any input size will length generalise.
 Finally, comparing these interventions in search-efficient and search-optional regimes will be necessary to establish if they generalise search itself or if they merely add useful shortcuts.
 Addressing length generalisation of transformers on search problems promises to lead the field to review current language model training practices that excel at ID capabilities but fail to generalise OOD.
