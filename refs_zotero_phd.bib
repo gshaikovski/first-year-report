@@ -1,3 +1,12 @@
+@article{abbeGeneralizationUnseenLogic,
+  title = {Generalization on the {{Unseen}}, {{Logic Reasoning}} and {{Degree Curriculum}}},
+  author = {Abbe, Emmanuel and Bengio, Samy and Lotfi, Aryo and Rizk, Kevin},
+  year = 2023,
+  abstract = {This paper considers the learning of logical (Boolean) functions with focus on the generalization on the unseen (GOTU) setting, a strong case of out-of-distribution generalization. This is motivated by the fact that the rich combinatorial nature of data in certain reasoning tasks (e.g., arithmetic/logic) makes representative data sampling challenging, and learning successfully under GOTU gives a first vignette of an `extrapolating' or `reasoning' learner. We then study how different network architectures trained by (S)GD perform under GOTU and provide both theoretical and experimental evidence that for a class of network models including instances of Transformers, random features models, and diagonal linear networks, a min-degree-interpolator is learned on the unseen. We also provide evidence that other instances with larger learning rates or mean-field networks reach leaky min-degree solutions. These findings lead to two implications: (1) we provide an explanation to the length generalization problem (e.g., Anil et al. 2022); (2) we introduce a curriculum learning algorithm called Degree-Curriculum that learns monomials more efficiently by incrementing supports.},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/QC63EWIU/Abbe et al. - 2023 - Generalization on the Unseen, Logic Reasoning and Degree Curriculum.pdf}
+}
+
 @misc{abbeHowFarCan2024,
   title = {How {{Far Can Transformers Reason}}? {{The Globality Barrier}} and {{Inductive Scratchpad}}},
   shorttitle = {How {{Far Can Transformers Reason}}?},
@@ -50,6 +59,23 @@
   file = {/Users/george/Zotero/storage/8RTT8MLJ/Agostinelli et al. - 2019 - Solving the Rubik’s cube with deep reinforcement learning and search.pdf}
 }
 
+@misc{ahujaProvableLengthCompositional2025,
+  title = {On {{Provable Length}} and {{Compositional Generalization}}},
+  author = {Ahuja, Kartik and Mansouri, Amin},
+  year = 2025,
+  month = may,
+  number = {arXiv:2402.04875},
+  eprint = {2402.04875},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2402.04875},
+  urldate = {2026-09-06},
+  abstract = {Out-of-distribution generalization capabilities of sequence-to-sequence models can be studied from the lens of two crucial forms of generalization: length generalization -- the ability to generalize to longer sequences than ones seen during training, and compositional generalization: the ability to generalize to token combinations not seen during training. In this work, we provide first provable guarantees on length and compositional generalization for common sequence-to-sequence models -- deep sets, transformers, state space models, and recurrent neural nets -- trained to minimize the prediction error. We show that limited capacity versions of these different architectures achieve both length and compositional generalization provided the training distribution is sufficiently diverse. In the first part, we study structured limited capacity variants of different architectures and arrive at the generalization guarantees with limited diversity requirements on the training distribution. In the second part, we study limited capacity variants with less structural assumptions and arrive at generalization guarantees but with more diversity requirements on the training distribution. Further, we also show that chain-of-thought supervision enables length generalization in higher capacity counterparts of the different architectures we study.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/george/Zotero/storage/EEQ5773D/Ahuja and Mansouri - 2025 - On Provable Length and Compositional Generalization.pdf}
+}
+
 @misc{akterFrontLoadingReasoningSynergy2025,
   title = {Front-{{Loading Reasoning}}: {{The Synergy}} between {{Pretraining}} and {{Post-Training Data}}},
   shorttitle = {Front-{{Loading Reasoning}}},
@@ -87,6 +113,15 @@
   file = {/Users/george/Zotero/storage/H4PDXUVS/Alonso et al. - 2024 - Diffusion for World Modeling Visual Details Matter in Atari.pdf}
 }
 
+@article{anilExploringLengthGeneralization,
+  title = {Exploring {{Length Generalization}} in {{Large Language Models}}},
+  author = {Anil, Cem and Wu, Yuhuai and Andreassen, Anders and Lewkowycz, Aitor and Misra, Vedant and Ramasesh, Vinay and Slone, Ambrose and {Gur-Ari}, Guy and Dyer, Ethan and Neyshabur, Behnam},
+  year = 2022,
+  abstract = {The ability to extrapolate from short problem instances to longer ones is an important form of out-of-distribution generalization in reasoning tasks, and is crucial when learning from datasets where longer problem instances are rare. These include theorem proving, solving quantitative mathematics problems, and reading/summarizing novels. In this paper, we run careful empirical studies exploring the length generalization capabilities of transformer-based language models. We first establish that naively finetuning transformers on length generalization tasks shows significant generalization deficiencies independent of model scale. We then show that combining pretrained large language models' in-context learning abilities with scratchpad prompting (asking the model to output solution steps before producing an answer) results in a dramatic improvement in length generalization. We run careful failure analyses on each of the learning modalities and identify common sources of mistakes that highlight opportunities in equipping language models with the ability to generalize to longer problems.},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/THR8CPSN/Anil et al. - 2022 - Exploring Length Generalization in Large Language Models.pdf}
+}
+
 @article{arcuschinChainofThoughtReasoningWild,
   title = {Chain-of-{{Thought Reasoning}} in the {{Wild Is Not Always Faithful}}},
   author = {Arcuschin, Iv{\'a}n and Janiak, Jett and Krzyzanowski, Robert and Rajamanoharan, Senthooran and Nanda, Neel and Conmy, Arthur},
@@ -94,25 +129,6 @@
   abstract = {Recent studies indicate that when faced with explicit biases in prompts, models often omit mentioning these biases in their Chain-of-Thought (CoT) output, revealing that verbalized reasoning can give an incorrect picture of how models arrive at conclusions (unfaithfulness). In this work, we show that unfaithful CoT also occurs on naturally worded, non-adversarial prompts without adding artificial biases or editing model outputs. We find that when separately presented with the questions ``Is X bigger than Y?'' and ``Is Y bigger than X?'', models sometimes produce superficially coherent arguments to justify systematically answering Yes to both or No to both, despite the contradiction. We present preliminary evidence that this is due to models' implicit biases towards Yes or No, labeling this Implicit Post-Hoc Rationalization. Our results reveal rates up to 13\% for production models, and while frontier models are more faithful, none are entirely so, including thinking models like DeepSeek R1 (0.37\%) and Sonnet 3.7 with thinking (0.04\%). We also investigate Unfaithful Illogical Shortcuts, where models use subtly illogical reasoning to make speculative answers to hard math problems seem rigorously proven. Our findings indicate that while CoT can be useful for assessing outputs, it is not a complete account of the internal process that produced the model's answer and should be used with caution in agentic or safety-critical settings.},
   langid = {english},
   file = {/Users/george/Zotero/storage/TQXPYI9R/Arcuschin et al. - 2026 - Chain-of-Thought Reasoning in the Wild Is Not Always Faithful.pdf}
-}
-
-@misc{assranVJEPA2SelfSupervised2025,
-  title = {V-{{JEPA}} 2: {{Self-Supervised Video Models Enable Understanding}}, {{Prediction}} and {{Planning}}},
-  shorttitle = {V-{{JEPA}} 2},
-  author = {Assran, Mido and Bardes, Adrien and Fan, David and Garrido, Quentin and Howes, Russell and Mojtaba and Komeili and Muckley, Matthew and Rizvi, Ammar and Roberts, Claire and Sinha, Koustuv and Zholus, Artem and Arnaud, Sergio and Gejji, Abha and Martin, Ada and Hogan, Francois Robert and Dugas, Daniel and Bojanowski, Piotr and Khalidov, Vasil and Labatut, Patrick and Massa, Francisco and Szafraniec, Marc and Krishnakumar, Kapil and Li, Yong and Ma, Xiaodong and Chandar, Sarath and Meier, Franziska and LeCun, Yann and Rabbat, Michael and Ballas, Nicolas},
-  year = 2025,
-  month = jun,
-  number = {arXiv:2506.09985},
-  eprint = {2506.09985},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2506.09985},
-  urldate = {2026-03-06},
-  abstract = {A major challenge for modern AI is to learn to understand the world and learn to act largely by observation. This paper explores a self-supervised approach that combines internet-scale video data with a small amount of interaction data (robot trajectories), to develop models capable of understanding, predicting, and planning in the physical world. We first pre-train an action-free joint-embedding-predictive architecture, V-JEPA 2, on a video and image dataset comprising over 1 million hours of internet video. V-JEPA 2 achieves strong performance on motion understanding (77.3 top-1 accuracy on Something-Something v2) and state-of-the-art performance on human action anticipation (39.7 recall-at-5 on Epic-Kitchens-100) surpassing previous task-specific models. Additionally, after aligning V-JEPA 2 with a large language model, we demonstrate state-of-the-art performance on multiple video question-answering tasks at the 8 billion parameter scale (e.g., 84.0 on PerceptionTest, 76.9 on TempCompass). Finally, we show how self-supervised learning can be applied to robotic planning tasks by post-training a latent action-conditioned world model, V-JEPA 2-AC, using less than 62 hours of unlabeled robot videos from the Droid dataset. We deploy V-JEPA 2-AC zero-shot on Franka arms in two different labs and enable picking and placing of objects using planning with image goals. Notably, this is achieved without collecting any data from the robots in these environments, and without any task-specific training or reward. This work demonstrates how self-supervised learning from web-scale data and a small amount of robot interaction data can yield a world model capable of planning in the physical world.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Robotics},
-  file = {/Users/george/Zotero/storage/75L6P3RA/Assran et al. - 2025 - V-JEPA 2 Self-Supervised Video Models Enable Understanding, Prediction and Planning.pdf}
 }
 
 @misc{bachmannPitfallsNexttokenPrediction2025,
@@ -205,24 +221,6 @@
   file = {/Users/george/Zotero/storage/77N8WXFX/Behrens et al. - 2024 - Statistical mechanics of deep learning.pdf}
 }
 
-@misc{bergSemanticWorldModels2025,
-  title = {Semantic {{World Models}}},
-  author = {Berg, Jacob and Zhu, Chuning and Bao, Yanda and Durugkar, Ishan and Gupta, Abhishek},
-  year = 2025,
-  month = oct,
-  number = {arXiv:2510.19818},
-  eprint = {2510.19818},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2510.19818},
-  urldate = {2026-02-28},
-  abstract = {Planning with world models offers a powerful paradigm for robotic control. Conventional approaches train a model to predict future frames conditioned on current frames and actions, which can then be used for planning. However, the objective of predicting future pixels is often at odds with the actual planning objective; strong pixel reconstruction does not always correlate with good planning decisions. This paper posits that instead of reconstructing future frames as pixels, world models only need to predict task-relevant semantic information about the future. For such prediction the paper poses world modeling as a visual question answering problem about semantic information in future frames. This perspective allows world modeling to be approached with the same tools underlying vision language models. Thus vision language models can be trained as ``semantic'' world models through a supervised finetuning process on image-action-text data, enabling planning for decision-making while inheriting many of the generalization and robustness properties from the pretrained vision-language models. The paper demonstrates how such a semantic world model can be used for policy improvement on open-ended robotics tasks, leading to significant generalization improvements over typical paradigms of reconstruction-based action-conditional world modeling.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Robotics},
-  file = {/Users/george/Zotero/storage/4A9HRYL8/Berg et al. - 2025 - Semantic World Models.pdf}
-}
-
 @misc{bevilacquaNeuralAlgorithmicReasoning2023,
   title = {Neural {{Algorithmic Reasoning}} with {{Causal Regularisation}}},
   author = {Bevilacqua, Beatrice and Nikiforou, Kyriacos and Ibarz, Borja and Bica, Ioana and Paganini, Michela and Blundell, Charles and Mitrovic, Jovana and Veli{\v c}kovi{\'c}, Petar},
@@ -271,24 +269,6 @@
   langid = {english},
   keywords = {Complexity,Human problem solving,Network analysis,Rush hour,Serious games},
   file = {/Users/george/Zotero/storage/TIRVI9VZ/Bockholt and Zweig - 2015 - Why Is This So Hard Insights from the State Space of a Simple Board Game.pdf}
-}
-
-@misc{bredisEnhancingVisionLanguageModel2025,
-  title = {Enhancing {{Vision-Language Model Training}} with {{Reinforcement Learning}} in {{Synthetic Worlds}} for {{Real-World Success}}},
-  author = {Bredis, George and Dereka, Stanislav and Sinii, Viacheslav and Rakhimov, Ruslan and Gavrilov, Daniil},
-  year = 2025,
-  month = aug,
-  number = {arXiv:2508.04280},
-  eprint = {2508.04280},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2508.04280},
-  urldate = {2026-03-17},
-  abstract = {Interactive multimodal agents must convert raw visual observations into coherent sequences of language-conditioned actions -- a capability that current vision-language models (VLMs) still lack. Earlier reinforcement-learning (RL) efforts could, in principle, endow VLMs with such skills, but they have seldom tested whether the learned behaviours generalize beyond their training simulators, and they depend either on brittle hyperparameter tuning or on dense-reward environments with low state variability. We introduce VisionLanguage Decoupled Actor-Critic (VL-DAC), a lightweight, hyperparameter-free RL algorithm. VL-DAC applies PPO updates to action tokens while learning value only at the environment-step level: an arrangement, to our knowledge, not previously explored for large VLMs or LLMs. This simple decoupling removes unstable weighting terms and yields faster, more reliable convergence. Training a single VLM with VL-DAC in one inexpensive simulator at a time (MiniWorld, Gym-Cards, ALFWorld, or WebShop) already produces policies that generalize widely: +50\% relative on BALROG (game-centric agentic control), +5\% relative on the hardest part of VSI-Bench (spatial planning), and +2\% on VisualWebBench (web navigation), all without degrading general image understanding accuracy. These results provide the first evidence that a simple RL algorithm can train VLMs entirely in cheap synthetic worlds while delivering measurable gains on real-image agentic, spatial-reasoning, and webnavigation benchmarks.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/Z9329MLT/Bredis et al. - 2025 - Enhancing Vision-Language Model Training with Reinforcement Learning in Synthetic Worlds for Real-Wo.pdf}
 }
 
 @inproceedings{brinkmannMechanisticAnalysisTransformer2024,
@@ -351,22 +331,22 @@
   file = {/Users/george/Zotero/storage/L3CIDWTY/Bush et al. - 2025 - Interpreting emergent planning in model-free reinforcement learning.pdf}
 }
 
-@misc{cartaGroundingLargeLanguage2026,
-  title = {Grounding {{Large Language Models}} in {{Interactive Environments}} with {{Online Reinforcement Learning}}},
-  author = {Carta, Thomas and Romac, Cl{\'e}ment and Wolf, Thomas and Lamprier, Sylvain and Sigaud, Olivier and Oudeyer, Pierre-Yves},
-  year = 2026,
-  month = jan,
-  number = {arXiv:2302.02662},
-  eprint = {2302.02662},
-  primaryclass = {cs},
+@misc{caiExtrapolationAssociationLength2025,
+  title = {Extrapolation by {{Association}}: {{Length Generalization Transfer}} in {{Transformers}}},
+  shorttitle = {Extrapolation by {{Association}}},
+  author = {Cai, Ziyang and Lee, Nayoung and Schwarzschild, Avi and Oymak, Samet and Papailiopoulos, Dimitris},
+  year = 2025,
+  month = aug,
+  number = {arXiv:2506.09251},
+  eprint = {2506.09251},
+  primaryclass = {cs.CL},
   publisher = {arXiv},
-  doi = {10.48550/arXiv.2302.02662},
-  urldate = {2026-03-17},
-  abstract = {Recent works successfully leveraged Large Language Models' (LLM) abilities to capture abstract knowledge about world's physics to solve decision-making problems. Yet, the alignment between LLMs' knowledge and the environment can be wrong and limit functional competence due to lack of grounding. In this paper, we study an approach (named GLAM) to achieve this alignment through functional grounding: we consider an agent using an LLM as a policy that is progressively updated as the agent interacts with the environment, leveraging online Reinforcement Learning to improve its performance to solve goals. Using an interactive textual environment designed to study higher-level forms of functional grounding, and a set of spatial and navigation tasks, we study several scientific questions: 1) Can LLMs boost sample efficiency for online learning of various RL tasks? 2) How can it boost different forms of generalization? 3) What is the impact of online learning? We study these questions by functionally grounding several variants (size, architecture) of FLAN-T5.},
+  doi = {10.48550/arXiv.2506.09251},
+  urldate = {2026-09-07},
+  abstract = {Transformer language models have demonstrated impressive generalization capabilities in natural language domains, yet we lack a fine-grained understanding of how such generalization arises. In this paper, we investigate length generalization---the ability to extrapolate from shorter to longer inputs---through the lens of task association. We find that length generalization can be transferred across related tasks. That is, training a model with a longer and related auxiliary task can lead it to generalize to unseen and longer inputs from some other target task. We demonstrate this length generalization transfer across diverse algorithmic tasks, including arithmetic operations, string transformations, and maze navigation. Our results show that transformer models can inherit generalization capabilities from similar tasks when trained jointly. Moreover, we observe similar transfer effects in pretrained language models, suggesting that pretraining equips models with reusable computational scaffolding that facilitates extrapolation in downstream settings. Finally, we provide initial mechanistic evidence that length generalization transfer correlates with the re-use of the same attention heads between the tasks. Together, our findings deepen our understanding of how transformers generalize to out-of-distribution inputs and highlight the compositional reuse of inductive structure across tasks.},
   archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/EENVE3CS/Carta et al. - 2026 - Grounding Large Language Models in Interactive Environments with Online Reinforcement Learning.pdf}
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
+  file = {/Users/george/Zotero/storage/KEBYRD5B/Cai et al. - 2025 - Extrapolation by Association Length Generalization Transfer in Transformers.pdf}
 }
 
 @misc{chenL$^2$MMutualInformation2025,
@@ -404,43 +384,6 @@
   langid = {english},
   keywords = {Computer Science - Computation and Language},
   file = {/Users/george/Zotero/storage/4XR39HS3/Chen et al. - 2025 - Do NOT Think That Much for 2+3= On the Overthinking of o1-Like LLMs.pdf}
-}
-
-@misc{chenPlanningReasoningUsing2025,
-  title = {Planning with {{Reasoning}} Using {{Vision Language World Model}}},
-  author = {Chen, Delong and Moutakanni, Theo and Chung, Willy and Bang, Yejin and Ji, Ziwei and Bolourchi, Allen and Fung, Pascale},
-  year = 2025,
-  month = sep,
-  number = {arXiv:2509.02722},
-  eprint = {2509.02722},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2509.02722},
-  urldate = {2026-03-11},
-  abstract = {Effective planning requires strong world models, but high-level world models that can understand and reason about actions with semantic and temporal abstraction remain largely underdeveloped. We introduce the Vision Language World Model (VLWM), a foundation model trained for language-based world modeling on natural videos. Given visual observations, the VLWM first infers the overall goal achievements then predicts a trajectory composed of interleaved actions and world state changes. Those targets are extracted by iterative LLM Self-Refine conditioned on compressed future observations represented by Tree of Captions. The VLWM learns both an action policy and a dynamics model, which respectively facilitates reactive system-1 plan decoding and reflective system-2 planning via cost minimization. The cost evaluates the semantic distance between the hypothetical future states given by VLWM roll-outs and the expected goal state, and is measured by a critic model that we trained in a self-supervised manner. The VLWM achieves state-of-the-art Visual Planning for Assistance (VPA) performance on both benchmark evaluations and our proposed PlannerArena human evaluations, where system-2 improves the Elo score by +27\% upon system-1. The VLWM models also outperforms strong VLM baselines on RoboVQA and WorldPrediction benchmark.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence},
-  file = {/Users/george/Zotero/storage/YZHTR9AS/Chen et al. - 2025 - Planning with Reasoning using Vision Language World Model.pdf}
-}
-
-@misc{choBreakingSafetyCapabilityTradeoff2025,
-  title = {Breaking the {{Safety-Capability Tradeoff}}: {{Reinforcement Learning}} with {{Verifiable Rewards Maintains Safety Guardrails}} in {{LLMs}}},
-  shorttitle = {Breaking the {{Safety-Capability Tradeoff}}},
-  author = {Cho, Dongkyu Derek and Song, Huan and Chowdhury, Arijit Ghosh and An, Haotian and Wang, Yawei and Thekkanal, Rohit and Sokhandan, Negin and Keshava, Sharlina and Marlowe, Hannah},
-  year = 2025,
-  month = nov,
-  number = {arXiv:2511.21050},
-  eprint = {2511.21050},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2511.21050},
-  urldate = {2026-03-17},
-  abstract = {Fine-tuning large language models (LLMs) for downstream tasks typically exhibit a fundamental safety-capability tradeoff, where improving task performance degrades safety alignment even on benign datasets. This degradation persists across standard approaches including supervised finetuning (SFT) and reinforcement learning from human feedback (RLHF). While reinforcement learning with verifiable rewards (RLVR) has emerged as a promising alternative that optimizes models on objectively measurable tasks, its safety implications remain unexplored. We present the first comprehensive theoretical and empirical analysis of safety properties in RLVR. Theoretically, we derive upper bounds on safety drift under KL-constrained optimization and prove conditions under which safety degradation is eliminated. Empirically, we conduct extensive experiments across five adversarial safety benchmarks, demonstrating that RLVR can simultaneously enhance reasoning capabilities while maintaining or improving safety guardrails. Our comprehensive ablation studies examine the effects of optimization algorithms, model scale, and task domains. Our findings challenge the prevailing assumption of an inevitable safetycapability trade-off, and establish that a specific training methodology can achieve both objectives simultaneously, providing insights for the safe deployment of reasoningcapable LLMs.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Statistics - Machine Learning},
-  file = {/Users/george/Zotero/storage/U797EYGI/Cho et al. - 2025 - Breaking the Safety-Capability Tradeoff Reinforcement Learning with Verifiable Rewards Maintains Sa.pdf}
 }
 
 @article{chuaDeepReinforcementLearning2018,
@@ -707,6 +650,23 @@
   file = {/Users/george/Zotero/storage/NZLQ4TA4/Echchahed and Castro - 2025 - A Survey of State Representation Learning for Deep Reinforcement Learning.pdf}
 }
 
+@misc{fanLoopedTransformersLength2025,
+  title = {Looped {{Transformers}} for {{Length Generalization}}},
+  author = {Fan, Ying and Du, Yilun and Ramchandran, Kannan and Lee, Kangwook},
+  year = 2025,
+  month = may,
+  number = {arXiv:2409.15647},
+  eprint = {2409.15647},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2409.15647},
+  urldate = {2026-09-06},
+  abstract = {Recent work has shown that Transformers trained from scratch can successfully solve various arithmetic and algorithmic tasks, such as adding numbers and computing parity. While these Transformers generalize well on unseen inputs of the same length, they struggle with length generalization, i.e., handling inputs of unseen lengths. In this work, we demonstrate that looped Transformers with an adaptive number of steps significantly improve length generalization. We focus on tasks with a known iterative solution, involving multiple iterations of a RASP-L operation---a length-generalizable operation that can be expressed by a finite-sized Transformer. We train looped Transformers using our proposed learning algorithm and observe that they learn highly length-generalizable solutions for various tasks.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/YJQ26SF9/Fan et al. - 2025 - Looped Transformers for Length Generalization.pdf}
+}
+
 @misc{fengLearningInteractiveWorld2025,
   title = {Learning {{Interactive World Model}} for {{Object-Centric Reinforcement Learning}}},
   author = {Feng, Fan and Lippe, Phillip and Magliacane, Sara},
@@ -844,79 +804,6 @@
   file = {/Users/george/Zotero/storage/DBPNHLVT/Gandhi et al. - 2024 - Stream of Search (SoS) Learning to Search in Language.pdf}
 }
 
-@misc{garridoIntuitivePhysicsUnderstanding2025,
-  title = {Intuitive Physics Understanding Emerges from Self-Supervised Pretraining on Natural Videos},
-  author = {Garrido, Quentin and Ballas, Nicolas and Assran, Mahmoud and Bardes, Adrien and Najman, Laurent and Rabbat, Michael and Dupoux, Emmanuel and LeCun, Yann},
-  year = 2025,
-  month = feb,
-  number = {arXiv:2502.11831},
-  eprint = {2502.11831},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2502.11831},
-  urldate = {2025-12-31},
-  abstract = {We investigate the emergence of intuitive physics understanding in general-purpose deep neural network models trained to predict masked regions in natural videos. Leveraging the violation-of-expectation framework, we find that video prediction models trained to predict outcomes in a learned representation space demonstrate an understanding of various intuitive physics properties, such as object permanence and shape consistency. In contrast, video prediction in pixel space and multimodal large language models, which reason through text, achieve performance closer to chance. Our comparisons of these architectures reveal that jointly learning an abstract representation space while predicting missing parts of sensory input, akin to predictive coding, is sufficient to acquire an understanding of intuitive physics, and that even models trained on one week of unique video achieve above chance performance. This challenges the idea that core knowledge -- a set of innate systems to help understand the world -- needs to be hardwired to develop an understanding of intuitive physics.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition},
-  file = {/Users/george/Zotero/storage/LU9NWYE3/Garrido et al. - 2025 - Intuitive physics understanding emerges from self-supervised pretraining on natural videos.pdf}
-}
-
-@misc{garridoLearningLatentAction2026,
-  title = {Learning {{Latent Action World Models In The Wild}}},
-  author = {Garrido, Quentin and Nagarajan, Tushar and Terver, Basile and Ballas, Nicolas and LeCun, Yann and Rabbat, Michael},
-  year = 2026,
-  month = jan,
-  number = {arXiv:2601.05230},
-  eprint = {2601.05230},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2601.05230},
-  urldate = {2026-01-12},
-  abstract = {Agents capable of reasoning and planning in the real world require the ability of predicting the consequences of their actions. While world models possess this capability, they most often require action labels, that can be complex to obtain at scale. This motivates the learning of latent action models, that can learn an action space from videos alone. Our work addresses the problem of learning latent actions world models on in-the-wild videos, expanding the scope of existing works that focus on simple robotics simulations, video games, or manipulation data. While this allows us to capture richer actions, it also introduces challenges stemming from the video diversity, such as environmental noise, or the lack of a common embodiment across videos. To address some of the challenges, we discuss properties that actions should follow as well as relevant architectural choices and evaluations. We find that continuous, but constrained, latent actions are able to capture the complexity of actions from in-the-wild videos, something that the common vector quantization does not. We for example find that changes in the environment coming from agents, such as humans entering the room, can be transferred across videos. This highlights the capability of learning actions that are specific to in-the-wild videos. In the absence of a common embodiment across videos, we are mainly able to learn latent actions that become localized in space, relative to the camera. Nonetheless, we are able to train a controller that maps known actions to latent ones, allowing us to use latent actions as a universal interface and solve planning tasks with our world model with similar performance as action-conditioned baselines. Our analyses and experiments provide a step towards scaling latent action models to the real world.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition},
-  file = {/Users/george/Zotero/storage/XH62MGLL/Garrido et al. - 2026 - Learning Latent Action World Models In The Wild.pdf}
-}
-
-@misc{garridoLearningLeveragingWorld2024,
-  title = {Learning and {{Leveraging World Models}} in {{Visual Representation Learning}}},
-  author = {Garrido, Quentin and Assran, Mahmoud and Ballas, Nicolas and Bardes, Adrien and Najman, Laurent and LeCun, Yann},
-  year = 2024,
-  month = mar,
-  number = {arXiv:2403.00504},
-  eprint = {2403.00504},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2403.00504},
-  urldate = {2026-03-06},
-  abstract = {Joint-Embedding Predictive Architecture (JEPA) has emerged as a promising self-supervised approach that learns by leveraging a world model. While previously limited to predicting missing parts of an input, we explore how to generalize the JEPA prediction task to a broader set of corruptions. We introduce Image World Models, an approach that goes beyond masked image modeling and learns to predict the effect of global photometric transformations in latent space. We study the recipe of learning performant IWMs and show that it relies on three key aspects: conditioning, prediction difficulty, and capacity. Additionally, we show that the predictive world model learned by IWM can be adapted through finetuning to solve diverse tasks; a fine-tuned IWM world model matches or surpasses the performance of previous self-supervised methods. Finally, we show that learning with an IWM allows one to control the abstraction level of the learned representations, learning invariant representations such as contrastive methods, or equivariant representations such as masked image modelling.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/UX7MBJPT/Garrido et al. - 2024 - Learning and Leveraging World Models in Visual Representation Learning.pdf}
-}
-
-@misc{grigsbyVLMQLearningAligning2025,
-  title = {{{VLM Q-Learning}}: {{Aligning Vision-Language Models}} for {{Interactive Decision-Making}}},
-  shorttitle = {{{VLM Q-Learning}}},
-  author = {Grigsby, Jake and Zhu, Yuke and Ryoo, Michael and Niebles, Juan Carlos},
-  year = 2025,
-  month = may,
-  number = {arXiv:2505.03181},
-  eprint = {2505.03181},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2505.03181},
-  urldate = {2026-03-17},
-  abstract = {Recent research looks to harness the general knowledge and reasoning of large language models (LLMs) into agents that accomplish user-specified goals in interactive environments. Vision-language models (VLMs) extend LLMs to multimodal data and provide agents with the visual reasoning necessary for new applications in areas such as computer automation. However, agent tasks emphasize skills where accessible open-weight VLMs lag behind their LLM equivalents. For example, VLMs are less capable of following an environment's strict output syntax requirements and are more focused on open-ended question answering. Overcoming these limitations requires supervised fine-tuning (SFT) on task-specific expert demonstrations. Our work approaches these challenges from an offlineto-online reinforcement learning (RL) perspective. RL lets us fine-tune VLMs to agent tasks while learning from the unsuccessful decisions of our own model or more capable (larger) models. We explore an off-policy RL solution that retains the stability and simplicity of the widely used SFT workflow while allowing our agent to self-improve and learn from low-quality datasets. We demonstrate this technique with two open-weight VLMs across three multi-modal agent domains.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/BVG44EX6/Grigsby et al. - 2025 - VLM Q-Learning Aligning Vision-Language Models for Interactive Decision-Making.pdf}
-}
-
 @misc{guezInvestigationModelfreePlanning2019,
   title = {An Investigation of Model-Free Planning},
   author = {Guez, Arthur and Mirza, Mehdi and Gregor, Karol and Kabra, Rishabh and Racani{\`e}re, S{\'e}bastien and Weber, Th{\'e}ophane and Raposo, David and Santoro, Adam and Orseau, Laurent and Eccles, Tom and Wayne, Greg and Silver, David and Lillicrap, Timothy},
@@ -1042,25 +929,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Robotics,Statistics - Machine Learning},
   file = {/Users/george/Zotero/storage/TQFURMA5/Hafner et al. - 2025 - Training Agents Inside of Scalable World Models.pdf}
-}
-
-@misc{hanLearningSeeSeeing2025,
-  title = {Learning to {{See Before Seeing}}: {{Demystifying LLM Visual Priors}} from {{Language Pre-training}}},
-  shorttitle = {Learning to {{See Before Seeing}}},
-  author = {Han, Junlin and Tong, Shengbang and Fan, David and Ren, Yufan and Sinha, Koustuv and Torr, Philip and Kokkinos, Filippos},
-  year = 2025,
-  month = sep,
-  number = {arXiv:2509.26625},
-  eprint = {2509.26625},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2509.26625},
-  urldate = {2026-03-11},
-  abstract = {Large Language Models (LLMs), despite being trained on text alone, surprisingly develop rich visual priors. These priors allow latent visual capabilities to be unlocked for vision tasks with a relatively small amount of multimodal data, and in some cases, to perform visual tasks without ever having seen an image. Through systematic analysis, we reveal that visual priors-the implicit, emergent knowledge about the visual world acquired during language pre-training-are composed of separable perception and reasoning priors with unique scaling trends and origins. We show that an LLM's latent visual reasoning ability is predominantly developed by pre-training on reasoning-centric data (e.g., code, math, academia) and scales progressively. This reasoning prior acquired from language pre-training is transferable and universally applicable to visual reasoning. In contrast, a perception prior emerges more diffusely from broad corpora, and perception ability is more sensitive to the vision encoder and visual instruction tuning data. In parallel, text describing the visual world proves crucial, though its performance impact saturates rapidly. Leveraging these insights, we propose a data-centric recipe for pre-training vision-aware LLMs and verify it in 1T token scale pre-training. Our findings are grounded in over 100 controlled experiments consuming 500,000 GPU-hours, spanning the full MLLM construction pipeline-from LLM pre-training to visual alignment and supervised multimodal fine-tuning-across five model scales, a wide range of data categories and mixtures, and multiple adaptation setups. Along with our main findings, we propose and investigate several hypotheses, and introduce the Multi-Level Existence Bench (MLE-Bench). Together, this work provides a new way of deliberately cultivating visual priors from language pre-training, paving the way for the next generation of multimodal LLMs.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Multimedia},
-  file = {/Users/george/Zotero/storage/D2X5XLTX/Han et al. - 2025 - Learning to See Before Seeing Demystifying LLM Visual Priors from Language Pre-training.pdf}
 }
 
 @misc{hansenTDMPC2ScalableRobust2024,
@@ -1240,23 +1108,38 @@
   file = {/Users/george/Zotero/storage/YZPN2RTJ/Hoffmann et al. - 2022 - Training Compute-Optimal Large Language Models.pdf}
 }
 
-@misc{huangLLMJEPALargeLanguage2025,
-  title = {{{LLM-JEPA}}: {{Large Language Models Meet Joint Embedding Predictive Architectures}}},
-  shorttitle = {{{LLM-JEPA}}},
-  author = {Huang, Hai and LeCun, Yann and Balestriero, Randall},
-  year = 2025,
-  month = oct,
-  number = {arXiv:2509.14252},
-  eprint = {2509.14252},
-  primaryclass = {cs},
+@misc{houUniversalLengthGeneralization2024,
+  title = {Universal {{Length Generalization}} with {{Turing Programs}}},
+  author = {Hou, Kaiying and Brandfonbrener, David and Kakade, Sham and Jelassi, Samy and Malach, Eran},
+  year = 2024,
+  month = jul,
+  number = {arXiv:2407.03310},
+  eprint = {2407.03310},
+  primaryclass = {cs.LG},
   publisher = {arXiv},
-  doi = {10.48550/arXiv.2509.14252},
-  urldate = {2026-03-24},
-  abstract = {Large Language Model (LLM) pretraining, finetuning, and evaluation rely on input-space reconstruction and generative capabilities. Yet, it has been observed in vision that embedding-space training objectives, e.g., with Joint Embedding Predictive Architectures (JEPAs), are far superior to their input-space counterpart. That mismatch in how training is achieved between language and vision opens up a natural question: can language training methods learn a few tricks from the vision ones? The lack of JEPA-style LLM is a testimony of the challenge in designing such objectives for language. In this work, we propose a first step in that direction where we develop LLM-JEPA, a JEPA based solution for LLMs applicable both to finetuning and pretraining. Thus far, LLM-JEPA is able to outperform the standard LLM training objectives by a significant margin across models, all while being robust to overfiting. Those findings are observed across numerous datasets (NL-RX, GSM8K, Spider, RottenTomatoes) and various models from the Llama3, OpenELM, Gemma2 and Olmo families. Code: https:// github.com/rbalestr-lab/llm-jepa.},
+  doi = {10.48550/arXiv.2407.03310},
+  urldate = {2026-09-06},
+  abstract = {Length generalization refers to the ability to extrapolate from short training sequences to long test sequences and is a challenge for current large language models. While prior work has proposed some architecture or data format changes to achieve length generalization, these proposals typically apply to a limited set of tasks. Building on prior scratchpad and Chain-of-Thought (CoT) techniques, we propose Turing Programs, a novel CoT strategy that decomposes an algorithmic task into steps mimicking the computation of a Turing Machine. This framework is both universal, as it can accommodate any algorithmic task, and simple, requiring only copying text from the context with small modifications. We show that by using Turing Programs, we obtain robust length generalization on a range of algorithmic tasks: addition, multiplication and in-context SGD. We then demonstrate that transformers achieve length generalization on random Turing Programs, suggesting that length generalization is possible for any algorithmic task. Finally, we theoretically prove that transformers can implement Turing Programs, constructing a simple RASP (Weiss et al. [53]) program that simulates an arbitrary Turing machine.},
   archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  file = {/Users/george/Zotero/storage/PF996PAV/Huang et al. - 2025 - LLM-JEPA Large Language Models Meet Joint Embedding Predictive Architectures.pdf}
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/GR6N5JB4/Hou et al. - 2024 - Universal Length Generalization with Turing Programs.pdf}
+}
+
+@misc{huangTransformersProvablyLearn2025,
+  title = {Transformers {{Provably Learn Chain-of-Thought Reasoning}} with {{Length Generalization}}},
+  author = {Huang, Yu and Wen, Zixin and Singh, Aarti and Chi, Yuejie and Chen, Yuxin},
+  year = 2025,
+  month = nov,
+  number = {arXiv:2511.07378},
+  eprint = {2511.07378},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2511.07378},
+  urldate = {2026-09-06},
+  abstract = {The ability to reason lies at the core of artificial intelligence (AI), and challenging problems usually call for deeper and longer reasoning to tackle. A crucial question about AI reasoning is whether models can extrapolate learned reasoning patterns to solve harder tasks with longer chain-of-thought (CoT). In this work, we present a theoretical analysis of transformers learning on synthetic state-tracking tasks with gradient descent. We mathematically prove how the algebraic structure of state-tracking problems governs the degree of extrapolation of the learned CoT. Specifically, our theory characterizes the length generalization of transformers through the mechanism of attention concentration, linking the retrieval robustness of the attention layer to the state-tracking task structure of long-context reasoning. Moreover, for transformers with limited reasoning length, we prove that a recursive self-training scheme can progressively extend the range of solvable problem lengths. To our knowledge, we provide the first optimization guarantee that constant-depth transformers provably learn NC1-complete problems with CoT, significantly going beyond prior art confined in TC0, unless the widely held conjecture TC0 ̸= NC1 fails. Finally, we present a broad set of experiments supporting our theoretical results, confirming the length generalization behaviors and the mechanism of attention concentration.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Mathematics - Optimization and Control,Statistics - Machine Learning},
+  file = {/Users/george/Zotero/storage/9TSCUB86/Huang et al. - 2025 - Transformers Provably Learn Chain-of-Thought Reasoning with Length Generalization.pdf}
 }
 
 @misc{huangVid2WorldCraftingVideo2025,
@@ -1294,25 +1177,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
   file = {/Users/george/Zotero/storage/VUD9N29U/Huh et al. - 2024 - The Platonic Representation Hypothesis.pdf}
-}
-
-@misc{huLanguageModelsAgent2023,
-  title = {Language {{Models}}, {{Agent Models}}, and {{World Models}}: {{The LAW}} for {{Machine Reasoning}} and {{Planning}}},
-  shorttitle = {Language {{Models}}, {{Agent Models}}, and {{World Models}}},
-  author = {Hu, Zhiting and Shu, Tianmin},
-  year = 2023,
-  month = dec,
-  number = {arXiv:2312.05230},
-  eprint = {2312.05230},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2312.05230},
-  urldate = {2026-02-25},
-  abstract = {Despite their tremendous success in many applications, large language models often fall short of consistent reasoning and planning in various (language, embodied, and social) scenarios, due to inherent limitations in their inference, learning, and modeling capabilities. In this position paper, we present a new perspective of machine reasoning, LAW, that connects the concepts of language models, agent models, and world models, for more robust and versatile reasoning capabilities. In particular, we propose that world and agent models are a better abstraction of reasoning, that introduces the crucial elements of deliberate human-like reasoning, including beliefs about the world and other agents, anticipation of consequences, goals/rewards, and strategic planning. Crucially, language models in LAW serve as a backend to implement the system or its elements and hence provide the computational power and adaptability. We review the recent studies that have made relevant progress and discuss future research directions towards operationalizing the LAW framework.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Robotics},
-  file = {/Users/george/Zotero/storage/5ZEPA6CF/Hu and Shu - 2023 - Language Models, Agent Models, and World Models The LAW for Machine Reasoning and Planning.pdf}
 }
 
 @misc{jacksonCleanSlateOffline2025,
@@ -1368,43 +1232,6 @@
   file = {/Users/george/Zotero/storage/DEN2SYUT/Jiang et al. - 2026 - META-RL INDUCES EXPLORATION IN LANGUAGE AGENTS.pdf}
 }
 
-@misc{jinRLNeitherPanacea2025,
-  title = {{{RL Is Neither}} a {{Panacea Nor}} a {{Mirage}}: {{Understanding Supervised}} vs. {{Reinforcement Learning Fine-Tuning}} for {{LLMs}}},
-  shorttitle = {{{RL Is Neither}} a {{Panacea Nor}} a {{Mirage}}},
-  author = {Jin, Hangzhan and Lv, Sicheng and Wu, Sifan and Hamdaqa, Mohammad},
-  year = 2025,
-  month = aug,
-  number = {arXiv:2508.16546},
-  eprint = {2508.16546},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2508.16546},
-  urldate = {2026-03-17},
-  abstract = {Training large language models (LLMs) from scratch is increasingly impractical, making post-training methods such as supervised fine-tuning (SFT) and reinforcement-learning fine-tuning (RL-FT, e.g., PPO) central to modern practice. Using an out-of-distribution (OOD) variant of the 24-point card game and new spectrum-based diagnostics, we revisit how these two stages reshape representation of a model and its OOD performance. Our key findings are: {$\bullet$} Reinforcement-learning fine-tuning can restore most of the OOD performance loss or catastrophic forgetting back to moderate SFT performance level (e.g., Llama-11B 8.97 \% Rightarrow 15.38 \%, Qwen-7B 17.09 \% Rightarrow 19.66 \%). But when SFT pushes the model into a markedly different representation regime: severe overfitting that causes a clear distribution shift ---RL-FT can no longer restore the model's OOD performance.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/FGDDZH6T/Jin et al. - 2025 - RL Is Neither a Panacea Nor a Mirage Understanding Supervised vs. Reinforcement Learning Fine-Tunin.pdf}
-}
-
-@misc{josephInterpretingPhysicsVideo2026,
-  title = {Interpreting {{Physics}} in {{Video World Models}}},
-  author = {Joseph, Sonia and Garrido, Quentin and Balestriero, Randall and Kowal, Matthew and Fel, Thomas and Bakhtiari, Shahab and Richards, Blake and Rabbat, Mike},
-  year = 2026,
-  month = feb,
-  number = {arXiv:2602.07050},
-  eprint = {2602.07050},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2602.07050},
-  urldate = {2026-03-06},
-  abstract = {A long-standing question in physical reasoning is whether video-based models need to rely on factorized representations of physical variables in order to make physically accurate predictions, or whether they can implicitly represent such variables in a task-specific, distributed manner. While modern video world models achieve strong performance on intuitive physics benchmarks, it remains unclear which of these representational regimes they implement internally. Here, we present the first interpretability study to directly examine physical representations inside large-scale video encoders. Using layerwise probing, subspace geometry, patch-level decoding, and targeted attention ablations, we characterize where physical information becomes accessible and how it is organized within encoder-based video transformers. Across architectures, we identify a sharp intermediate-depth transition--- which we call the Physics Emergence Zone---at which physical variables become accessible. Physics-related representations peak shortly after this transition and degrade toward the output layers. Decomposing motion into explicit variables, we find that scalar quantities such as speed and acceleration are available from early layers onwards, whereas motion direction becomes accessible only at the Physics Emergence Zone. Notably, we find that direction is encoded through a high-dimensional population structure with circular geometry, requiring coordinated multi-feature intervention to control. These findings suggest that modern video models do not use factorized representations of physical variables like a classical physics engine. Instead, they use a distributed representation that is nonetheless sufficient for making physical predictions.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition},
-  file = {/Users/george/Zotero/storage/5ZVNY58W/Joseph et al. - 2026 - Interpreting Physics in Video World Models.pdf}
-}
-
 @misc{kaiserModelBasedReinforcementLearning2020,
   title = {Model-{{Based Reinforcement Learning}} for {{Atari}}},
   author = {Kaiser, Lukasz and Babaeizadeh, Mohammad and Milos, Piotr and Osinski, Blazej and Campbell, Roy H. and Czechowski, Konrad and Erhan, Dumitru and Finn, Chelsea and Kozakowski, Piotr and Levine, Sergey and Mohiuddin, Afroz and Sepassi, Ryan and Tucker, George and Michalewski, Henryk},
@@ -1420,15 +1247,6 @@
   langid = {english},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/Users/george/Zotero/storage/VBGFGSUP/Kaiser et al. - 2020 - Model-Based Reinforcement Learning for Atari.pdf}
-}
-
-@article{kangGFlowVLMEnhancingMultistep2025,
-  title = {{{GFlowVLM}}: {{Enhancing Multi-step Reasoning}} in {{Vision-Language Models}} with {{Generative Flow Networks}}},
-  author = {Kang, Haoqiang and Sachdeva, Enna and Gupta, Piyush and Bae, Sangjae and Lee, Kwonjoon},
-  year = 2025,
-  abstract = {Vision-Language Models (VLMs) have recently shown promising advancements in sequential decision-making tasks through task-specific fine-tuning. However, common fine-tuning methods, such as Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) techniques like Proximal Policy Optimization (PPO), present notable limitations: SFT assumes Independent and Identically Distributed (IID) data, while PPO focuses on maximizing cumulative rewards. These limitations often restrict solution diversity and hinder generalization in multi-step reasoning tasks. To address these challenges, we introduce a novel framework, GFlowVLM, a framework that fine-tune VLMs using Generative Flow Networks (GFlowNets) to promote generation of diverse solutions for complex reasoning tasks. GFlowVLM models the environment as a non-Markovian decision process, allowing it to capture long-term dependencies essential for real-world applications. It takes observations and task descriptions as inputs to prompt chain-of-thought (CoT) reasoning which subsequently guides action selection. We use task based rewards to fine-tune VLM with GFlowNets. This approach enables VLMs to outperform prior fine-tuning methods, including SFT and RL. Empirical results demonstrate the effectiveness of GFlowVLM on complex tasks such as card games (NumberLine, BlackJack) and embodied planning tasks (ALFWorld), showing enhanced training efficiency, solution diversity, and stronger generalization capabilities across both in-distribution and out-of-distribution scenarios. Project page is available at https://mk322.github.io/gflowvlm/.},
-  langid = {english},
-  file = {/Users/george/Zotero/storage/KMS96CA7/Kang et al. - 2025 - GFlowVLM Enhancing Multi-step Reasoning in Vision-Language Models with Generative Flow Networks.pdf}
 }
 
 @misc{kangLinTreeImprovingLLM2026,
@@ -1499,25 +1317,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
   file = {/Users/george/Zotero/storage/TJYJ6SQW/Kim et al. - 2025 - ASTRO Teaching Language Models to Reason by Reflecting and Backtracking In-Context.pdf}
-}
-
-@misc{kimImagineUnseenWorld2023,
-  title = {Imagine the {{Unseen World}}: {{A Benchmark}} for {{Systematic Generalization}} in {{Visual World Models}}},
-  shorttitle = {Imagine the {{Unseen World}}},
-  author = {Kim, Yeongbin and Singh, Gautam and Park, Junyeong and Gulcehre, Caglar and Ahn, Sungjin},
-  year = 2023,
-  month = nov,
-  number = {arXiv:2311.09064},
-  eprint = {2311.09064},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2311.09064},
-  urldate = {2026-02-25},
-  abstract = {Systematic compositionality, or the ability to adapt to novel situations by creating a mental model of the world using reusable pieces of knowledge, remains a significant challenge in machine learning. While there has been considerable progress in the language domain, efforts towards systematic visual imagination, or envisioning the dynamical implications of a visual observation, are in their infancy. We introduce the Systematic Visual Imagination Benchmark (SVIB), the first benchmark designed to address this problem head-on. SVIB offers a novel framework for a minimal world modeling problem, where models are evaluated based on their ability to generate one-step image-to-image transformations under a latent world dynamics. The framework provides benefits such as the possibility to jointly optimize for systematic perception and imagination, a range of difficulty levels, and the ability to control the fraction of possible factor combinations used during training. We provide a comprehensive evaluation of various baseline models on SVIB, offering insight into the current state-of-the-art in systematic visual imagination. We hope that this benchmark will help advance visual systematic compositionality.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/I89EQ9ND/Kim et al. - 2023 - Imagine the Unseen World A Benchmark for Systematic Generalization in Visual World Models.pdf}
 }
 
 @misc{kipfContrastiveLearningStructured2020,
@@ -1591,6 +1390,24 @@
   file = {/Users/george/Zotero/storage/CY4B4DAK/Lambert et al. - 2025 - Tulu 3 Pushing Frontiers in Open Language Model Post-Training.pdf}
 }
 
+@misc{leeTeachingArithmeticSmall2023,
+  title = {Teaching {{Arithmetic}} to {{Small Transformers}}},
+  author = {Lee, Nayoung and Sreenivasan, Kartik and Lee, Jason D. and Lee, Kangwook and Papailiopoulos, Dimitris},
+  year = 2023,
+  month = jul,
+  number = {arXiv:2307.03381},
+  eprint = {2307.03381},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2307.03381},
+  urldate = {2026-09-03},
+  abstract = {Large language models like GPT-4 exhibit emergent capabilities across general-purpose tasks, such as basic arithmetic, when trained on extensive text data, even though these tasks are not explicitly encoded by the unsupervised, next-token prediction objective. This study investigates how small transformers, trained from random initialization, can efficiently learn arithmetic operations such as addition, multiplication, and elementary functions like square root, using the next-token prediction objective. We first demonstrate that conventional training data is not the most effective for arithmetic learning, and simple formatting changes can significantly improve accuracy. This leads to sharp phase transitions as a function of training data scale, which, in some cases, can be explained through connections to low-rank matrix completion. Building on prior work, we then train on chain-of-thought style data that includes intermediate step results. Even in the complete absence of pretraining, this approach significantly and simultaneously improves accuracy, sample complexity, and convergence speed. We also study the interplay between arithmetic and text data during training and examine the effects of few-shot prompting, pretraining, and model scale. Additionally, we discuss length generalization challenges. Our work highlights the importance of high-quality, instructive data that considers the particular characteristics of the next-word prediction objective for rapidly eliciting arithmetic capabilities.},
+  archiveprefix = {arXiv},
+  langid = {english},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/A6UZLBXW/Lee et al. - 2023 - Teaching Arithmetic to Small Transformers.pdf}
+}
+
 @misc{lehnertBetterPlanningTransformers2024,
   title = {Beyond {{A}}*: {{Better Planning}} with {{Transformers}} via {{Search Dynamics Bootstrapping}}},
   shorttitle = {Beyond {{A}}*},
@@ -1627,25 +1444,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/Users/george/Zotero/storage/BIPL38WU/Levine et al. - 2020 - Offline Reinforcement Learning Tutorial, Review, and Perspectives on Open Problems.pdf}
-}
-
-@misc{liangVisualPredicatorLearningAbstract2025,
-  title = {{{VisualPredicator}}: {{Learning Abstract World Models}} with {{Neuro-Symbolic Predicates}} for {{Robot Planning}}},
-  shorttitle = {{{VisualPredicator}}},
-  author = {Liang, Yichao and Kumar, Nishanth and Tang, Hao and Weller, Adrian and Tenenbaum, Joshua B. and Silver, Tom and Henriques, Jo{\~a}o F. and Ellis, Kevin},
-  year = 2025,
-  month = feb,
-  number = {arXiv:2410.23156},
-  eprint = {2410.23156},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2410.23156},
-  urldate = {2026-02-19},
-  abstract = {Broadly intelligent agents should form task-specific abstractions that selectively expose the essential elements of a task, while abstracting away the complexity of the raw sensorimotor space. In this work, we present Neuro-Symbolic Predicates, a first-order abstraction language that combines the strengths of symbolic and neural knowledge representations. We outline an online algorithm for inventing such predicates and learning abstract world models. We compare our approach to hierarchical reinforcement learning, vision-language model planning, and symbolic predicate invention approaches, on both in- and out-of-distribution tasks across five simulated robotic domains. Results show that our approach offers better sample complexity, stronger out-of-distribution generalization, and improved interpretability.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Robotics},
-  file = {/Users/george/Zotero/storage/H8HPNFEA/Liang et al. - 2025 - VisualPredicator Learning Abstract World Models with Neuro-Symbolic Predicates for Robot Planning.pdf}
 }
 
 @misc{liChainThoughtEmpowers2024,
@@ -1741,24 +1539,6 @@
   file = {/Users/george/Zotero/storage/VPQVTWP3/Lin and Tegmark - 2017 - Critical Behavior in Physics and Probabilistic Formal Languages.pdf}
 }
 
-@misc{linLearningModelWorld2024,
-  title = {Learning to {{Model}} the {{World}} with {{Language}}},
-  author = {Lin, Jessy and Du, Yuqing and Watkins, Olivia and Hafner, Danijar and Abbeel, Pieter and Klein, Dan and Dragan, Anca},
-  year = 2024,
-  month = may,
-  number = {arXiv:2308.01399},
-  eprint = {2308.01399},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2308.01399},
-  urldate = {2026-02-28},
-  abstract = {To interact with humans and act in the world, agents need to understand the range of language that people use and relate it to the visual world. While current agents can learn to execute simple language instructions, we aim to build agents that leverage diverse language---language like ``this button turns on the TV'' or ``I put the bowls away''---that conveys general knowledge, describes the state of the world, provides interactive feedback, and more. Our key idea is that agents should interpret such diverse language as a signal that helps them predict the future: what they will observe, how the world will behave, and which situations will be rewarded. This perspective unifies language understanding with future prediction as a powerful self-supervised learning objective. We instantiate this in Dynalang, an agent that learns a multimodal world model to predict future text and image representations, and learns to act from imagined model rollouts. While current methods that learn language-conditioned policies degrade in performance with more diverse types of language, we show that Dynalang learns to leverage environment descriptions, game rules, and instructions to excel on tasks ranging from game-playing to navigating photorealistic home scans. Finally, we show that our method enables additional capabilities due to learning a generative model: Dynalang can be pretrained on text-only data, enabling learning from offline datasets, and generate language grounded in an environment.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/WGWGGS46/Lin et al. - 2024 - Learning to Model the World with Language.pdf}
-}
-
 @misc{linSimtoRealReinforcementLearning2025,
   title = {Sim-to-{{Real Reinforcement Learning}} for {{Vision-Based Dexterous Manipulation}} on {{Humanoids}}},
   author = {Lin, Toru and Sachdev, Kartik and Fan, Linxi and Malik, Jitendra and Zhu, Yuke},
@@ -1794,25 +1574,6 @@
   file = {/Users/george/Zotero/storage/LCKFWRJQ/Liu et al. - 2023 - Transformers Learn Shortcuts to Automata.pdf}
 }
 
-@misc{liWordWorldCan2025,
-  title = {From {{Word}} to {{World}}: {{Can Large Language Models}} Be {{Implicit Text-based World Models}}?},
-  shorttitle = {From {{Word}} to {{World}}},
-  author = {Li, Yixia and Wang, Hongru and Qiu, Jiahao and Yin, Zhenfei and Zhang, Dongdong and Qian, Cheng and Li, Zeping and Ma, Pony and Chen, Guanhua and Ji, Heng and Wang, Mengdi},
-  year = 2025,
-  month = dec,
-  number = {arXiv:2512.18832},
-  eprint = {2512.18832},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2512.18832},
-  urldate = {2026-02-24},
-  abstract = {Agentic reinforcement learning increasingly relies on experience-driven scaling, yet real-world environments remain non-adaptive, limited in coverage, and difficult to scale. World models offer a potential way to improve learning efficiency through simulated experience, but it remains unclear whether large language models can reliably serve this role and under what conditions they meaningfully benefit agents. We study these questions in text-based environments, which provide a controlled setting to reinterpret language modeling as next-state prediction under interaction. We introduce a three-level framework for evaluating LLM-based world models: (i) fidelity and consistency, (ii) scalability and robustness, and (iii) agent utility. Across five representative environments, we find that sufficiently trained world models maintain coherent latent state, scale predictably with data and model size, and improve agent performance via action verification, synthetic trajectory generation, and warm-starting reinforcement learning. Meanwhile, these gains depend critically on behavioral coverage and environment complexity, delineating clear boundry on when world modeling effectively supports agent learning.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Computation and Language},
-  file = {/Users/george/Zotero/storage/S3TG5AYG/Li et al. - 2025 - From Word to World Can Large Language Models be Implicit Text-based World Models.pdf}
-}
-
 @misc{lovelacePrescriptiveScalingLaws2026,
   title = {Prescriptive {{Scaling Laws}} for {{Data Constrained Training}}},
   author = {Lovelace, Justin and Belardi, Christian and Kundurthy, Srivatsa and Sudhakar, Shriya and Weinberger, Kilian Q.},
@@ -1846,6 +1607,23 @@
   langid = {english},
   keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
   file = {/Users/george/Zotero/storage/YD4IS2LS/Luo et al. - 2024 - Improve Mathematical Reasoning in Language Models by Automated Process Supervision.pdf}
+}
+
+@misc{markeevaCLRSTextAlgorithmicReasoning2024,
+  title = {The {{CLRS-Text Algorithmic Reasoning Language Benchmark}}},
+  author = {Markeeva, Larisa and McLeish, Sean and Ibarz, Borja and Bounsi, Wilfried and Kozlova, Olga and Vitvitskyi, Alex and Blundell, Charles and Goldstein, Tom and Schwarzschild, Avi and Veli{\v c}kovi{\'c}, Petar},
+  year = 2024,
+  month = jun,
+  number = {arXiv:2406.04229},
+  eprint = {2406.04229},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2406.04229},
+  urldate = {2026-09-06},
+  abstract = {Eliciting reasoning capabilities from language models (LMs) is a critical direction on the path towards building intelligent systems. Most recent studies dedicated to reasoning focus on out-of-distribution performance on procedurallygenerated synthetic benchmarks, bespoke-built to evaluate specific skills only. This trend makes results hard to transfer across publications, slowing down progress. Three years ago, a similar issue was identified and rectified in the field of neural algorithmic reasoning, with the advent of the CLRS benchmark. CLRS is a dataset generator comprising graph execution traces of classical algorithms from the Introduction to Algorithms textbook. Inspired by this, we propose CLRS-Text---a textual version of these algorithmic traces. Out of the box, CLRS-Text is capable of procedurally generating trace data for thirty diverse, challenging algorithmic tasks across any desirable input distribution, while offering a standard pipeline in which any additional algorithmic tasks may be created in the benchmark. We fine-tune and evaluate various LMs as generalist executors on this benchmark, validating prior work and revealing a novel, interesting challenge for the LM reasoning community. Our code is available at https://github.com/google-deepmind/ clrs/tree/master/clrs/\_src/clrs\_text.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Data Structures and Algorithms,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/george/Zotero/storage/2GBKZT7H/Markeeva et al. - 2024 - The CLRS-Text Algorithmic Reasoning Language Benchmark.pdf}
 }
 
 @inproceedings{martorellTextSpaceMapping2026,
@@ -1890,6 +1668,15 @@
   abstract = {Recent theoretical work has identified surprisingly simple reasoning problems, such as checking if two nodes in a graph are connected or simulating finite-state machines, that are provably unsolvable by standard transformers that answer immediately after reading their input. However, in practice, transformers' reasoning can be improved by allowing them to use a ``chain of thought'' or ``scratchpad'', i.e., generate and condition on a sequence of intermediate tokens before answering. Motivated by this, we ask: Does such intermediate generation fundamentally extend the computational power of a decoder-only transformer? We show that the answer is yes, but the amount of increase depends crucially on the amount of intermediate generation. For instance, we find that transformer decoders with a logarithmic number of decoding steps (w.r.t. the input length) push the limits of standard transformers only slightly, while a linear number of decoding steps, assuming projected pre-norm (a slight generalization of standard pre-norm), adds a clear new ability (under standard complexity conjectures): recognizing all regular languages. Our results also imply that linear steps keep transformer decoders within context-sensitive languages, and polynomial steps with generalized pre-norm make them recognize exactly the class of polynomial-time solvable problems---the first exact characterization of a type of transformers in terms of standard complexity classes. Together, this provides a nuanced framework for understanding how the length of a transformer's chain of thought or scratchpad impacts its reasoning power.},
   langid = {english},
   file = {/Users/george/Zotero/storage/559V88VR/Merrill and Sabharwal - 2024 - The Expressive Power of Transformers with Chain of Thought.pdf}
+}
+
+@article{meszarosOutofDistributionEvaluationRuleBased,
+  title = {Out-of-{{Distribution Evaluation}} of {{Rule-Based}} and {{Strategic Reasoning}}  in {{Chess Transformers}}},
+  author = {M{\'e}sz{\'a}ros, Anna and Reizinger, Patrik and Husz{\'a}r, Ferenc},
+  year = 2026,
+  abstract = {Modern decision transformers, trained similarly to LLMs, can achieve strong in-distribution performance in complex sequential domains like chess, but it remains unclear to what extent they reason systematically about rules and strategy. We study the reasoning capabilities of a 270Mparameter chess transformer trained via behavior cloning on standard chess. To investigate its abilities, we construct out-of-distribution test sets ---including board states and variants never seen during training---designed to reveal failures of systematic generalization. Our analysis shows that the model exhibits robust rule-based reasoning, consistently generating legal moves in novel configurations, but its strategic reasoning is more limited. The model generates high-quality moves on curated OOD puzzles and shows basic strategy adaptation in full games. It underperforms symbolic AI algorithms that rely on explicit search, although the performance gap is smaller when playing against human users on Lichess. Moreover, the training dynamics reveals distinct phases in how the model learns to respect the fundamental constraints, suggesting an emergent compositional understanding of the game.},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/M65DFXEX/Mészáros et al. - 2026 - Out-of-Distribution Evaluation of Rule-Based and Strategic Reasoning  in Chess Transformers.pdf}
 }
 
 @misc{meszarosRuleExtrapolationLanguage2024,
@@ -2103,20 +1890,6 @@
   file = {/Users/george/Zotero/storage/SCWXCHUL/Myers et al. - 2025 - Horizon Generalization in Reinforcement Learning.pdf}
 }
 
-@misc{neuhausOutofDistributionGeneralizationReasoning2026,
-  title = {On the {{Out-of-Distribution Generalization}} of {{Reasoning}} in {{Multimodal LLMs}} for {{Simple Visual Planning Tasks}}},
-  author = {Neuhaus, Yannic and Flammarion, Nicolas and Hein, Matthias and Croce, Francesco},
-  year = 2026,
-  publisher = {arXiv},
-  doi = {10.48550/ARXIV.2602.15460},
-  urldate = {2026-05-29},
-  abstract = {Integrating reasoning in large language models and large vision-language models has recently led to significant improvement of their capabilities. However, the generalization of reasoning models is still vaguely defined and poorly understood. In this work, we present an evaluation framework to rigorously examine how well chain-of-thought (CoT) approaches generalize on a simple planning task. Specifically, we consider a grid-based navigation task in which a model is provided with a map and must output a sequence of moves that guides a player from a start position to a goal while avoiding obstacles. The versatility of the task and its data allows us to fine-tune model variants using different input representations (visual and textual) and CoT reasoning strategies, and systematically evaluate them under both in-distribution (ID) and out-ofdistribution (OOD) test conditions. Our experiments show that, while CoT reasoning improves in-distribution generalization across all representations, out-of-distribution generalization (e.g., to larger maps) remains very limited in most cases when controlling for trivial matches with the ID data. Surprisingly, we find that reasoning traces which combine multiple text formats yield the best (and non-trivial) OOD generalization. Finally, purely text-based models consistently outperform those utilizing image-based inputs, including a recently proposed approach relying on latent space reasoning.},
-  copyright = {arXiv.org perpetual, non-exclusive license},
-  langid = {english},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV),FOS: Computer and information sciences,Machine Learning (cs.LG)},
-  file = {/Users/george/Zotero/storage/MH5R6JQ5/Neuhaus et al. - 2026 - On the Out-of-Distribution Generalization of Reasoning in Multimodal LLMs for Simple Visual Planning.pdf}
-}
-
 @misc{nolteTransformersCanNavigate2024,
   title = {Transformers {{Can Navigate Mazes With Multi-Step Prediction}}},
   author = {Nolte, Niklas and Kitouni, Ouail and Williams, Adina and Rabbat, Mike and Ibrahim, Mark},
@@ -2170,15 +1943,6 @@
   file = {/Users/george/Zotero/storage/PQQ48XJW/Todd et al. - 2012 - Cognitive Search Evolution, Algorithms, and the Brain.pdf;/Users/george/Zotero/storage/SY2S8BG2/9529.003.html}
 }
 
-@article{paglieriBALROGBENCHMARKINGAGENTIC2025,
-  title = {{{BALROG}}: {{BENCHMARKING AGENTIC LLM AND VLM REASONING ON GAMES}}},
-  author = {Paglieri, Davide and Cupia{\l}, Bart{\l}omiej and Coward, Samuel and Piterbarg, Ulyana and Wolczyk, Maciej and Khan, Akbir and Pignatelli, Eduardo and Fergus, Rob and Foerster, Jakob Nicolaus and {Parker-Holder}, Jack and Rocktaschel, Tim},
-  year = 2025,
-  abstract = {Large Language Models (LLMs) and Vision Language Models (VLMs) possess extensive knowledge and exhibit promising reasoning abilities, however, they still struggle to perform well in complex, dynamic environments. Real-world tasks require handling intricate interactions, advanced spatial reasoning, long-term planning, and continuous exploration of new strategies---areas in which we lack effective methodologies for comprehensively evaluating these capabilities. To address this gap, we introduce BALROG, a novel benchmark designed to assess the agentic capabilities of LLMs and VLMs through a diverse set of challenging games. Our benchmark incorporates a range of existing reinforcement learning environments with varying levels of difficulty, including tasks that are solvable by nonexpert humans in seconds to extremely challenging ones that may take years to master (e.g., the NetHack Learning Environment). We devise fine-grained metrics to measure performance and conduct an extensive evaluation of several popular open-source and closed-source LLMs and VLMs. Our findings indicate that while current models achieve partial success in the easier games, they struggle significantly with more challenging tasks. Notably, we observe severe deficiencies in vision-based decision-making, as several models perform worse when visual representations of the environments are provided. We release BALROG as an open and user-friendly benchmark to facilitate future research and development in the agentic community. Code and Leaderboard at balrogai.com.},
-  langid = {english},
-  file = {/Users/george/Zotero/storage/BN8SAJRK/Paglieri et al. - 2025 - BALROG BENCHMARKING AGENTIC LLM AND VLM REASONING ON GAMES.pdf}
-}
-
 @misc{paglieriLearningWhenPlan2026,
   title = {Learning {{When}} to {{Plan}}: {{Efficiently Allocating Test-Time Compute}} for {{LLM Agents}}},
   shorttitle = {Learning {{When}} to {{Plan}}},
@@ -2196,24 +1960,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence},
   file = {/Users/george/Zotero/storage/23A556CA/Paglieri et al. - 2026 - Learning When to Plan Efficiently Allocating Test-Time Compute for LLM Agents.pdf}
-}
-
-@article{pangKALMKnowledgeableAgent2024,
-  title = {{{KALM}}: {{Knowledgeable Agent}} by {{Offline Reinforcement Learning}} from {{Large Language Model Rollouts}}},
-  author = {Pang, Jing-Cheng and Yang, Si-Hang and Li, Kaiyuan and Chen, Xiong-Hui and Tang, Nan and Yu, Yang},
-  year = 2024,
-  abstract = {Reinforcement learning (RL) traditionally trains agents using interaction data, which limits their capabilities to the scope of the training data. To create more knowledgeable agents, leveraging knowledge from large language models (LLMs) has shown a promising way. Despite various attempts to combine LLMs with RL, there is commonly a semantic gap between action signals and LLM tokens, which hinders their integration. This paper introduces a novel approach, KALM (Knowledgeable Agents from Language Model Rollouts), to learn knowledgeable agents by bridging this gap. KALM extracts knowledge from LLMs in the form of imaginary rollouts, which agents can learn through offline RL. To overcome the limitation that LLMs are inherently text-based and may be incompatible with numerical environmental data, KALM fine-tunes the LLM to perform bidirectional translation between textual goals and rollouts. This process enables the LLM to understand the environment better, facilitating the generation of meaningful rollouts. Experiments on robotic manipulation tasks demonstrate that KALM allows agents to rephrase complex goals and tackle novel tasks requiring new optimal behaviors. KALM achieves a 46\% success rate in completing 1400 various novel goals, significantly outperforming the 26\% success rate of baseline methods. Project homepage: https://kalmneurips2024.github.io.},
-  langid = {english},
-  file = {/Users/george/Zotero/storage/QVLLF9ZB/Pang et al. - 2024 - KALM Knowledgeable Agent by Offline Reinforcement Learning from Large Language Model Rollouts.pdf}
-}
-
-@article{patelMAPPINGLANGUAGEMODELS2022,
-  title = {{{MAPPING LANGUAGE MODELS TO GROUNDED CONCEPTUAL SPACES}}},
-  author = {Patel, Roma and Pavlick, Ellie},
-  year = 2022,
-  abstract = {A fundamental criticism of text-only language models (LMs) is their lack of grounding---that is, the ability to tie a word for which they have learned a representation to its referent in the non-linguistic world. However, despite this limitation, large pre-trained LMs have been shown to have a remarkable grasp of the conceptual structure of language, as demonstrated by their ability to answer questions, generate fluent text, or make inferences about entities, objects, and properties that they have never physically observed. In this work we investigate the extent to which the rich conceptual structure that LMs learn indeed reflects the conceptual structure of the non-linguistic world---which is something that LMs have never observed. We do this by testing whether the LMs can learn to map an entire conceptual domain (e.g., direction or colour) onto a grounded world representation given only a small number of examples. For example, we show a model what the word ``left'' means using a textual depiction of a grid world, and assess how well it can generalise to related concepts, for example, the word ``right'', in a similar grid world. We investigate a range of generative language models of varying sizes (including GPT-2 and GPT-3), and see that although the smaller models struggle to perform this mapping, the largest model can not only learn to ground the concepts that it is explicitly taught, but appears to generalise to several instances of unseen concepts as well. Our results suggest an alternative means of building grounded language models: rather than learning grounded representations ``from scratch'', it is possible that large text-only models learn a sufficiently rich conceptual structure that could allow them to be grounded in a data-efficient way.},
-  langid = {english},
-  file = {/Users/george/Zotero/storage/GQ2UQJR8/Patel and Pavlick - 2022 - MAPPING LANGUAGE MODELS TO GROUNDED CONCEPTUAL SPACES.pdf}
 }
 
 @misc{pipisWaitWaitWait2026,
@@ -2234,25 +1980,6 @@
   file = {/Users/george/Zotero/storage/DQQEBRZ3/Pipis et al. - 2026 - Wait, Wait, Wait... Why Do Reasoning Models Loop.pdf}
 }
 
-@misc{piriyakulkijPoEWorldCompositionalWorld2025,
-  title = {{{PoE-World}}: {{Compositional World Modeling}} with {{Products}} of {{Programmatic Experts}}},
-  shorttitle = {{{PoE-World}}},
-  author = {Piriyakulkij, Wasu Top and Liang, Yichao and Tang, Hao and Weller, Adrian and Kryven, Marta and Ellis, Kevin},
-  year = 2025,
-  month = nov,
-  number = {arXiv:2505.10819},
-  eprint = {2505.10819},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2505.10819},
-  urldate = {2026-02-19},
-  abstract = {Learning how the world works is central to building AI agents that can adapt to complex environments. Traditional world models based on deep learning demand vast amounts of training data, and do not flexibly update their knowledge from sparse observations. Recent advances in program synthesis using Large Language Models (LLMs) give an alternate approach which learns world models represented as source code, supporting strong generalization from little data. To date, application of program-structured world models remains limited to natural language and grid-world domains. We introduce a novel program synthesis method for effectively modeling complex, non-gridworld domains by representing a world model as an exponentially-weighted product of programmatic experts (PoE-World) synthesized by LLMs. We show that this approach can learn complex, stochastic world models from just a few observations. We evaluate the learned world models by embedding them in a model-based planning agent, demonstrating efficient performance and generalization to unseen levels on Atari's Pong and Montezuma's Revenge. We release our code and display the learned world models and videos of the agent's gameplay at https://topwasu.github.io/poe-world.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/YERXBCIM/Piriyakulkij et al. - 2025 - PoE-World Compositional World Modeling with Products of Programmatic Experts.pdf}
-}
-
 @misc{qinBacktrackNotBacktrack2025,
   title = {To {{Backtrack}} or {{Not}} to {{Backtrack}}: {{When Sequential Search Limits Model Reasoning}}},
   shorttitle = {To {{Backtrack}} or {{Not}} to {{Backtrack}}},
@@ -2271,22 +1998,22 @@
   file = {/Users/george/Zotero/storage/8LWFBK23/Qin et al. - 2025 - To Backtrack or Not to Backtrack When Sequential Search Limits Model Reasoning.pdf}
 }
 
-@misc{qiuCanLargeLanguage2025,
-  title = {Can {{Large Language Models Understand Symbolic Graphics Programs}}?},
-  author = {Qiu, Zeju and Liu, Weiyang and Feng, Haiwen and Liu, Zhen and Xiao, Tim Z. and Collins, Katherine M. and Tenenbaum, Joshua B. and Weller, Adrian and Black, Michael J. and Sch{\"o}lkopf, Bernhard},
-  year = 2025,
-  month = may,
-  number = {arXiv:2408.08313},
-  eprint = {2408.08313},
-  primaryclass = {cs},
+@misc{qiuRequentialCodingPushing2026,
+  title = {Requential {{Coding}}: {{Pushing}} the {{Limits}} of {{Model Compression}} with {{Self-Generated Training Data}}},
+  shorttitle = {Requential {{Coding}}},
+  author = {Qiu, Shikai and Finzi, Marc and Zheng, Yujia and Zhang, Kun and Wilson, Andrew Gordon},
+  year = 2026,
+  month = jul,
+  number = {arXiv:2607.11883},
+  eprint = {2607.11883},
+  primaryclass = {cs.LG},
   publisher = {arXiv},
-  doi = {10.48550/arXiv.2408.08313},
-  urldate = {2026-02-18},
-  abstract = {Against the backdrop of enthusiasm for large language models (LLMs), there is a growing need to scientifically assess their capabilities and shortcomings. This is nontrivial in part because it is difficult to find tasks which the models have not encountered during training. Utilizing symbolic graphics programs, we propose a domain well-suited to test multiple spatial-semantic reasoning skills of LLMs. Popular in computer graphics, these programs procedurally generate visual data. While LLMs exhibit impressive skills in general program synthesis and analysis, symbolic graphics programs offer a new layer of evaluation: they allow us to test an LLM's ability to answer semantic questions about the images or 3D geometries without a vision encoder. To semantically understand the symbolic programs, LLMs would need to possess the ability to ``imagine'' and reason how the corresponding graphics content would look with only the symbolic description of the local curvatures and strokes. We use this task to evaluate LLMs by creating a large benchmark for the semantic visual understanding of symbolic graphics programs, built procedurally with minimal human effort. Particular emphasis is placed on transformations of images that leave the image level semantics invariant while introducing significant changes to the underlying program. We evaluate commercial and open-source LLMs on our benchmark to assess their ability to reason about visual output of programs, finding that LLMs considered stronger at reasoning generally perform better. Lastly, we introduce a novel method to improve this ability -- Symbolic Instruction Tuning (SIT), in which the LLM is finetuned with pre-collected instruction data on symbolic graphics programs. Interestingly, we find that SIT not only improves LLM's understanding on symbolic programs, but it also improves general reasoning ability on various other benchmarks.},
+  doi = {10.48550/arXiv.2607.11883},
+  urldate = {2026-09-06},
+  abstract = {Compression is fundamental to intelligence. A model that can represent its training data as a short code has discovered regularities that enable generalization. Large neural networks may learn functions far simpler than their parameter counts suggest, but it is challenging to construct codes that realize this simplicity. Parameter-based methods such as quantization produce code lengths that scale with model size, insensitive to how much information the parameters store. Prequential coding bypasses this issue by compressing the training trajectory, but codes the exact data sequence regardless of how much the model learns, yielding large codes when the data has high entropy. We introduce requential coding\dag, where a teacher model selects training samples drawn from the student's own distribution. The student's code records only these selections, which cost bits only where teacher and student disagree. The resulting code length is independent of parameter count and data entropy, and often orders of magnitude shorter than the prequential counterpart, with an advantage that grows with scale. This compression sheds light on phenomena inaccessible to prior compressors. Holding loss fixed, larger models and ensembles compress to much smaller sizes despite more parameters. Plugged into a PAC-Bayes bound, the requential code yields state-of-the-art generalization guarantees for billion-parameter LLMs, outperforming bounds built on aggressive post-training quantization even granted zero error. The bound tightens with scale in the compute-optimal regime, as models become increasingly compressible relative to dataset size. The same code predicts that models gradually overfit when trained for multiple epochs. It also isolates the learnable information in a dataset from its unpredictable, random content, revealing that lower-entropy text holds far more learnable structure than higher-entropy image data.},
   archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/FM85UG5T/Qiu et al. - 2025 - Can Large Language Models Understand Symbolic Graphics Programs.pdf}
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/F4IQSY6J/Qiu et al. - 2026 - Requential Coding Pushing the Limits of Model Compression with Self-Generated Training Data.pdf}
 }
 
 @article{radfordLanguageModelsAre,
@@ -2480,14 +2207,6 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
   file = {/Users/george/Zotero/storage/YCAT36NV/Schmidhuber - 2015 - On Learning to Think Algorithmic Information Theory for Novel Combinations of Reinforcement Learnin.pdf}
-}
-
-@article{schmiedLLMsAreGreedy2025,
-  title = {{{LLMs}} Are {{Greedy Agents}}: {{Effects}} of {{RL Fine-tuning}} on {{Decision-Making Abilities}}},
-  author = {Schmied, Thomas and Bornschein, J{\"o}rg and {Grau-Moya}, Jordi and Wulfmeier, Markus and Pascanu, Razvan},
-  year = 2025,
-  langid = {english},
-  file = {/Users/george/Zotero/storage/CUD35RTI/Schmied et al. - 2025 - LLMs are Greedy Agents Effects of RL Fine-tuning on Decision-Making Abilities.pdf}
 }
 
 @article{schrittwieserMasteringAtariGo2020,
@@ -2731,25 +2450,6 @@
   file = {/Users/george/Zotero/storage/VKAXT8DA/Sorscher et al. - 2022 - Beyond neural scaling laws beating power law scaling via data pruning.pdf}
 }
 
-@misc{stogiannidisMindGapBenchmarking2025,
-  title = {Mind the {{Gap}}: {{Benchmarking Spatial Reasoning}} in {{Vision-Language Models}}},
-  shorttitle = {Mind the {{Gap}}},
-  author = {Stogiannidis, Ilias and McDonagh, Steven and Tsaftaris, Sotirios A.},
-  year = 2025,
-  month = mar,
-  number = {arXiv:2503.19707},
-  eprint = {2503.19707},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2503.19707},
-  urldate = {2026-02-20},
-  abstract = {Vision-Language Models (VLMs) have recently emerged as powerful tools, excelling in tasks that integrate visual and textual comprehension, such as image captioning, visual question answering, and image-text retrieval. However, existing benchmarks for VLMs include spatial components, which often fail to isolate spatial reasoning from related tasks such as object detection or semantic comprehension. In this paper, we address these deficiencies with a multi-faceted approach towards understanding spatial reasoning. Informed by the diverse and multi-dimensional nature of human spatial reasoning abilities, we present a detailed analysis that first delineates the core elements of spatial reasoning: spatial relations, orientation and navigation, mental rotation, and spatial visualization, and then assesses the performance of these models in both synthetic and real-world images, bridging controlled and naturalistic contexts. We analyze 13 state-of-the-art Vision-Language Models, uncovering pivotal insights into their spatial reasoning performance. Our results reveal profound shortcomings in current VLMs, with average accuracy across the 13 models approximating random chance, highlighting spatial reasoning as a persistent obstacle. This work not only exposes the pressing need to advance spatial reasoning within VLMs but also establishes a solid platform for future exploration. Code available on GitHub (https://github.com/stogiannidis/srbench) and dataset available on HuggingFace (https://huggingface.co/datasets/stogiannidis/srbench).},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Computation and Language,Computer Science - Computer Vision and Pattern Recognition},
-  file = {/Users/george/Zotero/storage/V7SRSE4L/Stogiannidis et al. - 2025 - Mind the Gap Benchmarking Spatial Reasoning in Vision-Language Models.pdf}
-}
-
 @article{stroblWhatFormalLanguages2024,
   title = {What {{Formal Languages Can Transformers Express}}? {{A Survey}}},
   shorttitle = {What {{Formal Languages Can Transformers Express}}?},
@@ -2824,6 +2524,25 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
   file = {/Users/george/Zotero/storage/T8GPLAG4/Team et al. - 2026 - Kimi K3 Open Frontier Intelligence.pdf}
+}
+
+@misc{tongBouleBaguetteStudy2026,
+  title = {Boule or {{Baguette}}? {{A Study}} on {{Task Topology}}, {{Length Generalization}}, and the {{Benefit}} of {{Reasoning Traces}}},
+  shorttitle = {Boule or {{Baguette}}?},
+  author = {Tong, William L. and Cakar, Ege and Pehlevan, Cengiz},
+  year = 2026,
+  month = feb,
+  number = {arXiv:2602.14404},
+  eprint = {2602.14404},
+  primaryclass = {cs.AI},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2602.14404},
+  urldate = {2026-09-06},
+  abstract = {Recent years have witnessed meteoric progress in reasoning models: neural networks that generate intermediate reasoning traces (RTs) before producing a final output. Despite the rapid advancement, our understanding of how RTs support reasoning, and the limits of this paradigm, remain incomplete. To promote greater clarity, we introduce PITA: a novel large-scale dataset of over 23 million statements in propositional logic and their corresponding proofs. As a benchmark for robust reasoning, we focus on length generalization: if a model is trained to determine truth or falsity on statements with proofs up to fixed length, how well does it generalize to statements requiring longer proofs? We propose notions of (1) task depth and (2) task breadth, which measure respectively (1) the number of steps required to solve an example from a task and (2) the number of unique examples across a task. We vary these quantities across subsets of PITA, and find that RT models generalize well on broad and shallow subsets, while deteriorating on narrow and deep subsets relative to non-RT baselines. To determine whether our results are idiosyncratic to PITA or indicative of general phenomena, we compare our results to a simple synthetic task based on syllogisms. Our resulting theory suggests fundamental scalings that limit how well RT models perform on deep tasks, and highlights their generalization strengths on broad tasks. Our findings overall identify fundamental benefits and limitations inherent in using reasoning traces.},
+  archiveprefix = {arXiv},
+  langid = {english},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
+  file = {/Users/george/Zotero/storage/NURUZEHC/Tong et al. - 2026 - Boule or Baguette A Study on Task Topology, Length Generalization, and the Benefit of Reasoning Tra.pdf}
 }
 
 @article{valmeekamSemanticsUnreasonableEffectiveness2025,
@@ -2933,33 +2652,6 @@
   file = {/Users/george/Zotero/storage/UQK6XITH/Wang et al. - 2025 - Learning Compositional Functions with Transformers from Easy-to-Hard Data.pdf}
 }
 
-@misc{wangRAGENUnderstandingSelfEvolution2025,
-  title = {{{RAGEN}}: {{Understanding Self-Evolution}} in {{LLM Agents}} via {{Multi-Turn Reinforcement Learning}}},
-  shorttitle = {{{RAGEN}}},
-  author = {Wang, Zihan and Wang, Kangrui and Wang, Qineng and Zhang, Pingyue and Li, Linjie and Yang, Zhengyuan and Jin, Xing and Yu, Kefan and Nguyen, Minh Nhat and Liu, Licheng and Gottlieb, Eli and Lu, Yiping and Cho, Kyunghyun and Wu, Jiajun and {Fei-Fei}, Li and Wang, Lijuan and Choi, Yejin and Li, Manling},
-  year = 2025,
-  month = may,
-  number = {arXiv:2504.20073},
-  eprint = {2504.20073},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2504.20073},
-  urldate = {2026-03-17},
-  abstract = {Training large language models (LLMs) as interactive agents presents unique challenges including long-horizon decision making and interacting with stochastic environment feedback. While reinforcement learning (RL) has enabled progress in static tasks, multiturn agent RL training remains underexplored. We propose StarPO (State-ThinkingActions-Reward Policy Optimization), a general framework for trajectory-level agent RL, and introduce RAGEN, a modular system for training and evaluating LLM agents. Our study on four stylized environments reveals three core findings. First, our agent RL training shows a recurring mode of Echo Trap where reward variability cliffs and gradient spikes; we address this with StarPO-S, a stabilized variant with trajectory filtering, critic incorporation, and gradient stabilization. Second, we find the shaping of RL rollouts would benefit from diverse initial states, medium interaction granularity and more frequent sampling. Third, we show that without fine-grained, reasoningaware reward signals, agent reasoning hardly emerge through multi-turn RL and they may show shallow strategies or hallucinated thoughts.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/5H6RUH5F/Wang et al. - 2025 - RAGEN Understanding Self-Evolution in LLM Agents via Multi-Turn Reinforcement Learning.pdf}
-}
-
-@article{wangRAGENv2UnderstandingReasoning2026,
-  title = {{{RAGEN-v2}}: {{Understanding Reasoning Collapse}} in {{LLM Agent Reinforcement Learning}}},
-  author = {Wang, Zihan and Gui, Chi and Jin, Xing and Wang, Qineng and Liu, Licheng and Wang, Kangrui and Chen, Shiqi and Li, Linjie and Yang, Zhengyuan and Zhang, Pingyue and Lu, Yiping and Wu, Jiajun and {Fei-Fei}, Li and Wang, Lijuan and Choi, Yejin and Li, Manling},
-  year = 2026,
-  langid = {english},
-  file = {/Users/george/Zotero/storage/A8RD4V62/Wang et al. - 2026 - RAGEN-v2 Understanding Reasoning Collapse in LLM Agent Reinforcement Learning.pdf}
-}
-
 @article{wangThoughtsAreAll,
   title = {Thoughts {{Are All Over}} the {{Place}}: {{On}} the {{Underthinking}} of {{Long Reasoning Models}}},
   author = {Wang, Yue and Liu, Qiuzhi and Xu, Jiahao and Liang, Tian and Chen, Xingyu and He, Zhiwei and Song, Linfeng and Yu, Dian and Li, Juntao and Zhang, Zhuosheng and Wang, Rui and Tu, Zhaopeng and Mi, Haitao and Yu, Dong},
@@ -2967,15 +2659,6 @@
   abstract = {Long reasoning models (LRMs) such as OpenAI's o1 and DeepSeek's R1 have demonstrated remarkable abilities in complex reasoning tasks by scaling testtime compute and exhibiting human-like deep thinking. However, we identify a phenomenon we term underthinking, where LRMs frequently switch between different reasoning thoughts without sufficiently exploring promising paths to reach a correct solution. This behavior leads to inadequate depth of reasoning and decreased performance, particularly on challenging mathematical problems. To systematically analyze this issue, we conduct experiments on three challenging test sets and two representative open-source LRMs, revealing that frequent thought switching correlates with incorrect responses. We introduce a novel metric to quantify underthinking by measuring token efficiency in incorrect answers. To address underthinking, we propose a decoding strategy with thought switching penalty (TIP) that discourages premature transitions between thoughts, encouraging deeper exploration of each reasoning path. Experimental results demonstrate that our approach improves accuracy across challenging datasets without requiring model fine-tuning.},
   langid = {english},
   file = {/Users/george/Zotero/storage/E59XEDHV/Wang et al. - 2025 - Thoughts Are All Over the Place On the Underthinking of Long Reasoning Models.pdf}
-}
-
-@article{wangVAGENReinforcingWorld2025,
-  title = {{{VAGEN}}: {{Reinforcing World Model Reasoning}} for {{Multi-Turn VLM Agents}}},
-  author = {Wang, Kangrui and Zhang, Pingyue and Wang, Zihan and Gao, Yaning and Li, Linjie and Wang, Qineng and Chen, Hanyang and Wan, Chi and Lu, Yiping and Yang, Zhengyuan and Wang, Lijuan and Krishna, Ranjay and Wu, Jiajun and {Fei-Fei}, Li and Choi, Yejin and Li, Manling},
-  year = 2025,
-  abstract = {A major challenge in training VLM agents, compared to LLM agents, is that states shift from simple texts to complex visual observations, which introduces partial observability and demands robust world modeling. We ask: can VLM agents build internal world models through explicit visual state reasoning? In this work, we architecturally enforce and reward VLM agent's reasoning process via reinforcement learning (RL), formulating the problem as a Partially Observable Markov Decision Process (POMDP). We demonstrate that structuring agent's reasoning into StateEstimation (``what is the current state?'') and TransitionModeling (``what is next?'') is critical by studying five reasoning strategies. Investigating how agents should ground visual states and represent these internal beliefs, we reveal the optimal representations are task-dependent: Natural Language excels at capturing semantic relationships for general tasks, while Structured formats are essential for high-precision manipulation. These insights motivate our approach to reward shaping and credit assignment. We leverage a WorldModeling Reward to densely rewards the agent's turn-by-turn state predictions, while our Bi-Level General Advantage Estimation (Bi-Level GAE) enables turn-aware credit assignment. Through such world model reasoning, we enable a 3B model to achieve performance of 0.82 on a set of five diverse agent tasks, nearly 3\texttimes{} improvement over its untrained counterpart (0.21) and surpassing proprietary reasoning models like GPT-5 (0.75), Gemini 2.5 Pro (0.67) and Claude 4.5 (0.62). All experiments are supported by our VAGEN framework, a scalable system for training and analyzing multi-turn VLM agents across diverse visual environments.},
-  langid = {english},
-  file = {/Users/george/Zotero/storage/U6F86KMY/Wang et al. - 2025 - VAGEN Reinforcing World Model Reasoning for Multi-Turn VLM Agents.pdf}
 }
 
 @misc{weiChainofThoughtPromptingElicits2023,
@@ -2994,6 +2677,23 @@
   langid = {english},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
   file = {/Users/george/Zotero/storage/GAB86SWZ/Wei et al. - 2023 - Chain-of-Thought Prompting Elicits Reasoning in Large Language Models.pdf}
+}
+
+@misc{weissThinkingTransformers2021,
+  title = {Thinking {{Like Transformers}}},
+  author = {Weiss, Gail and Goldberg, Yoav and Yahav, Eran},
+  year = 2021,
+  month = jul,
+  number = {arXiv:2106.06981},
+  eprint = {2106.06981},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2106.06981},
+  urldate = {2026-09-06},
+  abstract = {What is the computational model behind a Transformer? Where recurrent neural networks have direct parallels in finite state machines, allowing clear discussion and thought around architecture variants or trained models, Transformers have no such familiar parallel. In this paper we aim to change that, proposing a computational model for the transformer-encoder in the form of a programming language. We map the basic components of a transformer-encoder---attention and feed-forward computation---into simple primitives, around which we form a programming language: the Restricted Access Sequence Processing Language (RASP). We show how RASP can be used to program solutions to tasks that could conceivably be learned by a Transformer, and how a Transformer can be trained to mimic a RASP solution. In particular, we provide RASP programs for histograms, sorting, and Dyck-languages. We further use our model to relate their difficulty in terms of the number of required layers and attention heads: analyzing a RASP program implies a maximum number of heads and layers necessary to encode a task in a transformer. Finally, we see how insights gained from our abstraction might be used to explain phenomena seen in recent works.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/728GXDAA/Weiss et al. - 2021 - Thinking Like Transformers.pdf}
 }
 
 @misc{wenSparseDependenceSparse2025,
@@ -3078,25 +2778,6 @@
   file = {/Users/george/Zotero/storage/7I96XTTL/Yang et al. - 2025 - Chain-of-Thought Provably Enables Learning the (Otherwise) Unlearnable.pdf}
 }
 
-@misc{yangMachineMentalImagery2025,
-  title = {Machine {{Mental Imagery}}: {{Empower Multimodal Reasoning}} with {{Latent Visual Tokens}}},
-  shorttitle = {Machine {{Mental Imagery}}},
-  author = {Yang, Zeyuan and Yu, Xueyang and Chen, Delin and Shen, Maohao and Gan, Chuang},
-  year = 2025,
-  month = jun,
-  number = {arXiv:2506.17218},
-  eprint = {2506.17218},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2506.17218},
-  urldate = {2026-03-09},
-  abstract = {Vision-language models (VLMs) excel at multimodal understanding, yet their text-only decoding forces them to verbalize visual reasoning, limiting performance on tasks that demand visual imagination. Recent attempts train VLMs to render explicit images, but the heavy image-generation pre-training often hinders the reasoning ability. Inspired by the way humans reason with mental imagery---the internal construction and manipulation of visual cues---we investigate whether VLMs can reason through interleaved multimodal trajectories without producing explicit images. To this end, we present a Machine Mental Imagery framework, dubbed as Mirage, which augments VLM decoding with latent visual tokens alongside ordinary text. Concretely, whenever the model chooses to ``think visually'', it recasts its hidden states as next tokens, thereby continuing a multimodal trajectory without generating pixel-level images. Begin by supervising the latent tokens through distillation from ground-truth image embeddings, we then switch to text-only supervision to make the latent trajectory align tightly with the task objective. A subsequent reinforcement learning stage further enhances the multimodal reasoning capability. Experiments on diverse benchmarks demonstrate that Mirage unlocks stronger multimodal reasoning without explicit image generation.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition},
-  file = {/Users/george/Zotero/storage/A5XCFB9T/Yang et al. - 2025 - Machine Mental Imagery Empower Multimodal Reasoning with Latent Visual Tokens.pdf}
-}
-
 @article{yangMultiheadTransformersProvably2025,
   title = {Multi-Head {{Transformers Provably Learn Symbolic Multi-step Reasoning}} via {{Gradient Descent}}},
   author = {Yang, Tong and Yu, Huang and Liang, Yingbin and Chi, Yuejie},
@@ -3140,6 +2821,24 @@
   langid = {english},
   keywords = {Computer Science - Machine Learning},
   file = {/Users/george/Zotero/storage/QUX42BMF/Yang et al. - 2025 - The Transformer Cookbook.pdf}
+}
+
+@misc{yaoTreeThoughtsDeliberate2023,
+  title = {Tree of {{Thoughts}}: {{Deliberate Problem Solving}} with {{Large Language Models}}},
+  shorttitle = {Tree of {{Thoughts}}},
+  author = {Yao, Shunyu and Yu, Dian and Zhao, Jeffrey and Shafran, Izhak and Griffiths, Thomas L. and Cao, Yuan and Narasimhan, Karthik},
+  year = 2023,
+  month = dec,
+  number = {arXiv:2305.10601},
+  eprint = {2305.10601},
+  primaryclass = {cs.CL},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2305.10601},
+  urldate = {2026-09-06},
+  abstract = {Language models are increasingly being deployed for general problem solving across a wide range of tasks, but are still confined to token-level, left-to-right decision-making processes during inference. This means they can fall short in tasks that require exploration, strategic lookahead, or where initial decisions play a pivotal role. To surmount these challenges, we introduce a new framework for language model inference, ``Tree of Thoughts'' (ToT), which generalizes over the popular ``Chain of Thought'' approach to prompting language models, and enables exploration over coherent units of text (``thoughts'') that serve as intermediate steps toward problem solving. ToT allows LMs to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary to make global choices. Our experiments show that ToT significantly enhances language models' problem-solving abilities on three novel tasks requiring non-trivial planning or search: Game of 24, Creative Writing, and Mini Crosswords. For instance, in Game of 24, while GPT-4 with chain-of-thought prompting only solved 4\% of tasks, our method achieved a success rate of 74\%. Code repo with all prompts: https://github.com/princeton-nlp/tree-of-thought-llm.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/Users/george/Zotero/storage/BV4AULNP/Yao et al. - 2023 - Tree of Thoughts Deliberate Problem Solving with Large Language Models.pdf}
 }
 
 @misc{yeEmergenceThinkingLLMs2025,
@@ -3214,51 +2913,6 @@
   file = {/Users/george/Zotero/storage/LX9UCK5D/Yue et al. - 2025 - Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model.pdf}
 }
 
-@misc{yuReinforcementWorldModel2026,
-  title = {Reinforcement {{World Model Learning}} for {{LLM-based Agents}}},
-  author = {Yu, Xiao and Peng, Baolin and Xu, Ruize and Shen, Yelong and He, Pengcheng and Nath, Suman and Singh, Nikhil and Gao, Jiangfeng and Yu, Zhou},
-  year = 2026,
-  month = feb,
-  number = {arXiv:2602.05842},
-  eprint = {2602.05842},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2602.05842},
-  urldate = {2026-03-17},
-  abstract = {Large language models (LLMs) have achieved strong performance in language-centric tasks. However, in agentic settings, LLMs often struggle to anticipate action consequences and adapt to environment dynamics, highlighting the need for world-modeling capabilities in LLM-based agents. We propose Reinforcement World Model Learning (RWML), a self-supervised method that learns action-conditioned world models for LLMbased agents on textual states using sim-to-real gap rewards. Our method aligns simulated next states produced by the model with realized next states observed from the environment, encouraging consistency between internal world simulations and actual environment dynamics in a pretrained embedding space. Unlike next-state token prediction, which prioritizes token-level fidelity (i.e., reproducing exact wording) over semantic equivalence and can lead to model collapse, our method provides a more robust training signal and is empirically less susceptible to reward hacking than LLM-as-a-judge. We evaluate our method on ALFWorld and {$\tau$} 2 Bench and observe significant gains over the base model, despite being entirely self-supervised. When combined with task-success rewards, our method outperforms direct task-success reward RL by 6.9 and 5.7 points on ALFWorld and {$\tau$} 2 Bench respectively, while matching the performance of expert-data training.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Computation and Language},
-  file = {/Users/george/Zotero/storage/29CQJ6IQ/Yu et al. - 2026 - Reinforcement World Model Learning for LLM-based Agents.pdf}
-}
-
-@misc{zellerMentisOculiRevealingLimits2026,
-  title = {{{MentisOculi}}: {{Revealing}} the {{Limits}} of {{Reasoning}} with {{Mental Imagery}}},
-  shorttitle = {{{MentisOculi}}},
-  author = {Zeller, Jana and Wiedemer, Thadd{\"a}us and Li, Fanfei and Klein, Thomas and Mayilvahanan, Prasanna and Bethge, Matthias and Wichmann, Felix and Cotterell, Ryan and Brendel, Wieland},
-  year = 2026,
-  month = feb,
-  number = {arXiv:2602.02465},
-  eprint = {2602.02465},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2602.02465},
-  urldate = {2026-02-03},
-  abstract = {Frontier models are transitioning from multimodal large language models (MLLMs) that merely ingest visual information to unified multimodal models (UMMs) capable of native interleaved generation. This shift has sparked interest in using intermediate visualizations as a reasoning aid, akin to human mental imagery. Central to this idea is the ability to form, maintain, and manipulate visual representations in a goal-oriented manner. To evaluate and probe this capability, we develop MENTISOCULI, a procedural, stratified suite of multi-step reasoning problems amenable to visual solution, tuned to challenge frontier models. Evaluating visual strategies ranging from latent tokens to explicit generated imagery, we find they generally fail to improve performance. Analysis of UMMs specifically exposes a critical limitation: While they possess the textual reasoning capacity to solve a task and can sometimes generate correct visuals, they suffer from compounding generation errors and fail to leverage even ground-truth visualizations. Our findings suggest that despite their inherent appeal, visual thoughts do not yet benefit model reasoning. MENTISOCULI establishes the necessary foundation to analyze and close this gap across diverse model families.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/CQJFCJPA/Zeller et al. - 2026 - MentisOculi Revealing the Limits of Reasoning with Mental Imagery.pdf}
-}
-
-@article{zhaiFineTuningLargeVisionLanguage2024,
-  title = {Fine-{{Tuning Large Vision-Language Models}} as {{Decision-Making Agents}} via {{Reinforcement Learning}}},
-  author = {Zhai, Yuexiang and Bai, Hao and Lin, Zipeng and Pan, Jiayi and Tong, Shengbang and Zhou, Yifei and Suhr, Alane and Xie, Saining and LeCun, Yann and Ma, Yi and Levine, Sergey},
-  year = 2024,
-  langid = {english},
-  file = {/Users/george/Zotero/storage/8EUKBAUH/Zhai et al. - 2024 - Fine-Tuning Large Vision-Language Models as Decision-Making Agents via Reinforcement Learning.pdf}
-}
-
 @misc{zhangEntropyRegularizedProcessReward2025,
   title = {Entropy-{{Regularized Process Reward Model}}},
   author = {Zhang, Hanning and Wang, Pengcheng and Diao, Shizhe and Lin, Yong and Pan, Rui and Dong, Hanze and Zhang, Dylan and Molchanov, Pavlo and Zhang, Tong},
@@ -3308,24 +2962,6 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
   file = {/Users/george/Zotero/storage/LR9GJUQT/Zhang et al. - 2022 - On the Paradox of Learning to Reason from Data.pdf}
-}
-
-@misc{zhangSurveyReinforcementLearning2025,
-  title = {A {{Survey}} of {{Reinforcement Learning}} for {{Large Reasoning Models}}},
-  author = {Zhang, Kaiyan and Zuo, Yuxin and He, Bingxiang and Sun, Youbang and Liu, Runze and Jiang, Che and Fan, Yuchen and Tian, Kai and Jia, Guoli and Li, Pengfei and Fu, Yu and Lv, Xingtai and Zhang, Yuchen and Zeng, Sihang and Qu, Shang and Li, Haozhan and Wang, Shijie and Wang, Yuru and Long, Xinwei and Liu, Fangfu and Xu, Xiang and Ma, Jiaze and Zhu, Xuekai and Hua, Ermo and Liu, Yihao and Li, Zonglin and Chen, Huayu and Qu, Xiaoye and Li, Yafu and Chen, Weize and Yuan, Zhenzhao and Gao, Junqi and Li, Dong and Ma, Zhiyuan and Cui, Ganqu and Liu, Zhiyuan and Qi, Biqing and Ding, Ning and Zhou, Bowen},
-  year = 2025,
-  month = oct,
-  number = {arXiv:2509.08827},
-  eprint = {2509.08827},
-  primaryclass = {cs},
-  publisher = {arXiv},
-  doi = {10.48550/arXiv.2509.08827},
-  urldate = {2026-03-17},
-  abstract = {In this paper, we survey recent advances in Reinforcement Learning (RL) for reasoning with Large Language Models (LLMs). RL has achieved remarkable success in advancing the frontier of LLM capabilities, particularly in addressing complex logical tasks such as mathematics and coding. As a result, RL has emerged as a foundational methodology for transforming LLMs into LRMs. With the rapid progress of the field, further scaling of RL for LRMs now faces foundational challenges not only in computational resources but also in algorithm design, training data, and infrastructure. To this end, it is timely to revisit the development of this domain, reassess its trajectory, and explore strategies to enhance the scalability of RL toward Artificial SuperIntelligence (ASI). In particular, we examine research applying RL to LLMs and LRMs for reasoning abilities, especially since the release of DeepSeek-R1, including foundational components, core problems, training resources, and downstream applications, to identify future opportunities and directions for this rapidly evolving area. We hope this review will promote future research on RL for broader reasoning models.},
-  archiveprefix = {arXiv},
-  langid = {english},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  file = {/Users/george/Zotero/storage/BE9IJ4QB/Zhang et al. - 2025 - A Survey of Reinforcement Learning for Large Reasoning Models.pdf}
 }
 
 @misc{zhaoEfficientReinforcementLearning2025,
