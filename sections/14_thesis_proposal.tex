@@ -1,2 +1,141 @@
 \chapter{Thesis Proposal}
-\label{ch:thesis_proposal}
+\label{ch:proposal}
+
+In this chapter, I set out the research programme of the thesis.
+Section~\ref{sec:proposal_motivation} restates the thesis question, argues why it is worth answering, and lists the three research questions into which it decomposes.
+Sections~\ref{sec:proposal_rq1} to~\ref{sec:proposal_rq3} take one research question each: for each, I recall the gap identified in Chapter~\ref{ch:background}, state what I aim to establish, summarise what Chapter~\ref{ch:progress_report} has already established, describe how I propose to proceed, and list the expected outcomes.
+Section~\ref{sec:proposal_summary} summarises how the three questions depend on one another and how they map onto the chapters of the thesis.
+Section~\ref{sec:proposal_success} states the criteria by which the research should be judged and the risks that may prevent it from meeting them.
+
+\section{Motivation}
+\label{sec:proposal_motivation}
+
+% NOTE: the wording of the box must match the Thesis Question box in Chapter 1 and the opening sentence of Chapter 2.
+\begin{tcolorbox}[title=Thesis Question, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+When and how should autoregressive language models learn to imitate a structured and systematic search process to solve state-space search problems, with reasonable sample and compute efficiency?
+\end{tcolorbox}
+
+The following is an argument for why this question is important to address.
+The benefit of producing intermediate reasoning before the final answer has been demonstrated theoretically and empirically, with mathematical and logical reasoning problems showing the biggest gains (Section~\ref{sec:bg_reasoning}).
+Yet, the most successful recipe for developing intermediate reasoning in practice bootstraps it from post-training data that is neither structured nor systematic and is conducted in human-like prose, and models trained on such reasoning data demonstrate inefficient and unsound reasoning strategies that hurt their performance (Section~\ref{sec:bg_reasoning}).
+I hypothesise that systematic, sound, and efficient reasoning that imitates a search algorithm more closely can overcome these issues.
+It may especially benefit many complex tasks that involve a form of search, for example, planning, mathematical problems, theorem proving, and, more speculatively, scientific discovery~\citep{newell1972human,langleyScientificDiscovery1987}.
+Additionally, systematic SA reasoning that follows a process we understand and can verify promises to be easier to monitor, interpret, and manipulate than unstructured free-form chain-of-thought reasoning~\citep{arcuschinChainofThoughtReasoningWild}.
+Finally, a better understanding of the advantages and limitations of language models applied to state-space search problems will help to improve their architectures and learning methods more broadly.
+For example, this framework can be extended to non-deterministic problems and environment interactions by reframing an optimal path solution as the best guess of the future trajectory, with the language model acting both as a policy and as a world model of the environment~\citep{haoReasoningLanguageModel2023,haWorldModels2018,micheliTransformersAreSampleEfficient2023}.
+Thus, I hope that establishing a clear case for the utility of SA reasoning and maturing its methodology will lead to its adoption in practice.
+
+Chapter~\ref{ch:background} concluded that the state of the art does not adequately measure the benefit of SA reasoning against the sample and compute cost of the trace, nor show which problems benefit from it the most; does not show which ingredient of the trace the benefit depends on, nor whether it can be supplied without a symbolic solver; and does not show whether the search that the model learns generalises beyond the sizes seen in training.
+Therefore, my thesis will explore the following questions, each addressed in one of the following sections and intended to become one core chapter of the thesis:
+
+\begin{enumerate}
+    \item When is SA reasoning that follows a structured search process more sample- and compute-efficient than SO reasoning, when is it optional or even detrimental, and what in the problem's structure and representation determines this? (Section~\ref{sec:proposal_rq1})
+    \item Can other types of intermediate reasoning, which do not require search traces, achieve the performance of SA reasoning? (Section~\ref{sec:proposal_rq2})
+    \item Can SA reasoning achieve length generalisation, and can it be better than SO reasoning or other types of reasoning? (Section~\ref{sec:proposal_rq3})
+\end{enumerate}
+
+\section{Discover what in the problem structure determines whether search imitation is more efficient than solution-only learning}
+\label{sec:proposal_rq1}
+
+The first step towards clarifying the utility of SA reasoning is to compare it to SO reasoning, and Section~\ref{sec:bg_gap_efficiency} established that the literature does not do so under controlled conditions: every comparison fixes the dataset and model size and scores the two modes per example rather than per unit of compute, so none can tell a problem on which traces are required apart from a problem on which the SO model is under-trained.
+It also established that the question of \emph{when} SA reasoning is more efficient cannot be separated from the question of \emph{why}, since the pattern of results as the problem changes is the evidence about which properties of the problem are responsible, and that the candidate factors offered by the literature have only been studied for other tasks under SO training.
+
+\begin{tcolorbox}[title=Research Question 1, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+When is SA reasoning more sample- and compute-efficient than SO reasoning, when is it optional or even detrimental, and what in the problem's structure and representation determines this?
+\end{tcolorbox}
+
+In this research chapter, I aim to (1) determine when SA reasoning is more efficient by extending the controlled comparison to additional search problems and complexity levels, (2) demonstrate that the learning regime of a problem is determined by its structure and representation, (3) isolate the factors in the structure and representation that cause a specific regime, and (4) uncover the mechanisms by which they influence the learning process.
+
+The first study of this project, presented in Chapter~\ref{ch:progress_report}, provides the starting point.
+It compares SA and SO reasoning across dataset sizes and model sizes at matched training and test-time compute, defines the search-efficient and search-optional learning regimes, and provides evidence that the regime is determined by the problem rather than by scale: varying model depth or width does not change the regime, whereas changing the rules of the Countdown game from regular to modular arithmetic, with everything else unchanged, switches it from search-optional to search-efficient.
+The novel result is an unambiguous demonstration that for some search problems SA reasoning is the most sample- and compute-efficient method for in-distribution generalisation.
+However, this evidence rests on two problems and a single structural intervention, and it does not isolate which properties of the structure are responsible.
+
+The current literature and the first study suggest candidate factors that determine the learning regime: whether the state graph is given in context, the locality of the transition function, and the existence of a cheap heuristic.
+However, each may turn out not to be a factor, and there may be additional factors not yet identified.
+Hence, I propose to investigate additional problems in which the structure can be changed without fundamentally altering the task.
+Maze navigation from the first study may not be the right task for this; however, other grid tasks without an in-context grid, such as chess or other board games, can help isolate the effect of the in-context graph and of the locality of the transition function.
+For heuristics, many search tasks can be modified to remove their effect, as the first study did with Countdown; however, the tasks should be diversified beyond arithmetic, since regular-versus-modular arithmetic can otherwise become a confounding factor.
+The plan is, first, to identify the factors by performing controlled ablations on the problem structure and observing their effect on the regime, and then to demonstrate their causal effect through an intervention study, in which a factor is changed while the rest of the problem is held fixed and the predicted change of regime is tested.
+In parallel, I intend to match the formalisms that theory offers for learnability as a function of data distribution and representation --- the globality of the target, RASP-L expressibility, and the locality of dependencies (Section~\ref{sec:bg_reasoning}) --- to this setting, to determine whether they predict the factors that cause the learning regime, or to surface the gaps in theory if they cannot.
+
+The expected outcomes of this research chapter are: (1) an extended map of learning regimes across search problems and complexity levels, which settles when SA reasoning is more efficient; (2) a causal and predictive framework that shows which factors of a search problem's structure and representation change the learning regime and by how much, validated by intervention; and (3) a demonstration of how these insights change learning to solve real search tasks in practice, for example, through regime-informed choices of reasoning mode in a training mixture, as in Chapter~\ref{ch:progress_report}.
+
+\section{Identify the mechanism that makes the search trace efficient and transfer it to other types of intermediate reasoning}
+\label{sec:proposal_rq2}
+
+Section~\ref{sec:bg_gap_trace} established that a search trace supplies two things at once, the semantics of the search and the serial computation afforded by the additional tokens, and that the literature does not show which of the two the benefit of SA reasoning depends on: the evidence that the semantics are unnecessary comes from a problem on which no trace is necessary, and the alternatives to symbolic traces reviewed in Section~\ref{sec:bg_reasoning} have not been compared with SA reasoning at matched compute on a problem for which the trace has been shown to be necessary.
+
+\begin{tcolorbox}[title=Research Question 2, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+Can other types of intermediate reasoning, which do not require search traces, achieve the performance of SA reasoning?
+\end{tcolorbox}
+
+Answering this question has clear consequences.
+First, if an alternative reasoning method replicates the efficiency of SA reasoning without search trace data, it simplifies the model development pipeline when such traces are not readily available.
+Second, a method with shorter traces or overall less computation can push the frontier of compute efficiency for search problems beyond SA reasoning, which is bound to the structure and semantics of search in its traces.
+In this research chapter, I therefore aim to determine what the search trace does in the search-efficient regime specifically, and then to test whether the same effect can be obtained by intermediate reasoning that does not require a solver.
+
+Chapter~\ref{ch:progress_report} provides the first evidence on this question, and it shows that the answer depends on the learning regime.
+Training on valid search traces unrelated to a given modular Countdown problem nevertheless improves sample efficiency compared to SO reasoning, although it does not reach in-distribution generalisation, whereas on maze navigation the same unrelated traces perform worse than both SA and SO reasoning.
+Preliminary experiments with pause and filler tokens showed that they are trivially learnable by the model, thereby collapsing the learning task into SO reasoning, and models trained with corrupted traces on maze navigation learn to ignore the traces once they generalise in-distribution, which also collapses to SO reasoning.
+These results suggest that investigating alternative traces requires observing their effect in both regimes: observing only the search-optional regime, as related work on search problems has done so far, can lead to wrong conclusions about their utility.
+
+Hence, I propose to proceed in three steps.
+First, I will establish baselines for the alternative forms of intermediate computation reviewed in Section~\ref{sec:bg_reasoning} --- content-free tokens, unrelated and corrupted traces, continuous latent thoughts, and looped or recurrent-depth architectures --- against SA and SO reasoning on the problems of Chapter~\ref{ch:progress_report}, in both regimes and at matched training and test-time compute, which yields a map of which alternatives collapse to SO reasoning in which regime.
+Second, I will investigate the mechanisms in the learning algorithm and the transformer architecture that lead to the higher sample efficiency of unrelated traces in the search-efficient regime: whether they merely help to train the SO reasoning mode more efficiently, or whether they are involved in the solution computation even after the model generalises in-distribution, and whether the mechanism can be replicated with a synthetic trace.
+Third, I intend to investigate latent reasoning methods and recurrent-depth methods to determine whether SA reasoning can be amortised into recursive steps with latent states instead of being unrolled in the token space.
+
+The expected outcomes of this research chapter are: (1) a comparison of alternative forms of intermediate computation with SA and SO reasoning across both learning regimes at matched compute; (2) a mechanistic account of which ingredient of the search trace the efficiency of SA reasoning depends on in the search-efficient regime; and (3) a method that achieves the learning efficiency of SA reasoning on search-efficient tasks without search traces, or an explanation of why this is not possible.
+
+\section{Improve length generalisation of search-augmented models}
+\label{sec:proposal_rq3}
+
+The preceding two research questions are posed in the context of in-distribution generalisation, whereas the search algorithms that SA models learn to imitate are size-agnostic by construction.
+Section~\ref{sec:bg_gap_length} established that length generalisation of SA reasoning is largely unaddressed: the only study with a positive result obtains it by transfer from SO reasoning on a search-optional problem rather than by algorithmic size extrapolation, and the conditions that theory predicts to enable length generalisation have not been instantiated on search problems with either reasoning mode.
+
+\begin{tcolorbox}[title=Research Question 3, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+Can SA reasoning achieve length generalisation, and can it be better than SO reasoning or other types of reasoning?
+\end{tcolorbox}
+
+Length generalisation is an exact test of out-of-distribution generalisation: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned, and for SA reasoning it is evidence that the model learned a neural implementation of a search algorithm rather than some other procedure (Section~\ref{sec:bg_gap_length}).
+It also has practical utility: a model that generalises in length can solve problems that are intractable for the symbolic solver that generated its training data, whereas a model that does not is bound to the problems that the solver can already label.
+In this research chapter, I aim to determine what prevents SA models from generalising in length, using the insights from Sections~\ref{sec:proposal_rq1} and~\ref{sec:proposal_rq2} on which properties of the problem and of the trace the learned search depends on, and to fix it.
+
+Addressing length generalisation is the most challenging goal of this project, and the current setup is unlikely to generalise.
+Taking the best SA model trained on modular Countdown with three numbers, which was evaluated in Chapter~\ref{ch:progress_report}, and testing it on puzzles with four and five numbers results in a severe drop in performance; this setup therefore serves as a control baseline.
+To improve on it, I turn to the transformer theory reviewed in Section~\ref{sec:bg_gap_length}, which suggests that, with the right problem structure and trace format, length generalisation can be achieved for an arbitrary task.
+Applying this theory to search problems will also stress-test its predictions and claims of universality, as search tasks are arguably more challenging to learn than the arithmetic and state-tracking tasks investigated in the theory literature.
+The most obvious first step is to convert search traces into an ``inductive'' format, such that each step depends only on the previous one; the trace format in prior work and in the first study requires the transformer to track intermediate search states across the entire trace.
+I also intend to check how search problems can be expressed in the RASP language, which has not been done before, and to test the prediction that any problem which a fixed RASP program solves for any input size will length generalise.
+The mechanism identified in Section~\ref{sec:proposal_rq2} will indicate which component of the trace carries the search and therefore which component must generalise, and the problem setup will be chosen so that all positions and coordinates are covered during training, following \citet{caiExtrapolationAssociationLength2025}, since a setup that leaves larger coordinates untrained cannot generalise by construction.
+Finally, comparing these interventions in the search-efficient and search-optional regimes will be necessary to establish whether they generalise search itself or merely add useful shortcuts.
+
+The expected outcomes of this research chapter are: (1) an evaluation protocol for length generalisation of search problems that separates algorithmic size extrapolation from transfer and robustness effects; (2) an account of the mechanisms that prevent SA models from generalising in length; and (3) a trace format or training method that extrapolates to larger search problems on a search-efficient task, or a demonstrated failure of the theory's claims of universality on search problems.
+
+\section{Summary}
+\label{sec:proposal_summary}
+
+In summary, the proposed research will begin by establishing when search imitation is more efficient than solution-only learning and what in the problem determines this, which yields the two learning regimes as the frame in which the remaining questions are posed.
+It will then identify what the search trace supplies in the search-efficient regime and whether the same can be supplied without a solver, evaluated in both regimes at matched compute, since Chapter~\ref{ch:progress_report} shows that observing a single regime leads to wrong conclusions.
+Finally, it will address length generalisation, which depends on the first question for the regimes and the evaluation protocol, and on the second for the mechanism that indicates which component of the trace must generalise.
+The three questions therefore form a chain rather than a set of independent studies, and each is intended to become one core chapter of the thesis and one paper.
+
+The outcomes of this research should advance our ability to use language models on problems that require search.
+The research is timely, as the field currently generates and trains on search traces at considerable cost without a way to predict whether a given problem repays it, and it proposes a methodology for deciding this, for replacing the trace where it is not needed, and for making the learned search extrapolate beyond the problems a solver can label.
+Addressing length generalisation of transformers on search problems in particular promises to lead the field to review current language model training practices that excel at in-distribution capabilities but fail to generalise out of distribution.
+
+\section{Success Criteria and Potential Risks}
+\label{sec:proposal_success}
+
+This research aims to contribute both an evaluation methodology and algorithmic developments.
+The overarching success criterion is that the learning-regime perspective introduced in Chapter~\ref{ch:progress_report} has practical value for the research community: the research must show that comparing reasoning modes at matched compute across regimes reveals conclusions that fixed-data comparisons cannot, and that the factors it identifies inform the design of training data for search problems.
+Concretely, the research chapter of Section~\ref{sec:proposal_rq1} succeeds if it identifies a property of the problem's structure or representation that predicts the learning regime of a problem not used to derive it, confirmed by an intervention that changes the regime as predicted.
+The research chapter of Section~\ref{sec:proposal_rq2} succeeds if it either produces an alternative form of intermediate computation that matches the sample and compute efficiency of SA reasoning on a search-efficient problem, or gives a mechanistic account of why the search trace cannot be replaced; a negative result with an explanation is an acceptable outcome, a negative result without one is not.
+The research chapter of Section~\ref{sec:proposal_rq3} succeeds if it demonstrates extrapolation to problem sizes beyond those seen in training on a search-efficient problem, exceeding SO reasoning and the alternatives of Section~\ref{sec:proposal_rq2}, or if it demonstrates that the conditions predicted by theory to enable length generalisation fail on search problems and explains why.
+For the algorithmic contributions, it will not be sufficient to show that a method works in principle: it must be competitive with SA reasoning at matched compute, since a method that trades a large loss of efficiency for the absence of traces will not be adopted.
+
+There are several potential risks that should be anticipated.
+The research of Section~\ref{sec:proposal_rq1} relies on isolating factors of the problem structure, but the factors may be confounded, as regular-versus-modular arithmetic is, or the regime may be determined by several factors at once or by factors not yet identified; the mitigation is to diversify the problems beyond arithmetic and grid tasks, to define the regime quantitatively at a range of target errors, as in Chapter~\ref{ch:progress_report}, and to report a partial map of factors as a result in its own right if a complete predictor is not found.
+The research of Section~\ref{sec:proposal_rq2} carries the risk that every alternative collapses to SO reasoning in the search-efficient regime, as pause tokens and corrupted traces already do; in that case the mechanistic explanation of why the trace cannot be replaced is the deliverable, and the latent and recurrent methods, which are not trivial to make work, will be attempted only after the mechanism study has indicated what they need to provide.
+The research of Section~\ref{sec:proposal_rq3} is the most likely to fail, since no study has yet achieved algorithmic length generalisation of SA reasoning; if the theory-guided interventions do not extrapolate, the result is a stress-test of the theory's claims of universality, which is itself a publishable contribution, and the control baseline and evaluation protocol remain useful to the community.
+Finally, the first study is under review, and rejection may require additional analyses and preparation for resubmission; the workplan in Chapter~\ref{ch:workplan} accounts for this with dedicated resubmission periods.
