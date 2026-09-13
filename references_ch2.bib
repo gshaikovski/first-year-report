@@ -1,0 +1,330 @@
+% References added for Chapter 2 (Background and Related Work), 2026-09-13.
+% Author lists taken from arXiv abstract pages. Import into Zotero when convenient.
+
+% ---- Theory: expressivity, learnability, optimisation, limits ----
+
+@article{hahnTheoreticalLimitationsSelfAttention2020,
+  title        = {Theoretical Limitations of Self-Attention in Neural Sequence Models},
+  author       = {Hahn, Michael},
+  journal      = {Transactions of the Association for Computational Linguistics},
+  volume       = {8},
+  pages        = {156--171},
+  year         = {2020},
+  eprint       = {1906.06755},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{amiriLowerBoundsChainofThought2025,
+  title        = {Lower Bounds for Chain-of-Thought Reasoning in Hard-Attention Transformers},
+  author       = {Amiri, Alireza and Huang, Xinting and Rofin, Mark and Hahn, Michael},
+  booktitle    = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  year         = {2025},
+  eprint       = {2502.02393},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{barceloEhrenfeuchtHausslerRank2025,
+  title        = {Ehrenfeucht-Haussler Rank and Chain of Thought},
+  author       = {Barcel{\'o}, Pablo and Kozachinskiy, Alexander and Steifer, Tomasz},
+  booktitle    = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  year         = {2025},
+  eprint       = {2501.12997},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{merrillLittleDepthGoes2025,
+  title        = {A Little Depth Goes a Long Way: The Expressive Power of Log-Depth Transformers},
+  author       = {Merrill, William and Sabharwal, Ashish},
+  booktitle    = {Advances in Neural Information Processing Systems 38 (NeurIPS)},
+  year         = {2025},
+  eprint       = {2503.03961},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{merrillExactExpressivePower2025,
+  title        = {Exact Expressive Power of Transformers with Padding},
+  author       = {Merrill, William and Sabharwal, Ashish},
+  booktitle    = {Advances in Neural Information Processing Systems 38 (NeurIPS)},
+  year         = {2025},
+  eprint       = {2505.18948},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{yehudaiCompositionalReasoningTransformers2025,
+  title        = {Compositional Reasoning with Transformers, RNNs, and Chain of Thought},
+  author       = {Yehudai, Gilad and Amsel, Noah and Bruna, Joan},
+  booktitle    = {Advances in Neural Information Processing Systems 38 (NeurIPS)},
+  year         = {2025},
+  eprint       = {2503.01544},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{wiesSubTaskDecompositionEnables2023,
+  title        = {Sub-Task Decomposition Enables Learning in Sequence to Sequence Tasks},
+  author       = {Wies, Noam and Levine, Yoav and Shashua, Amnon},
+  booktitle    = {The Eleventh International Conference on Learning Representations (ICLR)},
+  year         = {2023},
+  eprint       = {2204.02892},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{malachAutoRegressiveNexttokenPredictors2024,
+  title        = {Auto-Regressive Next-Token Predictors are Universal Learners},
+  author       = {Malach, Eran},
+  booktitle    = {Proceedings of the 41st International Conference on Machine Learning (ICML)},
+  year         = {2024},
+  eprint       = {2309.06979},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{hahnWhySensitiveFunctions2024,
+  title        = {Why are Sensitive Functions Hard for Transformers?},
+  author       = {Hahn, Michael and Rofin, Mark},
+  booktitle    = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  year         = {2024},
+  eprint       = {2402.09963},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{kimTransformersProvablySolve2025,
+  title        = {Transformers Provably Solve Parity Efficiently with Chain of Thought},
+  author       = {Kim, Juno and Suzuki, Taiji},
+  booktitle    = {The Thirteenth International Conference on Learning Representations (ICLR)},
+  year         = {2025},
+  eprint       = {2410.08633},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{stechlyChainThoughtlessnessAnalysis2024,
+  title        = {Chain of Thoughtlessness? An Analysis of CoT in Planning},
+  author       = {Stechly, Kaya and Valmeekam, Karthik and Kambhampati, Subbarao},
+  booktitle    = {Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  year         = {2024},
+  eprint       = {2405.04776},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{liuMindYourStep2025,
+  title        = {Mind Your Step (by Step): Chain-of-Thought can Reduce Performance on Tasks where Thinking Makes Humans Worse},
+  author       = {Liu, Ryan and Geng, Jiayi and Wu, Addison J. and Sucholutsky, Ilia and Lombrozo, Tania and Griffiths, Thomas L.},
+  booktitle    = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  year         = {2025},
+  eprint       = {2410.21333},
+  archivePrefix = {arXiv}
+}
+
+% ---- Methods: prompting, SFT, self-training, RL, test-time scaling ----
+
+@inproceedings{kojimaLargeLanguageModels2022,
+  title     = {Large Language Models are Zero-Shot Reasoners},
+  author    = {Kojima, Takeshi and Gu, Shixiang Shane and Reid, Machel and Matsuo, Yutaka and Iwasawa, Yusuke},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  year      = {2022},
+  eprint    = {2205.11916},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{ouyangTrainingLanguageModels2022,
+  title     = {Training language models to follow instructions with human feedback},
+  author    = {Ouyang, Long and Wu, Jeff and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll L. and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and Schulman, John and Hilton, Jacob and Kelton, Fraser and Miller, Luke and Simens, Maddie and Askell, Amanda and Welinder, Peter and Christiano, Paul and Leike, Jan and Lowe, Ryan},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  year      = {2022},
+  eprint    = {2203.02155},
+  archivePrefix = {arXiv}
+}
+
+@misc{yuanScalingRelationshipLearning2023,
+  title     = {Scaling Relationship on Learning Mathematical Reasoning with Large Language Models},
+  author    = {Yuan, Zheng and Yuan, Hongyi and Li, Chengpeng and Dong, Guanting and Lu, Keming and Tan, Chuanqi and Zhou, Chang and Zhou, Jingren},
+  year      = {2023},
+  eprint    = {2308.01825},
+  archivePrefix = {arXiv}
+}
+
+@misc{gulcehreReinforcedSelfTrainingReST2023,
+  title     = {Reinforced Self-Training ({ReST}) for Language Modeling},
+  author    = {Gulcehre, Caglar and Le Paine, Tom and Srinivasan, Srivatsan and Konyushkova, Ksenia and Weerts, Lotte and Sharma, Abhishek and Siddhant, Aditya and Ahern, Alex and Wang, Miaosen and Gu, Chenjie and Macherey, Wolfgang and Doucet, Arnaud and Firat, Orhan and de Freitas, Nando},
+  year      = {2023},
+  eprint    = {2308.08998},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{hosseiniVSTaRTrainingVerifiers2024,
+  title     = {{V-STaR}: Training Verifiers for Self-Taught Reasoners},
+  author    = {Hosseini, Arian and Yuan, Xingdi and Malkin, Nikolay and Courville, Aaron and Sordoni, Alessandro and Agarwal, Rishabh},
+  booktitle = {First Conference on Language Modeling (COLM 2024)},
+  year      = {2024},
+  eprint    = {2402.06457},
+  archivePrefix = {arXiv}
+}
+
+@misc{openaiLearningReasonLLMs2024,
+  title        = {Learning to Reason with {LLMs}},
+  author       = {{OpenAI}},
+  year         = {2024},
+  month        = sep,
+  howpublished = {OpenAI blog},
+  url          = {https://openai.com/index/learning-to-reason-with-llms/},
+  note         = {Published 12 September 2024}
+}
+
+@misc{zhangSurveyReinforcementLearning2025,
+  title     = {A Survey of Reinforcement Learning for Large Reasoning Models},
+  author    = {Zhang, Kaiyan and Zuo, Yuxin and He, Bingxiang and Sun, Youbang and Liu, Runze and Jiang, Che and Fan, Yuchen and Tian, Kai and Jia, Guoli and Li, Pengfei and Fu, Yu and Lv, Xingtai and Zhang, Yuchen and Zeng, Sihang and Qu, Shang and Li, Haozhan and Wang, Shijie and Wang, Yuru and Long, Xinwei and Liu, Fangfu and Xu, Xiang and Ma, Jiaze and Zhu, Xuekai and Hua, Ermo and Liu, Yihao and Li, Zonglin and Chen, Huayu and Qu, Xiaoye and Li, Yafu and Chen, Weize and Yuan, Zhenzhao and Gao, Junqi and Li, Dong and Ma, Zhiyuan and Cui, Ganqu and Liu, Zhiyuan and Qi, Biqing and Ding, Ning and Zhou, Bowen},
+  year      = {2025},
+  eprint    = {2509.08827},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{setlurScalingTestTimeCompute2025,
+  title     = {Scaling Test-Time Compute Without Verification or {RL} is Suboptimal},
+  author    = {Setlur, Amrith and Rajaraman, Nived and Levine, Sergey and Kumar, Aviral},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning (ICML 2025)},
+  year      = {2025},
+  eprint    = {2502.12118},
+  archivePrefix = {arXiv}
+}
+
+@misc{chengCompressedChainThought2024,
+  title = {Compressed {Chain} of {Thought}: {Efficient} {Reasoning} through {Dense} {Representations}},
+  author = {Cheng, Jeffrey and Van Durme, Benjamin},
+  year = {2024},
+  eprint = {2412.13171},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@inproceedings{suTokenAssortedMixing2025,
+  title = {Token {Assorted}: {Mixing} {Latent} and {Text} {Tokens} for {Improved} {Language} {Model} {Reasoning}},
+  author = {Su, DiJia and Zhu, Hanlin and Xu, Yingchen and Jiao, Jiantao and Tian, Yuandong and Zheng, Qinqing},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning ({ICML})},
+  year = {2025},
+  eprint = {2502.03275},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{xuSoftCoTSoftChainofThought2025,
+  title = {{SoftCoT}: {Soft} {Chain}-of-{Thought} for {Efficient} {Reasoning} with {LLMs}},
+  author = {Xu, Yige and Guo, Xu and Zeng, Zhiwei and Miao, Chunyan},
+  booktitle = {Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics ({ACL}), Volume 1: Long Papers},
+  year = {2025},
+  eprint = {2502.12134},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{shenCODICompressingChainofThought2025,
+  title = {{CODI}: {Compressing} {Chain}-of-{Thought} into {Continuous} {Space} via {Self}-{Distillation}},
+  author = {Shen, Zhenyi and Yan, Hanqi and Zhang, Linhai and Hu, Zhanghao and Du, Yali and He, Yulan},
+  booktitle = {Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing ({EMNLP})},
+  year = {2025},
+  eprint = {2502.21074},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{tanThinkSilentlyThink2025,
+  title = {Think {Silently}, {Think} {Fast}: {Dynamic} {Latent} {Compression} of {LLM} {Reasoning} {Chains}},
+  author = {Tan, Wenhui and Li, Jiaze and Ju, Jianzhong and Luo, Zhenbo and Song, Ruihua and Luan, Jian},
+  booktitle = {Advances in Neural Information Processing Systems ({NeurIPS})},
+  year = {2025},
+  eprint = {2505.16552},
+  archivePrefix = {arXiv}
+}
+
+@misc{gravesAdaptiveComputationTime2016,
+  title = {Adaptive {Computation} {Time} for {Recurrent} {Neural} {Networks}},
+  author = {Graves, Alex},
+  year = {2016},
+  eprint = {1603.08983},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.NE}
+}
+
+@inproceedings{dehghaniUniversalTransformers2019,
+  title = {Universal {Transformers}},
+  author = {Dehghani, Mostafa and Gouws, Stephan and Vinyals, Oriol and Uszkoreit, Jakob and Kaiser, {\L}ukasz},
+  booktitle = {International Conference on Learning Representations ({ICLR})},
+  year = {2019},
+  eprint = {1807.03819},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{baninoPonderNetLearningPonder2021,
+  title = {{PonderNet}: {Learning} to {Ponder}},
+  author = {Banino, Andrea and Balaguer, Jan and Blundell, Charles},
+  booktitle = {8th {ICML} Workshop on Automated Machine Learning ({AutoML})},
+  year = {2021},
+  eprint = {2107.05407},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{giannouLoopedTransformersProgrammable2023,
+  title = {Looped {Transformers} as {Programmable} {Computers}},
+  author = {Giannou, Angeliki and Rajput, Shashank and Sohn, Jy-yong and Lee, Kangwook and Lee, Jason D. and Papailiopoulos, Dimitris},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning ({ICML})},
+  year = {2023},
+  eprint = {2301.13196},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{yangLoopedTransformersAre2024,
+  title = {Looped {Transformers} are {Better} at {Learning} {Learning} {Algorithms}},
+  author = {Yang, Liu and Lee, Kangwook and Nowak, Robert and Papailiopoulos, Dimitris},
+  booktitle = {International Conference on Learning Representations ({ICLR})},
+  year = {2024},
+  eprint = {2311.12424},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{baeMixtureofRecursionsLearningDynamic2025,
+  title = {Mixture-of-{Recursions}: {Learning} {Dynamic} {Recursive} {Depths} for {Adaptive} {Token}-{Level} {Computation}},
+  author = {Bae, Sangmin and Kim, Yujin and Bayat, Reza and Kim, Sungnyun and Ha, Jiyoun and Schuster, Tal and Fisch, Adam and Harutyunyan, Hrayr and Ji, Ziwei and Courville, Aaron and Yun, Se-Young},
+  booktitle = {Advances in Neural Information Processing Systems ({NeurIPS})},
+  year = {2025},
+  eprint = {2507.10524},
+  archivePrefix = {arXiv}
+}
+
+@misc{wangHierarchicalReasoningModel2025,
+  title = {Hierarchical {Reasoning} {Model}},
+  author = {Wang, Guan and Li, Jin and Sun, Yuhao and Chen, Xing and Liu, Changling and Wu, Yue and Lu, Meng and Song, Sen and Yadkori, Yasin Abbasi},
+  year = {2025},
+  eprint = {2506.21734},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI}
+}
+
+@misc{dengImplicitChainThought2023,
+  title = {Implicit {Chain} of {Thought} {Reasoning} via {Knowledge} {Distillation}},
+  author = {Deng, Yuntian and Prasad, Kiran and Fernandez, Roland and Smolensky, Paul and Chaudhary, Vishrav and Shieber, Stuart},
+  year = {2023},
+  eprint = {2311.01460},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@inproceedings{yuDistillingSystem2System2024,
+  title = {Distilling {System} 2 into {System} 1},
+  author = {Yu, Ping and Xu, Jing and Weston, Jason and Kulikov, Ilia},
+  booktitle = {{NeurIPS} 2024 Workshop on System-2 Reasoning at Scale},
+  year = {2024},
+  eprint = {2407.06023},
+  archivePrefix = {arXiv}
+}
+
+@misc{zhuSurveyLatentReasoning2025,
+  title = {A {Survey} on {Latent} {Reasoning}},
+  author = {Zhu, Rui-Jie and Peng, Tianhao and Cheng, Tianhao and Qu, Xingwei and Huang, Jinfa and Zhu, Dawei and Wang, Hao and Xue, Kaiwen and Zhang, Xuanliang and Shan, Yong and Cai, Tianle and Kergan, Taylor and Kembay, Assel and Smith, Andrew and Lin, Chenghua and Nguyen, Binh and Pan, Yuqi and Chou, Yuhong and Cai, Zefan and Wu, Zhenhe and Zhao, Yongchi and Liu, Tianyu and Yang, Jian and Zhou, Wangchunshu and Zheng, Chujie and Li, Chongxuan and Zhou, Yuyin and Li, Zhoujun and Zhang, Zhaoxiang and Liu, Jiaheng and Zhang, Ge and Huang, Wenhao and Eshraghian, Jason},
+  year = {2025},
+  eprint = {2507.06203},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@inproceedings{chenReasoningLanguageComprehensive2025,
+  title = {Reasoning {Beyond} {Language}: {A} {Comprehensive} {Survey} on {Latent} {Chain}-of-{Thought} {Reasoning}},
+  author = {Chen, Xinghao and Zhao, Anhao and Xia, Heming and Lu, Xuan and Wang, Hanlin and Chen, Yanjun and Zhang, Wei and Wang, Jian and Li, Wenjie and Shen, Xiaoyu},
+  booktitle = {Findings of the Association for Computational Linguistics: {EMNLP} 2026},
+  year = {2026},
+  eprint = {2505.16782},
+  archivePrefix = {arXiv}
+}
