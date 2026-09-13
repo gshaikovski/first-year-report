@@ -1,2 +1,75 @@
 \chapter{Background and Related Work}
+\label{ch:background}
 
+This chapter reviews the literature on which the thesis question stands and identifies the gaps that the research questions address.
+Section~\ref{sec:background} defines state-space search problems, the two ways in which an autoregressive language model can be trained to solve them, and the measures of efficiency and generalisation in which the thesis question is posed.
+Section~\ref{sec:related_transformers_search} reviews prior work that applies transformers to search problems and assesses what it does and does not establish.
+Section~\ref{sec:related_subproblems} reviews the literature specific to each research question.
+Section~\ref{sec:gap_analysis} collects the limitations of prior work in a gap table and states the research gaps that Chapter~\ref{ch:proposal} addresses.
+
+\section{Background}
+\label{sec:background}
+
+\subsection{State-space search problems}
+\label{sec:background_search}
+
+Formulating problem solving as search through a space of states is one of the oldest ideas in artificial intelligence~\citep{newell1972human}.
+A state-space search problem is defined by an initial state, a set of actions available in each state, a transition function that maps a state and an action to a successor state, a goal test that identifies desired states, and, optionally, a path-cost function that assigns a cost to each transition~\citep{russel2010}.
+The states and transitions together form a directed graph, the \emph{state graph}, and a solution is a path in this graph from the initial state to a goal state.
+An optimal solution minimises the sum of the costs of its transitions.
+Many problems can be formulated this way.
+In maze navigation, states are cells of a grid, actions are moves to adjacent free cells, and the goal is a designated cell.
+In the Countdown game, a state is a list of integers, an action applies an arithmetic operation to two of them and replaces them with the result, and the goal is any state whose list contains the target integer.
+In theorem proving, states are proof states and actions are inference rules; in planning, states are descriptions of the world and actions are operators that change them.
+
+Two properties of these examples matter later in this report.
+First, the state graph may be given \emph{explicitly}, as in a maze, where the cells and walls are part of the problem description, or \emph{implicitly}, as in Countdown, where only the initial state, the transition rules, and the goal are given, and every other state must be computed by applying the rules.
+Second, problems differ in whether a cheap and informative \emph{heuristic} exists, i.e.\ a function that estimates the remaining cost from a state to a goal without searching; the Manhattan distance to the goal cell is such a heuristic for a maze, whereas no comparably informative estimate is available for Countdown.
+
+A search algorithm solves such a problem by constructing a \emph{search tree}: starting from the initial state, it repeatedly selects a recorded state, expands it by applying all available actions, and records the successors, until a goal state is expanded.
+Uninformed algorithms such as depth-first search and breadth-first search~\citep{russel2010} differ only in the order in which recorded states are selected for expansion; depth-first search follows one branch until it terminates and then backtracks to the most recent unexpanded alternative.
+Informed algorithms such as A*~\citep{hartFormalBasisHeuristic1968} keep the recorded states together with their path cost and heuristic value and expand the state with the lowest estimated total cost first, which, with an admissible heuristic, guarantees an optimal solution while expanding fewer states than uninformed search.
+In all cases, the execution of the algorithm can be recorded as a \emph{search trace}: the sequence of expansions, evaluations, and backtracking steps performed before the solution was found.
+The length of the trace, and hence the cost of search, grows with the branching factor of the state graph and the depth of the solution, and is reduced by a good heuristic.
+
+\subsection{Language models and intermediate reasoning}
+\label{sec:background_lm}
+
+An autoregressive language model is a neural network, in this report always a transformer~\citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, that defines a distribution $p_\theta(x_t \mid x_{<t})$ over the next token of a sequence given the preceding tokens.
+It is trained by maximising the likelihood of a corpus of sequences, and it is applied to a problem by encoding the problem as a token sequence and decoding a continuation.
+A search problem can therefore be posed to a language model by serialising its description, and the model's answer is whatever sequence it decodes after the description.
+Which tokens the model is trained to decode after the problem is a design choice, and it is the subject of this thesis.
+
+The simplest choice is to decode the answer directly.
+Emitting intermediate tokens before the answer, variously called a scratchpad or chain-of-thought~(CoT), improves accuracy on tasks that require several sequential steps~\citep{nyeShowYourWork2021,weiChainofThoughtPromptingElicits2023}, with the largest gains on mathematical and logical problems~\citep{spragueToCoTorNot2025}.
+The theoretical basis for this observation is that a transformer without intermediate tokens performs a fixed amount of computation per output token, bounded by its depth, whereas a transformer that decodes polynomially many intermediate tokens can simulate any polynomial-time computation~\citep{merrillExpressivePowerTransformers2024,liChainThoughtEmpowers2024,fengRevealingMysteryChain2023}.
+Intermediate tokens also change what is learnable from a given amount of data: a target function that requires exponentially many samples to learn from answers alone can be learned from a polynomial number of samples when the intermediate steps are supervised~\citep{wenSparseDependenceSparse2025}.
+In current practice, intermediate reasoning is instilled by post-training on reasoning traces written in natural-language prose~\citep{deepseek-aiDeepSeekR1IncentivizingReasoning2025}; Section~\ref{sec:related_transformers_search} returns to how such traces relate to search.
+
+\subsection{Search-augmented and solution-only reasoning}
+\label{sec:background_sa_so}
+
+There are three ways to combine a language model with search, distinguished by where the search is executed.
+In the first, search is executed by an external program that calls the model to propose successor states or to evaluate them~\citep{yaoTreeThoughtsDeliberate2023,haoReasoningLanguageModel2023,herrLLMFirstSearchSelfGuided2025}.
+This approach improves over direct decoding on planning and reasoning benchmarks, but the search strategy is fixed by the program, the model does not learn to search, and the cost of search is paid at every query.
+The remaining two ways place the search inside the model, and they are the two reasoning modes compared throughout this thesis.
+
+In \emph{solution-only}~(SO) reasoning, the model is trained on pairs of a problem and its solution path and decodes the solution directly~\citep{lehnertBetterPlanningTransformers2024}.
+Any search that the problem requires happens implicitly, in the forward pass, within the depth of the network.
+Since training uses teacher forcing on the solution tokens, every decoded step must be correct, and for some problems the first step can only be chosen correctly by a model that has already solved the whole problem~\citep{bachmannPitfallsNexttokenPrediction2025}.
+
+In \emph{search-augmented}~(SA) reasoning, the model is trained on triples of a problem, a search trace, and the solution, where the trace is produced by running a symbolic search algorithm on the problem and the solution follows the trace~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024}.
+At inference, the model decodes a trace first, thereby executing the search in its own context, and then derives the solution from the trace.
+\citet{lehnertBetterPlanningTransformers2024} introduced this mode with A* traces on maze navigation and Sokoban, and \citet{gandhiStreamSearchSoS2024} with depth-first and breadth-first traces on Countdown; later work applied it to board games~\citep{schultzMasteringBoardGames2025} and to post-training of pretrained language models on mathematical problems~\citep{kimASTROTeachingLanguage2025}.
+SA reasoning does not force the model to commit to a correct step before it has explored the alternatives, but it has two costs.
+The trace must be generated by a solver that can handle the training problems, and the trace can be an order of magnitude longer than the solution, which increases the compute required for every training and inference step in proportion.
+
+\subsection{Efficiency and generalisation}
+\label{sec:background_efficiency}
+
+The thesis question compares SA and SO reasoning in terms of their efficiency, so the measures of efficiency need to be fixed.
+\emph{Sample efficiency} is the number of training problems a model requires to reach a target error on held-out problems.
+\emph{Training compute efficiency} is the number of floating-point operations required to reach that error, which for a transformer is proportional to the product of the parameter count and the number of tokens processed~\citep{kaplanScalingLawsNeural2020}; two models trained on the same problems therefore differ in training compute by the ratio of their sequence lengths, which is precisely what a search trace changes.
+\emph{Test-time compute} is the number of operations per decoded problem, proportional to the number of generated tokens; for an SO model it can be scaled by sampling several candidate solutions and selecting one with a verifier~\citep{qinBacktrackNotBacktrack2025}.
+Finally, \emph{in-distribution generalisation} refers to accuracy on held-out problems drawn from the same distribution as the training problems, in particular of the same size, whereas \emph{length generalisation} refers to accuracy on problems larger than any seen in training.
+Chapter~\ref{ch:progress} and the first two research questions are posed in the in-distribution setting; the third research question concerns length generalisation.
