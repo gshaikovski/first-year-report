@@ -1,4 +1,5 @@
-\chapter{Extended Abstract}
+\chapter{Background and Related Work}
+% \chapter{Thesis Proposal}
 
 The open question addressed in this thesis is how autoregressive language models can learn to solve sequential state-space search problems using structured and systematic search-augmented reasoning~(SA)~\citep{lehnertBetterPlanningTransformers2024}, with reasonable compute and sample efficiency.
 A state-space search problem is characterised by an initial state, a goal state or a desired outcome, legal transition rules between states, and, optionally, a path-cost function~\citep{russel2010,newell1972human}.
@@ -180,3 +181,7 @@ The most obvious first step is to attempt to convert search traces into ``induct
 I also intend to check how search problems can be expressed in RASP language~\citep{weissThinkingTransformers2021,zhouWhatAlgorithmsCan2023}, which has not been done before, and test a prediction by \citet{zhouWhatAlgorithmsCan2023} that any problem which a fixed RASP program can solve for any input size will length generalise.
 Finally, comparing these interventions in search-efficient and search-optional regimes will be necessary to establish whether they generalise search itself or if they merely add useful shortcuts.
 Addressing length generalisation in transformers for search problems promises to lead the field to review current language model training practices that excel at ID capabilities but fail to generalise OOD.
+
+\chapter{Thesis Proposal}
+
+...

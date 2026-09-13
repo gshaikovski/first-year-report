@@ -23,12 +23,43 @@
 %   backrefs    - add back references in the Bibliography section
 %
 % For more info see `README.md`
-\documentclass[withindex,glossary]{cam-thesis}
+\documentclass[firstyr,withindex]{cam-thesis}
 
 % Citations using numbers
 \usepackage[numbers]{natbib}
 
+\usepackage[dvipsnames]{xcolor}
+\definecolor{ThesisPurple}{HTML}{57008E}
+\usepackage{tcolorbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{pdfpages}
 \usepackage{enumitem}
+\usepackage[all]{nowidow} % no orphan lines
+\tcbuselibrary{skins,breakable}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\proof}[1]{\textcolor{blue}{\textbf{#1}}}
+\newcommand{\citeneeded}{\textcolor{red}{\textbf{[citation]}}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcolumntype{G}{>{\centering\arraybackslash}p{1.6em}}
+\newcommand{\lettergrid}[2]{%
+  {\renewcommand{\arraystretch}{1.6}%
+  \begin{tabular}{|G|G|G|}
+  \hline
+  #1 \\
+  \hline
+  #2 \\
+  \hline
+  \end{tabular}}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Thesis meta-information
@@ -39,16 +70,16 @@
 spanning two lines}
 
 %% The full name of the author (e.g.: James Smith):
-\author{My Full Name}
+\author{George Shaikovski\\[1ex]{\normalsize Supervised by Prof.\ Mateja Jamnik}}
 
 %% College affiliation:
-\college{My College}
+\college{Clare Hall}
 
 %% College shield [optional]:
 % \collegeshield{CollegeShields/Christs}
 % \collegeshield{CollegeShields/Churchill}
 % \collegeshield{CollegeShields/Clare}
-% \collegeshield{CollegeShields/ClareHall}
+\collegeshield{CollegeShields/ClareHall}
 % \collegeshield{CollegeShields/CorpusChristi}
 % \collegeshield{CollegeShields/Darwin}
 % \collegeshield{CollegeShields/Downing}
@@ -77,7 +108,7 @@ spanning two lines}
 % \collegeshield{CollegeShields/TrinityHall}
 % \collegeshield{CollegeShields/Wolfson}
 % \collegeshield{CollegeShields/CUniNoText}
-\collegeshield{CollegeShields/FitzwilliamRed}
+% \collegeshield{CollegeShields/FitzwilliamRed}
 
 %% Submission date [optional]:
 % \submissiondate{November, 2042}
@@ -90,7 +121,7 @@ spanning two lines}
 
 %% PDF meta-info:
 \subjectline{Computer Science}
-\keywords{one two three}
+\keywords{artificial intelligence, search, language models}
 
 
 
@@ -115,10 +146,10 @@ spanning two lines}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Glossary [optional]:
 %%
-\newglossaryentry{HOL}{
-    name=HOL,
-    description={Higher-order logic}
-}
+% \newglossaryentry{HOL}{
+%     name=HOL,
+%     description={Higher-order logic}
+% }
 
 
 
@@ -140,7 +171,9 @@ spanning two lines}
 %% Thesis body:
 %%
 
-\input{sections/01_extended_abstract}
+\input{sections/11_introduction}
+% \input{sections/12_background_related_work}
+\input{sections/14_thesis_proposal}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
