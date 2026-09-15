@@ -2,28 +2,53 @@
 \label{ch:proposal}
 
 In this chapter, I set out the research programme of the thesis.
-Section~\ref{sec:proposal_motivation} restates the thesis question, argues why it is worth answering, and lists the three research questions into which it decomposes.
-Sections~\ref{sec:proposal_rq1} to~\ref{sec:proposal_rq3} take one research question each: for each, I recall the gap identified in Chapter~\ref{ch:background}, state what I aim to establish, summarise what Chapter~\ref{ch:progress_report} has already established, describe how I propose to proceed, and list the expected outcomes.
+Section~\ref{sec:proposal_motivation} restates the thesis question and the three research gaps that prevent us from answering it.
+In Sections~\ref{sec:proposal_rq1} to~\ref{sec:proposal_rq3}, I outline my plan to address each gap and list the expected outcomes.
 Section~\ref{sec:proposal_summary} summarises how the three questions depend on one another and how they map onto the chapters of the thesis.
 Section~\ref{sec:proposal_success} states the criteria by which the research should be judged and the risks that may prevent it from meeting them.
 
 \section{Motivation}
 \label{sec:proposal_motivation}
 
-% NOTE: the wording of the box must match the Thesis Question box in Chapter 1 and the opening sentence of Chapter 2.
+In Chapter~\ref{ch:background}, I discussed how symbolic state-space search algorithms and language models with intermediate computation are combined and applied to complex tasks.
+Section~\ref{sec:bg_search} introduced state-space search as a sound and complete problem-solving procedure that is agnostic to the size of the problem.
+Section~\ref{sec:bg_reasoning} established that transformers require intermediate computation to express and to learn inherently serial problems, that in practice this computation is acquired from traces with unsystematic natural language prose where search-like strategies do not appear reliably, and that alternatives to a token-level trace exist but have not been developed for search.
+Section~\ref{sec:bg_search_lm} shows how two concepts can be combined: language models that imitate a search algorithm as intermediate computation, trained with traces that represent a serialised search algorithm execution.
+The literature demonstrates that such search-augmented models more efficiently than models trained on direct solutions, and can be further finetuned to discover new search strategies.
+
+
+The literature demonstrates that such search-augmented models outperform solution-only models at a fixed dataset size, yet results also suggest that search traces may not be necessary: SO models with more data and test-time compute can achieve the same performance, and search semantics derived from a symbolic solver may not matter for reasoning.
+Section~\ref{sec:bg_gaps} identified three gaps that cause this ambiguity regarding search trace utility: prior studies do not establish the factors that determine sample and compute efficiency of SO and SA-CoT models (Gap~1), the ingredients and mechanisms in search traces that make training more or less efficient on different problems are unknown (Gap~2), and potential solutions to length generalisation problem in SA-CoT models have not been explored (Gap~3).
+Chapter~\ref{ch:progress_report} then made the first controlled comparison of the two approaches at training compute parity; it presented evidence that search problems can be in one of the two learning regimes, that the regime membership depends on the search problem structure, and that each regime determines sample and compute efficiency of learning, impact of trace quality, and impact of model scaling on SO and SA-CoT training differently.
+These findings converge on the question that this proposal aims to answer:
+
+% NOTE: wording must match the Thesis Question box in Chapter 1.
 \begin{tcolorbox}[title=Thesis Question, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
 Should language models learn to imitate a structured and systematic search process to solve complex problems?
 \end{tcolorbox}
 
-Motivation...
+The thesis will address this question by establishing conditions for better efficiency and generalisation of SA-CoT over SO learning in precise terms.
+First, imitating search is only useful when the problem is not efficiently learnable from direct solutions alone.
+Chapter~\ref{ch:progress_report} shows that this condition fails for some search problems and holds for others, and that the difference is set by the problem's structure; but it does not show which properties of the structure are responsible, so the condition cannot yet be checked on a new problem without running the full comparison.
+Establishing what in the problem structure determines the regime is therefore the first research question (Gap~1, Section~\ref{sec:proposal_rq1}).
+Second, on a problem where search is required, the search trace is the most expensive part of the pipeline: it must be produced by a symbolic solver, and it multiplies the length of every training and test-time sequence.
+Whether this cost can be reduced, or the trace replaced, depends on which of its ingredients the benefit rests on, and Chapter~\ref{ch:progress_report} shows that this is not settled in either direction: unrelated traces retain part of the benefit in the search-efficient regime, while suboptimal traces lose it.
+Identifying that ingredient and testing whether other forms of intermediate computation can supply it is the second research question (Gap~2, Section~\ref{sec:proposal_rq2}).
+Third, in-distribution efficiency is not the whole case for search imitation.
+The argument of Section~\ref{sec:bg_search} for imitating a sound and size-agnostic algorithm is that the learned procedure should extend to problems larger than any seen in training, where no solver can label the data; nothing reviewed in Section~\ref{sec:bg_gap_length} shows this, and the pilot experiment of Section~\ref{sec:progress_pilots} shows that the current setup does not.
+Whether SA-CoT can generalise in length, and whether it does so better than the alternatives, is the third research question (Gap~3, Section~\ref{sec:proposal_rq3}).
 
-Chapter~\ref{ch:background} concluded that the state of the art does not adequately measure the benefit of SA reasoning against the sample and compute cost of the trace, nor show which problems benefit from it the most; does not show which ingredient of the trace the benefit depends on, nor whether it can be supplied without a symbolic solver; and does not show whether the search that the model learns generalises beyond the sizes seen in training.
-Therefore, my thesis will explore the following questions, each addressed in one of the following sections and intended to become one core chapter of the thesis:
+The order of the three questions is fixed by what each one requires from the previous.
+The learning regimes and the matched-compute protocol of Chapter~\ref{ch:progress_report} are the frame in which the other two questions must be posed: Chapter~\ref{ch:progress_report} shows that evaluating an alternative to the trace only in the search-optional regime leads to wrong conclusions about its utility, and the same holds for evaluating length generalisation, since a model that generalises on a search-optional problem may have learned no search at all.
+The first question therefore extends and explains the regimes before the second question tests alternatives within the search-efficient regime, and the third question uses both the regimes and the mechanism identified by the second to determine which component of the trace must generalise.
+I develop this dependency in Section~\ref{sec:proposal_summary}, after presenting each question.
+
+In summary, my thesis will explore the following questions, each addressed in one of the following sections and intended to become one core chapter of the thesis:
 
 \begin{enumerate}
-    \item When is SA reasoning that follows a structured search process more sample- and compute-efficient than SO reasoning, when is it optional or even detrimental, and what in the problem's structure and representation determines this? (Section~\ref{sec:proposal_rq1})
-    \item Can other types of intermediate reasoning, which do not require search traces, achieve the performance of SA reasoning? (Section~\ref{sec:proposal_rq2})
-    \item Can SA reasoning achieve length generalisation, and can it be better than SO reasoning or other types of reasoning? (Section~\ref{sec:proposal_rq3})
+    \item When is SA-CoT learning more sample- and compute-efficient than SO learning, when is it optional or even detrimental, and what in the problem's structure and representation determines this? (Section~\ref{sec:proposal_rq1})
+    \item Which ingredients of the search trace are necessary for the efficiency of SA-CoT, and can other types of intermediate computation, which do not require search traces, supply them and achieve the performance of SA-CoT? (Section~\ref{sec:proposal_rq2})
+    \item Can SA-CoT achieve length generalisation, and can it do so better than SO learning or other types of intermediate computation? (Section~\ref{sec:proposal_rq3})
 \end{enumerate}
 
 \section{Discover what in the problem structure determines whether search imitation is more efficient than solution-only learning}
