@@ -27,9 +27,7 @@
 
 % Citations using numbers
 \usepackage[numbers]{natbib}
-
 \usepackage[dvipsnames]{xcolor}
-\definecolor{ThesisPurple}{HTML}{57008E}
 \usepackage{tcolorbox}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -44,7 +42,12 @@
 \usepackage{pdfpages}
 \usepackage{enumitem}
 \usepackage[all]{nowidow} % no orphan lines
+
+\definecolor{ThesisPurple}{HTML}{57008E}
+\definecolor{ThesisGrey}{HTML}{828282}
+
 \tcbuselibrary{skins,breakable}
+
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
 \newcommand{\proof}[1]{\textcolor{blue}{\textbf{#1}}}
 \newcommand{\citeneeded}{\textcolor{red}{\textbf{[citation]}}}
@@ -66,8 +69,8 @@
 %%
 
 %% The title of the thesis:
-\title{My dissertation title\\
-spanning two lines}
+\title{In-context search in language models:\\
+efficiency, representation, and generalisation}
 
 %% The full name of the author (e.g.: James Smith):
 \author{George Shaikovski\\[1ex]{\normalsize Supervised by Prof.\ Mateja Jamnik}}

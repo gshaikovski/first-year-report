@@ -168,7 +168,7 @@ In their Searchformer work, \citeauthor{lehnertBetterPlanningTransformers2024} a
 
 The literature therefore agrees that SA-CoT outperforms SO learning when both are trained on the same fixed dataset, and disagrees on whether the traces are necessary, whether the advantage survives more data and test-time compute, and whether the content of the traces matters.
 
-\section{Efficiency, trace representation, and generalisation: three gaps in the literature}
+\section{Efficiency, trace representation, and length generalisation: three gaps in the literature}
 \label{sec:bg_gaps}
 
 In this section, I assess what prior work from Section \ref{sec:bg_search_lm} does not establish about the open question of the thesis, and state three gaps, each of which is addressed by one research question in Chapter~\ref{ch:proposal}.
@@ -178,7 +178,7 @@ Since the question compares SA-CoT and SO reasoning in terms of their efficiency
 \emph{Test-time compute} is the number of FLOPs per decoded problem, proportional to the number of generated tokens; for an SO model it can be scaled by sampling several candidate solutions and selecting one with a verifier~\citep{qinBacktrackNotBacktrack2025,snellScalingLLMTestTime2024}.
 \emph{In-distribution}~(ID) generalisation is accuracy on held-out problems drawn from the same distribution as the training problems, in particular of the same size, whereas \emph{length generalisation} is a type of out-of-distribution~(OOD) generalisation on problems larger than any seen in training.
 
-\subsection{Efficiency: when and why is search-augmented reasoning more efficient?}
+\subsection{Efficiency: when and why is search-augmented CoT more efficient?}
 \label{sec:bg_gap_efficiency}
 
 Direct solution decoding is the most computationally efficient approach per training example and per test-time generation, and it requires only SO data.
@@ -186,7 +186,7 @@ By comparison, a search trace in SA-CoT can be an order of magnitude longer than
 At the same time, SA-CoT does not force the model to produce a correct solution path immediately, and systematic exploration from explicit demonstrations of state transitions may be easier to learn than direct solutions, potentially requiring \textit{less} data and compute to reach ID generalisation~\citep{wenSparseDependenceSparse2025,abbeHowFarCan2024}.
 Furthermore, the learnability theory reviewed in Section~\ref{sec:bg_reasoning} shows that, on some tasks, SO models require exponentially more data or bigger size~\citep{wenSparseDependenceSparse2025,fengRevealingMysteryChain2023}, although for other tasks SO data may be enough, as parallelisable tasks admit shortcut solutions for which traces are unnecessary~\citep{liuTransformersLearnShortcuts2023,sanfordUnderstandingTransformerReasoning2024,yeTransformersProvablyLearn2026,wangALPINEUnveilingPlanning2024}.
 However, at this moment, it is not obvious how this theory translates into a more realistic setting, i.e., training with larger models on more practical search problems with diverse structure and representation that extend beyond in-context graphs, and how to determine which approach is more efficient on a given problem.
-The comparisons on reviewed in Section~\ref{sec:bg_incontext} do not settle the question either, since most fix the dataset size, and several studies also fix the model size, and score the two approaches per example rather than per unit of compute.
+The comparisons on reviewed in Section~\ref{sec:bg_search_lm_incontext} do not settle the question either, since most fix the dataset size, and several studies also fix the model size, and score the two approaches per example rather than per unit of compute.
 Specifically, \citet{lehnertBetterPlanningTransformers2024} sweep model sizes but do not account for compute, and they stop at the point where their SO model reaches the performance of their worst SA-CoT model; \citet{qinBacktrackNotBacktrack2025} match test-time compute but fix the training data; \citet{valmeekamSemanticsUnreasonableEffectiveness2025} use a single dataset size.
 The closest study of trace supervision against relative training compute uses a single architecture and no search tasks~\citep{pengmeiKineticsReasoning2025}, and the closest study of the cost of intermediate tokens on algorithmic tasks counts tokens per example on arithmetic~\citep{leeTeachingArithmeticSmall2023}.
 
@@ -204,7 +204,7 @@ However, it only tests two problems and proposes candidate properties of the str
 The literature does not establish which properties of the problem's structure and representation determine if search-augmented CoT learning is more sample- and compute-efficient than solution-only learning on a given search problem.
 \end{tcolorbox}
 
-\subsection{The trace representation: which of SA-CoT ingredients are necessary for efficiency, and can alternative methods implement them?}
+\subsection{Trace representation: which of the ingredients of SA-CoT are necessary for efficiency, and can alternative methods implement them?}
 \label{sec:bg_gap_trace}
 
 A search trace supplies two things to the model: the \emph{semantics} of the search, i.e., which states were expanded, how they were evaluated, and where the algorithm backtracked, and the \emph{serial computation} provided by the additional tokens, regardless of their content, and scaled with problem complexity.
@@ -225,11 +225,11 @@ Next, traces that follow a valid reasoning structure but whose content is invali
 At the other end are mechanisms that supply serial computation relevant to the task without symbolic tokens: continuous latent states as reasoning ``tokens'', which can encode several search frontiers in superposition~\citep{haoTrainingLargeLanguage2025,zhuReasoningSuperpositionTheoretical2025}; looped and recurrent-depth architectures~\citep{saunshiLoopedTransformers2025,geipingRecurrentDepth2025}; and curricula that internalise an explicit trace and then remove it~\citep{dengExplicitToImplicitCoT2024,zelikmanQuietSTaR2024}.
 None of these alternatives has been compared with SA-CoT learning at matched compute on a search problem for which the trace has been shown to be necessary.
 
-\begin{tcolorbox}[title=Gap 2: The trace, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+\begin{tcolorbox}[title=Gap 2: Trace representation, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
 The literature does not establish which ingredients of the search trace are necessary for the efficiency of search-augmented CoT, nor whether these ingredients can be supplied without a token-level symbolic search trace.
 \end{tcolorbox}
 
-\subsection{Generalisation: can search-augmented reasoning generalise in length?}
+\subsection{Length generalisation: can search-augmented CoT generalise in length?}
 \label{sec:bg_gap_length}
 
 The search algorithms that SA-CoT models learn to imitate are size-agnostic by construction, as noted in Section~\ref{sec:bg_search}.
