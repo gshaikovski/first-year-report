@@ -1288,6 +1288,19 @@
   file = {/Users/george/Zotero/storage/DEN2SYUT/Jiang et al. - 2026 - META-RL INDUCES EXPLORATION IN LANGUAGE AGENTS.pdf}
 }
 
+@misc{joshiTheoryLearningAutoregressive2025,
+  title = {A {{Theory}} of {{Learning}} with {{Autoregressive Chain}} of {{Thought}}},
+  author = {Joshi, Nirmit and Vardi, Gal and Block, Adam and Goel, Surbhi and Li, Zhiyuan and Misiakiewicz, Theodor and Srebro, Nathan},
+  year = 2025,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2503.07932},
+  urldate = {2026-09-14},
+  abstract = {For a given base class of sequence-to-next-token generators, we consider learning promptto-answer mappings obtained by iterating a fixed, time-invariant generator for multiple steps, thus generating a chain-of-thought, and then taking the final token as the answer. We formalize the learning problems both when the chain-of-thought is observed and when training only on prompt-answer pairs, with the chain-of-thought latent. We analyze the sample and computational complexity both in terms of general properties of the base class (e.g. its VC dimension) and for specific base classes such as linear thresholds. We present a simple base class that allows for universal representability and computationally tractable chain-of-thought learning. Central to our development is that time invariance allows for sample complexity that is independent of the length of the chain-of-thought. Attention arises naturally in our construction.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computational Complexity (cs.CC),FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)},
+  file = {/Users/george/Zotero/storage/HABQSQS4/Joshi et al. - 2025 - A Theory of Learning with Autoregressive Chain of Thought.pdf}
+}
+
 @misc{kaiserModelBasedReinforcementLearning2020,
   title = {Model-{{Based Reinforcement Learning}} for {{Atari}}},
   author = {Kaiser, Lukasz and Babaeizadeh, Mohammad and Milos, Piotr and Osinski, Blazej and Campbell, Roy H. and Czechowski, Konrad and Erhan, Dumitru and Finn, Chelsea and Kozakowski, Piotr and Levine, Sergey and Mohiuddin, Afroz and Sepassi, Ryan and Tucker, George and Michalewski, Henryk},
@@ -1613,6 +1626,21 @@
   file = {/Users/george/Zotero/storage/D5ER6S2J/Lin et al. - 2025 - Sim-to-Real Reinforcement Learning for Vision-Based Dexterous Manipulation on Humanoids.pdf}
 }
 
+@misc{liuProRLProlongedReinforcement2025,
+  title = {{{ProRL}}: {{Prolonged Reinforcement Learning Expands Reasoning Boundaries}} in {{Large Language Models}}},
+  shorttitle = {{{ProRL}}},
+  author = {Liu, Mingjie and Diao, Shizhe and Lu, Ximing and Hu, Jian and Dong, Xin and Choi, Yejin and Kautz, Jan and Dong, Yi},
+  year = 2025,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2505.24864},
+  urldate = {2026-09-14},
+  abstract = {Recent advances in reasoning-centric language models have highlighted reinforcement learning (RL) as a promising method for aligning models with verifiable rewards. However, it remains contentious whether RL truly expands a model's reasoning capabilities or merely amplifies high-reward outputs already latent in the base model's distribution, and whether continually scaling up RL compute reliably leads to improved reasoning performance. In this work, we challenge prevailing assumptions by demonstrating that prolonged RL (ProRL) training can uncover novel reasoning strategies that are inaccessible to base models, even under extensive sampling. We introduce ProRL, a novel training methodology that incorporates KL divergence control, reference policy resetting, and a diverse suite of tasks. Our empirical analysis reveals that RL-trained models consistently outperform base models across a wide range of pass@k evaluations, including scenarios where base models fail entirely regardless of the number of attempts. We further show that reasoning boundary improvements correlates strongly with task competence of base model and training duration, suggesting that RL can explore and populate new regions of solution space over time. These findings offer new insights into the conditions under which RL meaningfully expands reasoning boundaries in language models and establish a foundation for future work on long-horizon RL for reasoning. We release model weights to support further research: https://huggingface.co/nvidia/Nemotron-Research-Reasoning-Qwen-1.5B},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  langid = {english},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences},
+  file = {/Users/george/Zotero/storage/LDVH78QF/Liu et al. - 2025 - ProRL Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models.pdf}
+}
+
 @misc{liuTransformersLearnShortcuts2023,
   title = {Transformers {{Learn Shortcuts}} to {{Automata}}},
   author = {Liu, Bingbin and Ash, Jordan T. and Goel, Surbhi and Krishnamurthy, Akshay and Zhang, Cyril},
@@ -1715,6 +1743,19 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
   file = {/Users/george/Zotero/storage/RJKSGL8T/McCandlish et al. - 2018 - An Empirical Model of Large-Batch Training.pdf}
+}
+
+@misc{merrillExactExpressivePower2025,
+  title = {Exact {{Expressive Power}} of {{Transformers}} with {{Padding}}},
+  author = {Merrill, William and Sabharwal, Ashish},
+  year = 2025,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2505.18948},
+  urldate = {2026-09-14},
+  abstract = {Chain of thought is a natural inference-time method for increasing the computational power of transformer-based large language models (LLMs), but comes at the cost of sequential decoding. Are there more efficient alternatives to expand a transformer's expressive power without adding parameters? We consider transformers with padding tokens as a form of parallelizable test-time compute. We show that averaging-hard-attention, masked-pre-norm transformers with polynomial padding recognize precisely the class FO-uniform TC0 of extremely parallelizable problems. While the TC0 upper bound was known, proving a matching lower bound had been elusive. Further, our novel analysis reveals the precise expanded power of padded transformers when coupled with another form of inference-time compute, namely dynamically increasing depth via looping. Our core technical contribution is to show how padding helps bring the notions of complete problems and reductions, which have been a cornerstone of classical complexity theory, to the formal study of transformers. Armed with this new tool, we prove that padded transformers with O(logd n) looping on inputs of length n recognize exactly the class FO-uniform TCd of moderately parallelizable problems. Thus, padding and looping together systematically expand transformers' expressive power: with polylogarithmic looping, polynomially padded transformers recognize precisely the class FO-uniform NC, the best that could be expected without losing parallelism (unless NC = P). Our results thus motivate further exploration of padding and looping as parallelizable alternatives to chain of thought for test-time compute.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Computational Complexity (cs.CC),Formal Languages and Automata Theory (cs.FL),FOS: Computer and information sciences,Machine Learning (cs.LG)},
+  file = {/Users/george/Zotero/storage/DZNZFKPV/Merrill and Sabharwal - 2025 - Exact Expressive Power of Transformers with Padding.pdf}
 }
 
 @article{merrillExpressivePowerTransformers2024,
@@ -2051,6 +2092,15 @@
   langid = {english},
   keywords = {Computer Science - Machine Learning},
   file = {/Users/george/Zotero/storage/DQQEBRZ3/Pipis et al. - 2026 - Wait, Wait, Wait... Why Do Reasoning Models Loop.pdf}
+}
+
+@article{prystawskiWhyThinkStep,
+  title = {Why Think Step by Step? {{Reasoning}} Emerges from the Locality of Experience},
+  author = {Prystawski, Ben and Li, Michael Y and Goodman, Noah D},
+  year = 2023,
+  abstract = {Humans have a powerful and mysterious capacity to reason. Working through a set of mental steps enables us to make inferences we would not be capable of making directly even though we get no additional data from the world. Similarly, when large language models generate intermediate steps (a chain of thought) before answering a question, they often produce better answers than they would directly. We investigate why and how chain-of-thought reasoning is useful in language models, testing the hypothesis that reasoning is effective when training data consists of overlapping local clusters of variables that influence each other strongly. These training conditions enable the chaining of accurate local inferences to estimate relationships between variables that were not seen together in training. We prove that there will exist a ``reasoning gap'', where reasoning through intermediate variables reduces bias, for the simple case of an autoregressive density estimator trained on local samples from a chain-structured probabilistic model. We then test our hypothesis experimentally in more complex models, training an autoregressive language model on samples from Bayes nets but only including a subset of variables in each sample. We test language models' ability to match conditional probabilities with and without intermediate reasoning steps, finding that intermediate steps are only helpful when the training data is locally structured with respect to dependencies between variables. The combination of locally structured observations and reasoning is much more data-efficient than training on all variables. Our results illustrate how the effectiveness of reasoning step by step is rooted in the local statistical structure of the training data.},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/3DNY8F9B/Prystawski et al. - 2023 - Why think step by step Reasoning emerges from the locality of experience.pdf}
 }
 
 @misc{qinBacktrackNotBacktrack2025,
@@ -2409,6 +2459,15 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
   file = {/Users/george/Zotero/storage/M3769URV/Sel et al. - 2024 - Algorithm of Thoughts Enhancing Exploration of Ideas in Large Language Models.pdf}
+}
+
+@article{setlurScalingTestTimeCompute,
+  title = {Scaling {{Test-Time Compute Without Verification}} or {{RL}} Is {{Suboptimal}}},
+  author = {Setlur, Amrith and Rajaraman, Nived and Levine, Sergey and Kumar, Aviral},
+  year = 2025,
+  abstract = {Despite substantial advances in scaling test-time compute, an ongoing debate in the community is how it should be scaled up to enable continued and efficient improvements with scaling. There are largely two approaches: first, distilling successful search or thinking traces; and second, using verification (e.g., 0/1 outcome rewards, reward models, or verifiers) to guide reinforcement learning (RL) and search algorithms. In this paper, we prove that finetuning LLMs with verifier-based (VB) methods based on RL or search is far superior to verifier-free (VF) approaches based on distilling or cloning search traces, given a fixed amount of compute/data budget. Further, we show that as we scale test-time compute (measured as the output token length) and training data, suboptimality of VF methods scales poorly compared to VB when the base pre-trained LLM presents a heterogeneous distribution over correct solution traces (e.g., different lengths, styles, etc.) and admits a non-sharp distribution over rewards on traces sampled from it. We formalize this condition using anti-concentration [18]. This implies a stronger result that VB methods scale better asymptotically, with the performance gap between VB and VF methods widening as test-time budget grows. We corroborate our theory empirically on both didactic and math reasoning problems with 3/8/32B-sized pre-trained LLMs, where we find verification is crucial for scaling test-time compute.},
+  langid = {english},
+  file = {/Users/george/Zotero/storage/UED495ZN/Setlur et al. - 2025 - Scaling Test-Time Compute Without Verification or RL is Suboptimal.pdf}
 }
 
 @misc{shaoDeepSeekMathPushingLimits2024,
@@ -3002,6 +3061,20 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
   file = {/Users/george/Zotero/storage/WTSMR842/Ye et al. - 2025 - On the Emergence of Thinking in LLMs I Searching for the Right Intuition.pdf}
+}
+
+@misc{yehudaiCompositionalReasoningTransformers2025,
+  title = {Compositional {{Reasoning}} with {{Transformers}}, {{RNNs}}, and {{Chain}} of {{Thought}}},
+  author = {Yehudai, Gilad and Amsel, Noah and Bruna, Joan},
+  year = 2025,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2503.01544},
+  urldate = {2026-09-14},
+  abstract = {It is well understood that different neural network architectures are suited to different tasks, but is there always a single best architecture for a given task? We compare the expressive power of transformers, RNNs, and transformers with chain of thought tokens on a simple and natural class of tasks we term Compositional Reasoning Questions (CRQ). This family captures multi-step problems with treelike compositional structure, such as evaluating Boolean formulas. We prove that under standard hardness assumptions, none of these three architectures is capable of solving CRQs unless some hyperparameter (depth, embedding dimension, and number of chain of thought tokens, respectively) grows with the size of the input. We then provide constructions for solving CRQs with each architecture. For transformers, our construction uses depth that is logarithmic in the problem size. For RNNs, logarithmic embedding dimension is necessary and sufficient, so long as the inputs are provided in a certain order. For transformers with chain of thought, our construction uses n CoT tokens for input size n. These results show that, while CRQs are inherently hard, there are several different ways for language models to overcome this hardness. Even for a single class of problems, each architecture has strengths and weaknesses, and none is strictly better than the others.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  langid = {english},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG)},
+  file = {/Users/george/Zotero/storage/UBH2WLLY/Yehudai et al. - 2025 - Compositional Reasoning with Transformers, RNNs, and Chain of Thought.pdf}
 }
 
 @misc{yeMasteringAtariGames2021,
