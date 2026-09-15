@@ -197,12 +197,14 @@ Models that learn grid-based tasks, for example board games, build internal worl
 An in-context graph makes a transformer learn a path-merging algorithm~\citep{saparovTransformersStruggleLearn2025}, but does not guarantee learnability, since teacher forcing can still fail on lookahead~\citep{bachmannPitfallsNexttokenPrediction2025}.
 Theory offers candidate predictors of when intermediate supervision is required: the `globality' degree of the target~\citep{abbeHowFarCan2024}, whether the task can be written as a short RASP-L program~\citep{zhouWhatAlgorithmsCan2023}, and the locality of dependencies in the training data~\citep{prystawskiWhyThinkStep2023}.
 None of these factors has been tested as a predictor of the relative efficiency of SA-CoT and SO learning, while other factors are entirely missing, for example, problems with a static but hidden global state space graph where the data only ever observes a small fraction of the whole graph.
-Chapter~\ref{ch:progress_report} presents the first controlled comparison of the two modes across dataset size, model size, and problem structure at matched compute; it establishes that two efficiency regimes exist and that the regime depends on the problem structure and not on data or model scale.
-However, it only tests two problems and proposes candidate properties of the structure responsible for the regimes but does not test them; this is left for future work.
+Therefore, I formulate the first gap as follows:
 
 \begin{tcolorbox}[title=Gap 1: Efficiency, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
-The literature does not establish which properties of the problem's structure and representation determine if search-augmented CoT learning is more sample- and compute-efficient than solution-only learning on a given search problem.
+    The literature does not establish the factors that determine if search-augmented CoT learning is more sample- and compute-efficient than solution-only learning on a given search problem.
 \end{tcolorbox}
+
+Chapter~\ref{ch:progress_report} presents the first controlled comparison of the two reasoning approaches across dataset size, model size, and problem structure at matched compute.
+It argues with experimental evidence that a search problem can fall into two learning regimes, which depend on the problem structure and not on model scale; however, more work is required to identify the exact factors in the structure that causally determine the learning regime.
 
 \subsection{Trace representation: which of the ingredients of SA-CoT are necessary for efficiency, and can alternative methods implement them?}
 \label{sec:bg_gap_trace}

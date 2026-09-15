@@ -65,7 +65,7 @@ Crucially, SA-CoT models outperform SO models at small dataset sizes in both reg
 \paragraph{The effect of trace semantics depends on the regime.}
 % TODO: Figure: final_trace_types_8l.
 Replacing each search trace with a trace from an unrelated problem, following~\citet{valmeekamSemanticsUnreasonableEffectiveness2025} gives models that perform worse than both SA-CoT and SO models on search-optional maze navigation, but better than SO models in sample efficiency on search-efficient modular Countdown, reaching 81\% accuracy with 20M samples while still falling short of SA-CoT models.
-Trace semantics therefore matter in both regimes, contrary to the prior conclusion, and the sample-efficiency advantage of unrelated traces in the search-efficient regime, which increasing model size alone does not produce, is left unexplained.
+Trace semantics, therefore, matter in both regimes, contrary to prior work, although the sample-efficiency advantage of unrelated traces in the search-efficient regime is left unexplained.
 This result informs my approach when I describe a proposal to address Gap~2 in Section~\ref{sec:proposal_rq2}.
 
 \paragraph{Knowing the regime yields a more compute-efficient data mixture.}
