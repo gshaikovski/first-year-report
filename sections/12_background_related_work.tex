@@ -166,7 +166,7 @@ In their Searchformer work, \citeauthor{lehnertBetterPlanningTransformers2024} a
 \citet{qinBacktrackNotBacktrack2025} compare SA-CoT and SO models on Countdown and Sudoku at test-time compute parity, scaling the SO model by sampling several candidate solutions and selecting one with an external verifier, and find that the SO model can outperform the SA-CoT model on Countdown under this protocol.
 \citet{valmeekamSemanticsUnreasonableEffectiveness2025} replace the A* trace of each maze in the Searchformer setup with a trace from an unrelated maze and find that the model trained on unrelated traces performs as well as the model trained on the original ones.
 
-The literature therefore agrees that SA-CoT reasoning outperforms SO reasoning when both are trained on the same fixed dataset, and disagrees on whether the traces are necessary, whether the advantage survives more data and test-time compute, and whether the content of the traces matters.
+The literature therefore agrees that SA-CoT outperforms SO learning when both are trained on the same fixed dataset, and disagrees on whether the traces are necessary, whether the advantage survives more data and test-time compute, and whether the content of the traces matters.
 
 \section{Efficiency, trace representation, and generalisation: three gaps in the literature}
 \label{sec:bg_gaps}
@@ -236,7 +236,7 @@ The search algorithms that SA-CoT models learn to imitate are size-agnostic by c
 However, all comparisons reviewed so far are posed in the ID setting, i.e., on held-out problems similar to those encountered in training, while the performance of neural networks that learn from data is known to be sensitive to how close a test-time problem is to the training distribution~\citep{geirhosShortcutLearning2020}.
 Length generalisation, or size extrapolation --- the ability to solve problems whose size exceeds any problem in the training set --- is the standard test of out-of-distribution generalisation for algorithmic reasoners~\citep{anilExploringLengthGeneralization,velickovicCLRSAlgorithmicReasoning2022}.
 It is also an exact test: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned~\citep{zhouWhatAlgorithmsCan2023,anilExploringLengthGeneralization}.
-For SA-CoT reasoning in particular, length generalisation is evidence that the model has learned internal representations and token-level outputs consistent with a neural implementation of a search algorithm rather than with some other procedure, which also matters for the faithfulness of the trace with respect to the solution.
+For SA-CoT in particular, length generalisation is evidence that the model has learned internal representations and token-level outputs consistent with a neural implementation of a search algorithm rather than with some other procedure, which also matters for the faithfulness of the trace with respect to the solution.
 It has practical utility as well: when larger problems are intractable for symbolic solvers, for example large Sokoban puzzles, the training set cannot include them, and a model that generalises in length can solve problems that no solver could label.
 
 Outside search, length generalisation of autoregressive transformers has been studied on arithmetic, logic, and state-tracking tasks.
@@ -250,7 +250,7 @@ In the setup closest to this proposal, an SA-CoT model trained on $20\times20$ m
 A naive maze setup may not be able to generalise in length at all, since training on smaller grids leaves the embeddings of larger coordinates untrained.
 \citet{caiExtrapolationAssociationLength2025} avoid this by fixing the grid size and sampling mazes with fewer nodes within it, which yields smaller mazes with full coverage of all coordinates.
 They find that training on DFS traces does not generalise to larger mazes, but that adding an auxiliary task that does cover larger mazes lifts the performance of the traces on the same sizes.
-This is the only study that directly addresses size extrapolation of SA-CoT and the only one with a positive result; however, the auxiliary task is SO learning, and maze navigation is a problem on which SO models can reach perfect accuracy at large sizes, so the mechanism is a transfer of maze-traversal capability from SO to SA-CoT reasoning rather than algorithmic size extrapolation.
+This is the only study that directly addresses size extrapolation of SA-CoT and the only one with a positive result; however, the auxiliary task is SO learning, and maze navigation is a problem on which SO models can reach perfect accuracy at large sizes, so the mechanism is a transfer of maze-traversal capability from SO to SA-CoT rather than algorithmic size extrapolation.
 The conditions that, according to theory, enable length generalisation, i.e., inductive trace formats and equivalence to short size-independent programs, have therefore not been instantiated on search problems with either learning approach, and no study compares SA-CoT with SO learning or with the alternatives of Section~\ref{sec:bg_gap_trace} on length generalisation of a search problem for which the trace is necessary.
 
 \begin{tcolorbox}[title=Gap 3: Length generalisation, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
@@ -264,4 +264,4 @@ The state of the art provides evidence that SA-CoT can be beneficial as a reason
 However, it does not adequately measure this benefit against the sample and compute cost of the trace, nor show which problems will benefit from it the most~(Gap~1); it does not show which ingredient of the trace the benefit depends on, nor whether a token-based trace is the best approach to supply that ingredient~(Gap~2); and it does not show whether the search that the model learns generalises beyond the sizes seen in training~(Gap~3).
 Each gap is addressed by one research question in Chapter~\ref{ch:proposal}, and each research question is intended to become one core chapter of the thesis.
 The three gaps are not independent: the answer to the first supplies the experimental frame in which the second and the third must be posed, and Chapter~\ref{ch:proposal} makes this dependency explicit.
-Chapter~\ref{ch:progress_report} presents the first study of this project, which partially addresses Gap~1 and provides preliminary evidence on Gaps~2 and~3.
+Chapter~\ref{ch:progress_report} presents the first study of this project, which partially addresses Gap~1 and Gap~2.
