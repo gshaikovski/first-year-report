@@ -34,7 +34,7 @@ Establishing a causal link between problem structure, learning regimes, and effi
 
 Second, the search trace is the most expensive part of training and generation: it must be produced by a symbolic solver or obtained by other means, and it substantially increases the length of every training sequence.
 Whether this cost can be reduced depends on the mechanisms in the trace that contribute to its advantage over SO learning.
-Chapter~\ref{ch:progress_report} shows suboptimal and invalid search traces underperform in the search-efficient regime, yet unrelated traces do not collapse into solution-only learning.
+Chapter~\ref{ch:progress_report} shows that a dataset with suboptimal and invalid search traces underperform in the search-efficient regime, yet completely unrelated traces do not collapse into solution-only learning.
 Identifying the mechanisms behind search trace efficiency and testing whether other forms of intermediate computation can implement them is the second research question (Gap~2, Section~\ref{sec:proposal_rq2}).
 This question depends on the Research Question~1 since we must be able to tell which problems are search-efficient, and how to vary the problem structure without changing the regime, which will be important for controlled experiments.
 
@@ -62,7 +62,7 @@ To answer this question, I aim to (1) precisely define and demonstrate two learn
 The first study of this project, presented in Chapter~\ref{ch:progress_report}, provides the starting point.
 The novel result is an unambiguous demonstration that, for some search problems, SA-CoT is the most sample- and compute-efficient method for in-distribution generalisation, but not for all.
 To establish this, we compare SA-CoT and SO learning across dataset sizes and model sizes at matched training and test-time compute.
-We formalise this as search-efficient and search-optional learning regimes, and provide evidence that they is determined by the problem structure: changing the problem from maze navigation to Countdown switches learning from search-optional to search-efficient regime.
+We formalise this as search-efficient and search-optional learning regimes, and provide evidence that they are determined by the problem structure: changing the problem from maze navigation to Countdown switches learning from search-optional to search-efficient regime.
 However, this evidence rests on experiments with two problems, and tests but does not conclude which factors in the problem structure are responsible.
 
 The current literature and the first study suggest candidate factors that determine the learning regime: whether the state graph is given in context, the locality of the transition function, and the existence of a cheap heuristic.
@@ -194,5 +194,3 @@ In this case, I will pivot to finding ways to leverage the insight into the mech
 The research of Section~\ref{sec:proposal_rq3} is the most likely to fail, since no study has yet achieved algorithmic length generalisation of SA reasoning.
 If the theory-guided interventions do not extrapolate, the result is a stress-test of the theory's claims of universality, which is itself a valuable but less impactful contribution.
 In such a case, I will pivot to the alternative methods discussed in Section~\ref{sec:proposal_rq2}, such as loop and recursive transformers, some of which already have published results that demonstrate length generalisation, although not on search problems.
-
-Finally, the first study is under review, and rejection may require additional analyses and preparation for resubmission; the workplan in Chapter~\ref{ch:workplan} accounts for this with dedicated resubmission periods.
