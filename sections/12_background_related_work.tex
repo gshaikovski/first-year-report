@@ -64,9 +64,9 @@ Padding the input with content-free tokens increases amount of parallel computat
 Decoding specific intermediate tokens removes this limit: with $T$ intermediate tokens, a constant-depth transformer computes any function that has a Boolean circuit of size $T$~\citep{liChainThoughtEmpowers2024}, polynomially many tokens reach exactly the class $\mathsf{P}$~\citep{merrillExpressivePowerTransformers2024}, and constant-size models solve arithmetic and dynamic-programming problems that bounded-depth models without CoT cannot~\citep{fengRevealingMysteryChain2023}.
 The number of tokens required is itself set by the task, with tight lower bounds for many algorithmic problems, and even some problems in $\mathsf{TC}^0$, such as parity, require CoT~\citep{amiriLowerBoundsChainofThought2025,barceloEhrenfeuchtHausslerRank2025}.
 At the same time, decoding intermediate tokens is not the only way to implement serial computation in the transformer: depth that grows logarithmically with the input, or a block of layers applied in a loop, expresses state tracking and connectivity more economically than CoT steps~\citep{merrillLittleDepthGoes2025,saunshiLoopedTransformers2025}.
-Each method -- depth, recurrent state, and CoT tokens -- has unique advantages and trade-offs w.r.t. number of parameters and runtime required to solve compositional reasoning problems, such as evaluating Boolean formulas~\citep{yehudaiCompositionalReasoningTransformers2025}.
+Each method -- depth, recurrent state, and CoT tokens -- has unique advantages and trade-offs w.r.t. the number of parameters and runtime required to solve compositional reasoning problems, such as evaluating Boolean formulas~\citep{yehudaiCompositionalReasoningTransformers2025}.
 
-Besides extending expressivity of transformers, CoT has also been shown to improve learnability of various tasks.
+Besides extending the expressivity of transformers, CoT has also been shown to improve the learnability of various tasks.
 Specifically, intermediate supervision makes composite tasks that cannot be learned end-to-end learnable with polynomially many samples~\citep{wiesSubTaskDecompositionEnables2023,malachAutoRegressiveNexttokenPredictors2024,prystawskiWhyThinkStep2023,joshiTheoryLearningAutoregressive2025}.
 For example, \citet{wenSparseDependenceSparse2025} shows that $k$-sparse parity requires $2^{\Omega(k)}$ samples from answers alone but near-linearly many with supervised steps.
 \citet{abbeHowFarCan2024} proves that CoT specifically benefits tasks with high `globality' of the target, that is, where information must be integrated across the entire context to compute a solution, such as a graph cycle task~\citep{abbeHowFarCan2024}.
@@ -116,7 +116,7 @@ Finally, Section \ref{sec:bg_search_lm_incontext} reviews literature on language
 \label{sec:bg_search_lm_internal}
 
 The baseline approach is \emph{solution-only}~(SO)~\citep{lehnertBetterPlanningTransformers2024}, where the model is trained on pairs of a problem and its solution path and decodes the solution directly.
-For search problems, the direct solution is a sequence of steps through the state space that start at the initial state and lead directly to the goal state.
+For search problems, the direct solution is a sequence of steps through the state space that starts at the initial state and leads directly to the goal state.
 For example, in maze navigation, that would be a sequence of cells between a start and a goal cells; in theorem proving, the shortest sequence of statements that prove the theorem.
 Since training uses teacher forcing on the solution tokens, every decoded step in the direct solution must be correct, and for some problems the first step can be chosen correctly only after the whole problem is solved~\citep{bachmannPitfallsNexttokenPrediction2025}.
 Without explicit demonstrations of problem-solving strategies, the model can develop any procedure to compute a sequence of correct steps during training, including procedures that need not be a form of search.
@@ -256,14 +256,14 @@ This is the only study that directly addresses size extrapolation of SA-CoT and 
 The conditions that, according to theory, enable length generalisation, i.e., inductive trace formats and equivalence to short size-independent programs, have therefore not been instantiated on search problems with either learning approach, and no study compares SA-CoT with SO learning or with the alternatives of Section~\ref{sec:bg_gap_trace} on length generalisation of a search problem for which the trace is necessary.
 
 \begin{tcolorbox}[title=Gap 3: Length generalisation, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
-The literature does not investigate length generalisation in search-augmented CoT, and does not establish how it can be achieved, whether it can do so better than other forms of intermediate computation, and which trace format enables it.
+The literature does not investigate length generalisation in search-augmented CoT, and does not establish how it can be achieved.
 \end{tcolorbox}
 
 \section{Summary}
 \label{sec:bg_summary}
 
 The state of the art provides evidence that SA-CoT can be beneficial as a reasoning strategy for language models applied to search problems, potentially due to search process demonstrations having localised dependencies and simple transition rules that makes learning easier.
-However, it does not adequately measure this benefit against the sample and compute cost of the trace, nor show which problems will benefit from it the most~(Gap~1); it does not show which ingredient of the trace the benefit depends on, nor whether a token-based trace is the best approach to supply that ingredient~(Gap~2); and it does not show whether the search that the model learns generalises beyond the sizes seen in training~(Gap~3).
+However, it does not adequately measure this benefit against the sample and compute cost of the trace, nor identifies the factors that determine such cost~(Gap~1); it does not show which ingredient of the trace the benefit depends on, nor whether a token-based trace is the best approach to supply that ingredient~(Gap~2); and it does not evaluate whether search imitation via search trace supervision can generalise to problems beyond the size seen during training~(Gap~3).
 Each gap is addressed by one research question in Chapter~\ref{ch:proposal}, and each research question is intended to become one core chapter of the thesis.
 The three gaps are not independent: the answer to the first supplies the experimental frame in which the second and the third must be posed, and Chapter~\ref{ch:proposal} makes this dependency explicit.
-Chapter~\ref{ch:progress_report} presents the first study of this project, which partially addresses Gap~1 and Gap~2.
+Chapter~\ref{ch:progress_report} presents the first study of this project, which partially addresses Gap~1 and Gap~2, and describes baseline results related to Gap~3.

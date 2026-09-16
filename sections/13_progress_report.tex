@@ -84,11 +84,12 @@ Third, the best SA-CoT model trained on modular Countdown with three numbers, te
 \section{Outlook}
 \label{sec:progress_outlook}
 
-The study argues that there are search problems on which SA-CoT learning is the most sample- and compute-efficient method for in-distribution generalisation, that this is not the case for every search problem, and that which case applies is decided by the problem's structure rather than by scale.
-It defines two learning regimes for search problems that separate the problems by the relative sample and compute efficiency of SA-CoT compared to SO learning.
+The study argues that there are search problems on which SA-CoT learning is the most sample- and compute-efficient method for in-distribution generalisation, that this is not the case for every search problem, and that which case applies is decided by the problem's structure rather than by model scale.
+It defines two learning regimes for search problems that separate the problems by the relative sample and compute efficiency of SA-CoT compared to SO learning, and shows that scaling the model size only helps in the regime where SO learning is more efficient.
 It also demonstrates that suboptimal or unrelated traces hinder performance and learning efficiency of SA-CoT, which may fall behind SO learning even on problems where optimal SA-CoT is more efficient.
 Finally, it provides the protocol, specifically, matched-compute comparison across data and model sweeps in both regimes, which establishes the regime for a given problem.
-For Research Question~1, it leaves open which properties of the structure determine the regime: the evidence rests on two problems and one intervention, and the candidate factors are not isolated; it also leaves open whether other regimes are possible in practice, since the provided definition does not exhaustively define all possible regimes.
-For Research Question~2, it leaves open what the trace supplies in the search-efficient regime, why suboptimal traces perform worse, and why unrelated traces retain part of the benefit and outperform SO data.
+For Research Question~1, it leaves open which properties of the structure determine the regime: the evidence rests on two problems with different structure and representation, and interventions within the problem only show that they do not change the regime; thus, the candidate factors are not yet isolated.
+It also leaves open whether other regimes are possible in practice, since the provided definition does not exhaustively define all possible regimes.
+For Research Question~2, it only provides evidence that trace quality and semantics are important in the search-efficient regime, but does not establish why it is the case, why suboptimal traces perform worse, and why unrelated traces retain part of the benefit and outperform SO data.
 For Research Question~3, it shows only that the current setup does not generalise in length, and everything beyond in-distribution generalisation remains to be done.
 Chapter~\ref{ch:proposal} takes up each of these in turn.
