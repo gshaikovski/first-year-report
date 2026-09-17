@@ -199,7 +199,7 @@ Theory offers candidate predictors of when intermediate supervision is required:
 None of these factors has been tested as a predictor of the relative efficiency of SA-CoT and SO learning, while other factors are entirely missing, for example, problems with a static but hidden global state space graph where the data only ever observes a small fraction of the whole graph.
 Therefore, I formulate the first gap as follows:
 
-\begin{tcolorbox}[title=Gap 1: Efficiency, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+\begin{tcolorbox}[title=Gap 1: Efficiency, colback=ThesisGreen!5, colframe=ThesisGreen, fonttitle=\bfseries, fontupper=\itshape]
     The literature does not establish the factors that determine if search-augmented CoT learning is more sample- and compute-efficient than solution-only learning on a given search problem.
 \end{tcolorbox}
 
@@ -227,7 +227,7 @@ Next, traces that follow a valid reasoning structure but whose content is invali
 At the other end are mechanisms that supply serial computation relevant to the task without symbolic tokens: continuous latent states as reasoning ``tokens'', which can encode several search frontiers in superposition~\citep{haoTrainingLargeLanguage2025,zhuReasoningSuperpositionTheoretical2025}; looped and recurrent-depth architectures~\citep{saunshiLoopedTransformers2025,geipingRecurrentDepth2025}; and curricula that internalise an explicit trace and then remove it~\citep{dengExplicitToImplicitCoT2024,zelikmanQuietSTaR2024}.
 None of these alternatives has been compared with SA-CoT learning at matched compute on a search problem for which the trace has been shown to be necessary.
 
-\begin{tcolorbox}[title=Gap 2: Trace representation, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+\begin{tcolorbox}[title=Gap 2: Trace representation, colback=ThesisOrange!5, colframe=ThesisOrange, fonttitle=\bfseries, fontupper=\itshape]
 The literature does not establish which ingredients of the search trace are necessary for the efficiency of search-augmented CoT, nor whether these ingredients can be supplied without a token-level symbolic search trace.
 \end{tcolorbox}
 
@@ -255,7 +255,7 @@ They find that training on DFS traces does not generalise to larger mazes, but t
 This is the only study that directly addresses size extrapolation of SA-CoT and the only one with a positive result; however, the auxiliary task is SO learning, and maze navigation is a problem on which SO models can reach perfect accuracy at large sizes, so the mechanism is a transfer of maze-traversal capability from SO to SA-CoT rather than algorithmic size extrapolation.
 The conditions that, according to theory, enable length generalisation, i.e., inductive trace formats and equivalence to short size-independent programs, have therefore not been instantiated on search problems with either learning approach, and no study compares SA-CoT with SO learning or with the alternatives of Section~\ref{sec:bg_gap_trace} on length generalisation of a search problem for which the trace is necessary.
 
-\begin{tcolorbox}[title=Gap 3: Length generalisation, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
+\begin{tcolorbox}[title=Gap 3: Length generalisation, colback=ThesisBlue!5, colframe=ThesisBlue, fonttitle=\bfseries, fontupper=\itshape]
 The literature does not investigate length generalisation in search-augmented CoT, and does not establish how it can be achieved.
 \end{tcolorbox}
 
