@@ -2,7 +2,7 @@
 \label{ch:workplan}
 
 The workplan is organised into two- to three-month blocks and follows the order of the research questions in Chapter~\ref{ch:proposal}, since each question depends on the results of the previous one.
-The second year (October 2026 to September 2027) is dedicated to the learning-regimes project of Section~\ref{sec:proposal_rq1}, which addresses Research Question~1, and to the baselines that open the trace-mechanism project of Section~\ref{sec:proposal_rq2}.
+The second year (October 2026 to September 2027) is dedicated to the learning-regimes project of Section~\ref{sec:proposal_rq1}, which addresses Research Question~1, and to the baselines and the interpretability study of the trace-mechanism project of Section~\ref{sec:proposal_rq2}.
 The third year (October 2027 to September 2028) completes the trace-mechanism project, which addresses Research Question~2, and carries out the length-generalisation project of Section~\ref{sec:proposal_rq3}, which addresses Research Question~3.
 Thesis writing begins in August 2028, in parallel with the final experiments, and continues into the fourth year until submission in January 2029.
 
@@ -43,9 +43,9 @@ Table~\ref{tab:workplan} presents the detailed workplan, including these milesto
 
 Nov--Dec 2026 &
 \wprqone{Learning-regimes project (RQ1): task suite.}
-Add search problems to the task suite beyond maze navigation and Countdown, covering the candidate factors of Section~\ref{sec:proposal_rq1} (in-context graph, locality of the transition function, presence of a cheap heuristic).
-Run the matched-compute sweeps of Chapter~\ref{ch:progress_report} on each new task to confirm that the regime definition holds and that the same scaling curves appear.
-Formalise the regimes missing from the current definition and check whether any of them show up in practice. \\
+Add search problems to the task suite beyond maze navigation and Countdown, covering different combinations of the candidate factors in the problem structure (in-context graph, locality of the transition function, presence of useful heuristics).
+Run the matched-compute evaluations on each new task to confirm that the regime definition holds and that the same scaling curves appear.
+Formalise the regimes missing from the current definition and check whether any of them appear in practice. \\
 
 Jan 2027 -- Feb 2027 &
 \wprqone{Learning-regimes project (RQ1): theory.}
@@ -74,7 +74,7 @@ Submit the learning-regimes paper (RQ1). \\
 
 Jul--Aug 2027 &
 \wprqtwo{Trace-mechanism project (RQ2): baselines.}
-Implement the alternative forms of intermediate computation of Section~\ref{sec:proposal_rq2} (content-free tokens, unrelated and corrupted traces, continuous latent thoughts, looped and recurrent-depth models) and evaluate them against SA-CoT and SO models at matched training and test-time compute on one or two tasks in the search-efficient regime, selected from the task suite of RQ1.
+Implement the alternative forms of intermediate computation (content-free tokens, unrelated and corrupted traces, continuous latent thoughts, looped and recurrent-depth models) and evaluate them against SA-CoT and SO models at matched compute on one or two tasks in the search-efficient regime, selected from the task suite of RQ1.
 Apply existing interpretability methods to SA-CoT models and to the most promising alternatives to begin identifying the mechanisms behind their efficiency. \\
 
 % TODO: summer internship?
@@ -82,7 +82,7 @@ Apply existing interpretability methods to SA-CoT models and to the most promisi
 \wpmilestone Sep 2027 &
 \textbf{NeurIPS 2027 workshop submission; ICLR 2028 submission (optional).}
 Submit the RQ2 baseline and preliminary interpretability results to a NeurIPS 2027 workshop.
-If the learning-regimes paper is rejected from NeurIPS 2027, revise and resubmit to ICLR 2028. \\
+If the RQ1 paper is rejected from NeurIPS 2027, revise and resubmit to ICLR 2028. \\
 
 Sep--Oct 2027 &
 \wprqtwo{Trace-mechanism project (RQ2): mechanisms.}
@@ -101,7 +101,7 @@ Submit the trace-mechanism paper (RQ2). \\
 
 Jan--Feb 2028 &
 \wprqthree{Length-generalisation project (RQ3): protocol and baselines.}
-Establish the evaluation protocol for length generalisation on the same one or two search-efficient tasks as in RQ2, with a setup in which all tokens of larger problems are covered during training, and evaluate the baselines for SA-CoT, SO, and the alternatives of RQ2. \\
+Establish the evaluation protocol for length generalisation on one or two diverse search-efficient tasks from RQ1, with a setup in which all tokens of larger problems are covered during training, and evaluate the baselines for SA-CoT, SO, and the alternatives of RQ2. \\
 
 Mar--Apr 2028 &
 \wprqthree{Length-generalisation project (RQ3): mechanisms.}
@@ -110,7 +110,7 @@ Use the mechanisms identified in RQ2 to determine which component of the trace c
 \wpmilestone May 2028 &
 \textbf{ICML 2028 workshop submission; NeurIPS 2028 submission (optional).}
 Submit the RQ3 protocol, baselines, and mechanism results to an ICML 2028 workshop.
-If the trace-mechanism paper is rejected from ICML 2028, revise and resubmit to NeurIPS 2028. \\
+If the RQ2 is rejected from ICML 2028, revise and resubmit to NeurIPS 2028. \\
 
 May--Jul 2028 &
 \wprqthree{Length-generalisation project (RQ3): theory.}
@@ -136,7 +136,7 @@ Oct 2028--Feb 2029 &
 
 \wpmilestone Jan 2029 &
 \textbf{ICML 2029 submission (optional).}
-If the length-generalisation paper is rejected from ICLR 2029, revise and resubmit to ICML 2029. \\
+If the RQ3 paper is rejected from ICLR 2029, revise and resubmit to ICML 2029. \\
 
 \wpmilestone Feb 2029 &
 \textbf{Thesis submission.} \\
