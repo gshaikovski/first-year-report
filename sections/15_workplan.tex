@@ -70,7 +70,7 @@ Submit the learning-regimes paper (RQ1). \\
 
 Jul--Aug 2027 &
 \textbf{Trace-mechanism project (RQ2): baselines.}
-Implement the alternative forms of intermediate computation of Section~\ref{sec:proposal_rq2} (content-free tokens, unrelated and corrupted traces, continuous latent thoughts, looped and recurrent-depth models) and evaluate them against SA-CoT and SO models on the task suite at matched training and test-time compute.
+Implement the alternative forms of intermediate computation of Section~\ref{sec:proposal_rq2} (content-free tokens, unrelated and corrupted traces, continuous latent thoughts, looped and recurrent-depth models) and evaluate them against SA-CoT and SO models at matched training and test-time compute on one or two tasks in the search-efficient regime, selected from the task suite of RQ1.
 Apply existing interpretability methods to SA-CoT models and to the most promising alternatives to begin identifying the mechanisms behind their efficiency. \\
 
 % TODO: summer internship?
@@ -80,13 +80,14 @@ Apply existing interpretability methods to SA-CoT models and to the most promisi
 Submit the RQ2 baseline and preliminary interpretability results to a NeurIPS 2027 workshop.
 If the learning-regimes paper is rejected from NeurIPS 2027, revise and resubmit to ICLR 2028. \\
 
-\wpyear{Year 3 (October 2027 -- September 2028)}
-
 Sep--Oct 2027 &
 \textbf{Trace-mechanism project (RQ2): mechanisms.}
 Iterate on the interpretability methods for search traces to isolate the causal mechanisms behind their efficiency in the search-efficient regime; analyse how search is represented and executed in the model: which components of the trace the model attends to, what its internal representations encode about the search state, and whether it executes the transition and expansion rules of the algorithm. \\
 
-Nov--Dec 2028 &
+\wpyear{Year 3 (October 2027 -- September 2028)}
+
+
+Nov--Dec 2027 &
 \textbf{Trace-mechanism project (RQ2): transfer.}
 Attempt to improve the alternative methods by instilling the same mechanisms through inductive biases or auxiliary supervision, and measure whether they close the gap to SA-CoT in the search-efficient regime. \\
 
@@ -96,7 +97,7 @@ Submit the trace-mechanism paper (RQ2). \\
 
 Jan--Feb 2028 &
 \textbf{Length-generalisation project (RQ3): protocol and baselines.}
-Establish the evaluation protocol for length generalisation on the search-efficient tasks, with a setup in which all tokens of larger problems are covered during training, and evaluate the baselines for SA-CoT, SO, and the alternatives of RQ2. \\
+Establish the evaluation protocol for length generalisation on the same one or two search-efficient tasks as in RQ2, with a setup in which all tokens of larger problems are covered during training, and evaluate the baselines for SA-CoT, SO, and the alternatives of RQ2. \\
 
 Mar--Apr 2028 &
 \textbf{Length-generalisation project (RQ3): mechanisms.}
