@@ -13,6 +13,10 @@ Table~\ref{tab:workplan} presents the detailed workplan, including these milesto
 
 % Formatting: milestone rows are shaded; year headers span both columns.
 \newcommand{\wpmilestone}{\rowcolor{ThesisPurple!8}}
+% Research-work cell titles are coloured by the research question they address (Chapter~\ref{ch:proposal}); submission milestones stay black.
+\newcommand{\wprqone}[1]{\textcolor{ThesisGreen}{\textbf{#1}}}
+\newcommand{\wprqtwo}[1]{\textcolor{ThesisOrange}{\textbf{#1}}}
+\newcommand{\wprqthree}[1]{\textcolor{ThesisBlue}{\textbf{#1}}}
 \newcommand{\wpyear}[1]{\multicolumn{2}{l}{\textbf{#1}} \\ \midrule}
 
 \clearpage
@@ -38,13 +42,13 @@ Table~\ref{tab:workplan} presents the detailed workplan, including these milesto
 \wpyear{Year 2 (October 2026 -- September 2027)}
 
 Nov--Dec 2026 &
-\textbf{Learning-regimes project (RQ1): task suite.}
+\wprqone{Learning-regimes project (RQ1): task suite.}
 Add search problems to the task suite beyond maze navigation and Countdown, covering the candidate factors of Section~\ref{sec:proposal_rq1} (in-context graph, locality of the transition function, presence of a cheap heuristic).
 Run the matched-compute sweeps of Chapter~\ref{ch:progress_report} on each new task to confirm that the regime definition holds and that the same scaling curves appear.
 Formalise the regimes missing from the current definition and check whether any of them show up in practice. \\
 
 Jan 2027 -- Feb 2027 &
-\textbf{Learning-regimes project (RQ1): theory.}
+\wprqone{Learning-regimes project (RQ1): theory.}
 Translate the predictions of the learnability theory reviewed in Section~\ref{sec:bg_reasoning} (globality, RASP-L expressibility, locality of dependencies) into measurable properties of the tasks in the suite.
 Reproduce, or fail to reproduce, the predicted regimes on the suite, and derive educated hypotheses about the factors that determine the regime. \\
 
@@ -53,12 +57,12 @@ Reproduce, or fail to reproduce, the predicted regimes on the suite, and derive 
 If rejected from ICLR 2027, revise \emph{Is In-Context Search Worth Its Compute?} in response to reviews and resubmit. \\
 
 Mar--Apr 2027 &
-\textbf{Learning-regimes project (RQ1): causal factors.}
+\wprqone{Learning-regimes project (RQ1): causal factors.}
 Test the hypothesised factors by controlled ablations and interventions on the task structure.
 Iterate between testing a hypothesis, reviewing the theory, and deriving a new hypothesis when a factor has no effect, and extend the theory where its predictions fail on search problems. \\
 
 May 2027 &
-\textbf{Learning-regimes project (RQ1): open source.}
+\wprqone{Learning-regimes project (RQ1): open source.}
 Release the task suite and sweep infrastructure as an open-source project. \\
 
 \wpmilestone May 2027 &
@@ -69,7 +73,7 @@ Submit the learning-regimes paper (RQ1). \\
 \textbf{Second-year report.} \\
 
 Jul--Aug 2027 &
-\textbf{Trace-mechanism project (RQ2): baselines.}
+\wprqtwo{Trace-mechanism project (RQ2): baselines.}
 Implement the alternative forms of intermediate computation of Section~\ref{sec:proposal_rq2} (content-free tokens, unrelated and corrupted traces, continuous latent thoughts, looped and recurrent-depth models) and evaluate them against SA-CoT and SO models at matched training and test-time compute on one or two tasks in the search-efficient regime, selected from the task suite of RQ1.
 Apply existing interpretability methods to SA-CoT models and to the most promising alternatives to begin identifying the mechanisms behind their efficiency. \\
 
@@ -81,14 +85,14 @@ Submit the RQ2 baseline and preliminary interpretability results to a NeurIPS 20
 If the learning-regimes paper is rejected from NeurIPS 2027, revise and resubmit to ICLR 2028. \\
 
 Sep--Oct 2027 &
-\textbf{Trace-mechanism project (RQ2): mechanisms.}
+\wprqtwo{Trace-mechanism project (RQ2): mechanisms.}
 Iterate on the interpretability methods for search traces to isolate the causal mechanisms behind their efficiency in the search-efficient regime; analyse how search is represented and executed in the model: which components of the trace the model attends to, what its internal representations encode about the search state, and whether it executes the transition and expansion rules of the algorithm. \\
 
 \wpyear{Year 3 (October 2027 -- September 2028)}
 
 
 Nov--Dec 2027 &
-\textbf{Trace-mechanism project (RQ2): transfer.}
+\wprqtwo{Trace-mechanism project (RQ2): transfer.}
 Attempt to improve the alternative methods by instilling the same mechanisms through inductive biases or auxiliary supervision, and measure whether they close the gap to SA-CoT in the search-efficient regime. \\
 
 \wpmilestone Jan 2028 &
@@ -96,11 +100,11 @@ Attempt to improve the alternative methods by instilling the same mechanisms thr
 Submit the trace-mechanism paper (RQ2). \\
 
 Jan--Feb 2028 &
-\textbf{Length-generalisation project (RQ3): protocol and baselines.}
+\wprqthree{Length-generalisation project (RQ3): protocol and baselines.}
 Establish the evaluation protocol for length generalisation on the same one or two search-efficient tasks as in RQ2, with a setup in which all tokens of larger problems are covered during training, and evaluate the baselines for SA-CoT, SO, and the alternatives of RQ2. \\
 
 Mar--Apr 2028 &
-\textbf{Length-generalisation project (RQ3): mechanisms.}
+\wprqthree{Length-generalisation project (RQ3): mechanisms.}
 Use the mechanisms identified in RQ2 to determine which component of the trace carries the search and therefore which component fails to generalise, and characterise the failure. \\
 
 \wpmilestone May 2028 &
@@ -109,7 +113,7 @@ Submit the RQ3 protocol, baselines, and mechanism results to an ICML 2028 worksh
 If the trace-mechanism paper is rejected from ICML 2028, revise and resubmit to NeurIPS 2028. \\
 
 May--Jul 2028 &
-\textbf{Length-generalisation project (RQ3): theory.}
+\wprqthree{Length-generalisation project (RQ3): theory.}
 Transfer the conditions that the theory of Section~\ref{sec:bg_gap_length} predicts to enable length generalisation (inductive trace formats, short size-independent RASP programs) to the tasks and test whether they hold, iterate between hypotheses for relevant conditions and analysis and extension of theory. \\
 
 \wpmilestone Jun 2028 &
@@ -117,7 +121,7 @@ Transfer the conditions that the theory of Section~\ref{sec:bg_gap_length} predi
 % TODO: confirm the third-year report deadline (June vs. September 2028).
 
 Aug--Sep 2028 &
-\textbf{Length-generalisation project (RQ3): method.}
+\wprqthree{Length-generalisation project (RQ3): method.}
 Finalise the method that extrapolates in the search-efficient regime, or demonstrate why search traces cannot generalise in length.
 Begin writing the thesis. \\
 
