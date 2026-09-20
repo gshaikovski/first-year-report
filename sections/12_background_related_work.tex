@@ -3,38 +3,43 @@
 
 % NOTE: the open-problem sentence below should match the Thesis Question box in Chapter 1 once its wording is fixed.
 The open problem addressed in this proposal is applying autoregressive language models with intermediate `reasoning' steps to state-space search problems.
-This chapter reviews background literature and identifies the gaps in related work that this thesis will address.
+This chapter reviews the literature and identifies the gaps this thesis will address.
 Section~\ref{sec:bg_search} defines state-space search problems and the symbolic algorithms that solve them.
-Section~\ref{sec:bg_reasoning} describes how language models solve problems by producing intermediate output called `Chain-of-Thought'~(CoT) before the answer, what theory says about why this helps, how CoT is implemented in practice, and which alternatives exist.
-Section~\ref{sec:bg_search_lm} argues that intermediate computation must supply a search process and not only step-by-step solution, and describes the three ways in which search has been combined with language models, distinguished by where the search is executed: in an external program, in the weights of the model, or in the output stream of the model.
-Section~\ref{sec:bg_gaps} then states three gaps in the literature, which correspond to the three research questions of this thesis.
-Section~\ref{sec:bg_summary} summarises the chapter.
+Section~\ref{sec:bg_reasoning} describes how language models solve problems by producing an intermediate `Chain-of-Thought'~(CoT), why this helps, how it is implemented, and what alternatives exist.
+Section~\ref{sec:bg_search_lm} argues that intermediate computation must supply a search process, not just a step-by-step solution, and describes three ways search has been combined with language models.
+% , distinguished by where the search is executed: in an external program, in the weights of the model, or in the output stream of the model.
+Finally, Section~\ref{sec:bg_gaps} states three key gaps in the literature, each corresponding to a research question of the proposed thesis, and Section~\ref{sec:bg_summary} summarises this chapter.
 
 \section{State-space search and symbolic approaches}
 \label{sec:bg_search}
 
-Formulating problem solving as search through a space of states is one of the foundational formalisms in artificial intelligence~\citep{newell1972human}.
+Formulating problem solving as search through a space of states is a foundational formalism in artificial intelligence~\citep{newell1972human}.
 A state-space search problem is defined by an initial state, a set of actions available in each state, a transition function that maps a state and an action to a successor state, a goal test that identifies desired states, and, optionally, a path-cost function that assigns a cost to each transition~\citep{russel2010}.
-The states and transitions together form a directed graph, the \emph{state graph}, and a solution is a path in this graph from the initial state to a goal state.
-An optimal solution minimises the sum of the costs of its transitions.
+Together, the states and transitions form a directed graph, which we call the \emph{state graph}, where a solution is a path from the initial state to a goal state.
+An optimal solution minimises the sum of its transition costs.
 Many problems can be formulated this way.
 For example, in theorem proving, states are proof states and actions are inference rules.
-In planning, states are descriptions of the world and actions are operators that change them~\citep{russel2010}.
-In maze navigation, states are cells of a grid, actions are moves to adjacent free cells, and the goal is a designated cell.
+In planning, states describe the world, and actions are operators that change them~\citep{russel2010}.
+In maze navigation, states are grid cells, actions are moves to adjacent free cells, and the goal is a designated cell.
 
-A symbolic search algorithm solves such a problem by constructing a \emph{search tree}: starting from the initial state, it repeatedly selects a recorded state, expands it by applying all available actions, and records the successors, until a goal state is expanded.
+A symbolic search algorithm solves such a problem by constructing a \emph{search tree}: starting from the initial state, it repeatedly selects a recorded state, expands it by applying all available actions, and records the successors until it reaches a goal state.
 Uninformed algorithms such as depth-first search~(DFS) and breadth-first search~(BFS)~\citep{russel2010} differ only in the order in which recorded states are selected for expansion: DFS follows one branch until it terminates and then backtracks to the most recent unexpanded alternative, while BFS expands all the nodes in each depth level of the tree before it proceeds to the next level.
 Informed algorithms such as A*~\citep{hartFormalBasisHeuristic1968} keep the recorded states together with their path cost and a \emph{heuristic} estimate of the remaining cost to the goal, and expand the state with the lowest estimated total cost first, which, with an admissible heuristic, guarantees an optimal solution while expanding fewer states than uninformed search.
-In all cases, the execution of the algorithm can be recorded as a \emph{search trace}: the sequence of expansions, evaluations, and backtracking steps performed before the solution was found.
+In all cases, each algorithm's execution can be recorded as a \emph{search trace}: the sequence of expansions, evaluations, and backtracking steps performed before the solution was found.
 
-In this proposal, symbolic algorithms play two roles.
+In this proposal, symbolic search algorithms play two roles.
 First, they define the behaviour that the language models are meant to imitate.
-A symbolic algorithm is sound and complete by construction, and it is agnostic to the size of the problem: A* finds a path in a maze of any grid size, although larger grids require more time and memory~\citep{russel2010}.
-A language model that can follows the same process thus will be able to solve more problems than a model with non-systematic reasoning approach, for the reasons that I elaborate on in Section \ref{sec:bg_reasoning_practice}, and promises to generalise from training on small examples to solving larger ones, which I am concerned with in Section \ref{sec:bg_gap_length}.
-Second, since the cost of symbolic search is set by the problem rather than by the algorithm, the length of the trace grows with the branching factor of the state graph and the depth of the solution.
-When such a search algorithm provides the search traces that become the training data for these models, this has a benefit and a disadvantage.
-The benefit of this is that a language model that imitates search traces scales its computation proportionately to the problem complexity, which aligns well with theoretical work on expressivity and learnability of transformers applied to inherently serial problems, which I describe in Section \ref{sec:bg_reasoning_expressivity_learnability}.
-However, the disadvantage is that growing trace length presents challenges of compute efficiency, which I elaborate on in Section \ref{sec:bg_gap_efficiency}.
+A symbolic search algorithm is sound and complete by construction, and it is agnostic to the problem size: A* finds a path in a maze of any grid size, although larger grids require more time and memory~\citep{russel2010}.
+Hence, if a language model follows the same process, it will be able to
+% solve more problems than a model following a non-systematic reasoning approach, for the reasons that I elaborate on in Section \ref{sec:bg_reasoning_practice}, and promises to
+generalise from training on small examples to solving larger ones.
+% , which I am concerned with in Section \ref{sec:bg_gap_length}.
+Second, because the cost of symbolic search is set by the problem rather than the algorithm, trace length grows with the branching factor of the state graph and the depth of the solution.
+When a search algorithm provides search traces as training data for language models, this has both benefits and drawbacks.
+One benefit is that a language model that imitates search traces scales its computation proportionately to the problem complexity, aligning with theoretical work on the expressivity and learnability of transformers applied to inherently serial problems, which I describe in Section \ref{sec:bg_reasoning_expressivity_learnability}.
+However, longer traces challenge compute efficiency, which I elaborate on in Section \ref{sec:bg_gap_efficiency}.
+
+%%%%%%%%%%%%% COMMENT %%%%%%%%%%%%%
 
 \section{Reasoning language models and intermediate computation}
 \label{sec:bg_reasoning}
@@ -42,7 +47,7 @@ However, the disadvantage is that growing trace length presents challenges of co
 \subsection{Autoregressive decoding and solution-only models}
 \label{sec:bg_reasoning_intro}
 
-An autoregressive language model is a neural network, in this proposal always a transformer~\citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, that defines a distribution $p_\theta(x_t \mid x_{<t})$ over the next token of a sequence given the preceding tokens.
+An autoregressive language model is a neural network, which this proposal assumes is a transformer~\citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, that defines a distribution $p_\theta(x_t \mid x_{<t})$ over the next token of a sequence given the preceding tokens.
 It is trained by maximising the likelihood of a corpus of sequences, and it is applied to a problem by encoding the problem as a token sequence, choosing the next token based on the computed distribution, appending the token to the sequence, and repeating this loop until terminated.
 A search problem can therefore be posed to a language model by serialising its description, and the model's answer is whatever sequence it decodes after the description.
 Which tokens the model is trained to decode after the problem is a design choice, and it is the subject of this thesis.
@@ -50,27 +55,28 @@ Which tokens the model is trained to decode after the problem is a design choice
 \subsection{Expressivity and learnability of intermediate computation in transformers}
 \label{sec:bg_reasoning_expressivity_learnability}
 
-The simplest approach to train and use language models is to decode the answer directly, that is, given a problem, the model immediately starts decoding its solution.
-For example, given an arithmetic expression as initial sequence, the model decodes only the tokens of the answer the expression evaluates to.
-This direct solution approach has a disadvantage: the model often must solve the problem in a single evaluation.
+The simplest approach to training and using a language model given a problem is to decode the answer directly.
+% , that is, given a problem, the model immediately starts decoding its solution.
+For example, given an arithmetic expression as an initial sequence, the model decodes only the tokens of the answer the expression evaluates to.
+This \emph{direct solution} approach has a disadvantage: the model often must solve the problem in a single evaluation.
 If solving the problem requires complex reasoning and extensive exploration, then training models on solution-only data obscures that process, forcing the model to develop its own process in order to fit the data, which can cause it to focus on shortcuts and correlations that do not generalise \citep{xiangSystem2Reasoning2025,geirhosShortcutLearning2020,liuTransformersLearnShortcuts2023}.
 Emitting intermediate tokens before the answer, variously called a scratchpad or `Chain-of-Thought'~(CoT), improves accuracy on tasks that require several sequential steps, whether the tokens are elicited by demonstrations in the prompt~\citep{weiChainofThoughtPromptingElicits2023}, by an instruction to think step by step~\citep{kojimaLargeLanguageModels2022}, or by training on them~\citep{nyeShowYourWork2021}.
-For example, given an arithmetic expression, a model with CoT decodes tokens that evaluate the first simple sub-expression, then the second sub-expression, essentially breaking down the problem into simpler steps and combining them in the end to produce the answer.
-However, the benefit of this approach is not universal: a meta-analysis shows that gains concentrate on mathematical and symbolic problems, where CoT improves the execution of symbolic steps but still underperforms a symbolic solver~\citep{spragueToCoTorNot2025}; CoT prompting fails to induce a general procedure on planning problems~\citep{stechlyChainThoughtlessnessAnalysis2024}, accumulates errors as the depth of the required computation grows~\citep{dziriFaithFateLimits2023}, and can lower accuracy on tasks where deliberation also hurts humans~\citep{liuMindYourStep2025}; and longer chains are not monotonically better~\citep{wuWhenMoreLess2025}.
+For example, given an arithmetic expression, a model with CoT decodes tokens that evaluate the first simple sub-expression, then the second sub-expression, essentially breaking down the problem into simpler steps and combining them at the end to produce the answer.
+However, the benefit of this approach is not universal: a meta-analysis shows that gains concentrate on mathematical and symbolic problems, where CoT improves the execution of symbolic steps but still underperforms a symbolic solver~\citep{spragueToCoTorNot2025}; CoT prompting fails to induce a general procedure on planning problems~\citep{stechlyChainThoughtlessnessAnalysis2024}, accumulates errors as the computation depth grows~\citep{dziriFaithFateLimits2023}, and can lower accuracy on tasks where deliberation also hurts humans~\citep{liuMindYourStep2025}; and longer chains are not monotonically better~\citep{wuWhenMoreLess2025}.
 
 Theory explains both why intermediate tokens help and why the benefit depends on the task.
-A transformer of fixed depth performs a bounded number of parallel computation steps per output token, so it is confined to the circuit class $\mathsf{TC}^0$ and cannot solve inherently serial problems, such as state tracking or graph connectivity, at arbitrary input sizes~\citep{hahnTheoreticalLimitationsSelfAttention2020,merrillParallelismTradeoff2023,stroblWhatFormalLanguages2024}.
+A fixed-depth transformer performs a bounded number of parallel computation steps per output token, so it is confined to the circuit class $\mathsf{TC}^0$ and cannot solve inherently serial problems (e.g., state tracking or graph connectivity) of arbitrary input sizes~\citep{hahnTheoreticalLimitationsSelfAttention2020,merrillParallelismTradeoff2023,stroblWhatFormalLanguages2024}.
 Padding the input with content-free tokens increases amount of parallel computation in-depth but does not help with serial computation~\citep{merrillExactExpressivePower2025}.
 Decoding specific intermediate tokens removes this limit: with $T$ intermediate tokens, a constant-depth transformer computes any function that has a Boolean circuit of size $T$~\citep{liChainThoughtEmpowers2024}, polynomially many tokens reach exactly the class $\mathsf{P}$~\citep{merrillExpressivePowerTransformers2024}, and constant-size models solve arithmetic and dynamic-programming problems that bounded-depth models without CoT cannot~\citep{fengRevealingMysteryChain2023}.
-The number of tokens required is itself set by the task, with tight lower bounds for many algorithmic problems, and even some problems in $\mathsf{TC}^0$, such as parity, require CoT~\citep{amiriLowerBoundsChainofThought2025,barceloEhrenfeuchtHausslerRank2025}.
+The number of tokens required depends on the task, with tight lower bounds for many algorithmic problems, and even some problems in $\mathsf{TC}^0$, such as parity, require CoT~\citep{amiriLowerBoundsChainofThought2025,barceloEhrenfeuchtHausslerRank2025}.
 At the same time, decoding intermediate tokens is not the only way to implement serial computation in the transformer: depth that grows logarithmically with the input, or a block of layers applied in a loop, expresses state tracking and connectivity more economically than CoT steps~\citep{merrillLittleDepthGoes2025,saunshiLoopedTransformers2025}.
 Each method -- depth, recurrent state, and CoT tokens -- has unique advantages and trade-offs w.r.t. the number of parameters and runtime required to solve compositional reasoning problems, such as evaluating Boolean formulas~\citep{yehudaiCompositionalReasoningTransformers2025}.
 
-Besides extending the expressivity of transformers, CoT has also been shown to improve the learnability of various tasks.
+Beyond extending transformer expressivity, CoT has also been shown to improve task learnability.
 Specifically, intermediate supervision makes composite tasks that cannot be learned end-to-end learnable with polynomially many samples~\citep{wiesSubTaskDecompositionEnables2023,malachAutoRegressiveNexttokenPredictors2024,prystawskiWhyThinkStep2023,joshiTheoryLearningAutoregressive2025}.
 For example, \citet{wenSparseDependenceSparse2025} shows that $k$-sparse parity requires $2^{\Omega(k)}$ samples from answers alone but near-linearly many with supervised steps.
-\citet{abbeHowFarCan2024} proves that CoT specifically benefits tasks with high `globality' of the target, that is, where information must be integrated across the entire context to compute a solution, such as a graph cycle task~\citep{abbeHowFarCan2024}.
-The reason is learning with gradient descent: applied to a transformer, it is biased towards low-sensitivity functions, so high-sensitivity targets such as parity are hard to reach from answers alone~\citep{hahnWhySensitiveFunctions2024}, yet they are learned in a single gradient step when the intermediate parities are supervised~\citep{kimTransformersProvablySolve2025}.
+\citet{abbeHowFarCan2024} proves that CoT specifically benefits tasks with high target `globality', where a solution requires aggregating information across the entire context (e.g., graph cycle task)~\citep{abbeHowFarCan2024}.
+The reason is gradient descent: when applied to a transformer, it is biased towards low-sensitivity functions, so high-sensitivity targets such as parity are hard to reach from answers alone~\citep{hahnWhySensitiveFunctions2024}, yet they are learned in a single gradient step when the intermediate parities are supervised~\citep{kimTransformersProvablySolve2025}.
 All of these results are proved for constructed target functions; whether they predict the behaviour of transformers on search problems in more realistic settings is one of the questions I propose to investigate.
 
 \subsection{Alternative approaches to intermediate computation}
@@ -83,7 +89,7 @@ Further along, the trace is replaced by continuous vectors fed back as input: co
 At the other end, the serial computation is moved out of the sequence and into the depth of the network: recurrent architectures with adaptive computation time~\citep{gravesAdaptiveComputationTime2016,dehghaniUniversalTransformers2019,baninoPonderNetLearningPonder2021} and looped transformers~\citep{giannouLoopedTransformersProgrammable2023,yangLoopedTransformersAre2024,saunshiLoopedTransformers2025,geipingRecurrentDepth2025,baeMixtureofRecursionsLearningDynamic2025} apply the same block of layers repeatedly, which extrapolates to larger mazes and chess puzzles~\citep{bansalEndToEndAlgorithm2022}, to longer arithmetic~\citep{fanLoopedTransformersLength2025}, and, in a small two-timescale recurrent model, to hard Sudoku and large mazes~\citep{wangHierarchicalReasoningModel2025}.
 Finally, an explicit trace can be used during training and then internalised, by distilling it into the hidden states~\citep{dengImplicitChainThought2023}, removing it gradually~\citep{dengExplicitToImplicitCoT2024}, or learning to generate it silently~\citep{zelikmanQuietSTaR2024}; however, tasks that depend on long chains, such as multi-step mathematics, do not benefit from this approach~\citep{yuDistillingSystem2System2024}.
 Of these methods, only the recurrent architectures and continuous CoT have been evaluated on algorithmic or search tasks; the rest are validated on mathematical and question-answering benchmarks.
-The methods area also not well developed, so their full potential for learning to search is unknown.
+The methods area is also underdeveloped, so their full potential for learning to search is unknown.
 I return to this line of work in Section~\ref{sec:bg_gap_trace}.
 
 \subsection{Learning intermediate reasoning in practice}
@@ -94,20 +100,20 @@ The model is first fine-tuned on demonstrations of reasoning traces, written by 
 When demonstrations are scarce, they can be replaced by the model's own rollouts that reach a correct answer, on which the model is fine-tuned iteratively~\citep{zelikmanSTaRBootstrapping2022,yuanScalingRelationshipLearning2023,gulcehreReinforcedSelfTrainingReST2023,singhBeyondHumanData2024,hosseiniVSTaRTrainingVerifiers2024}.
 Reinforcement learning~(RL) generalises this by optimising the rollouts directly against a reward: an outcome reward that can be verified by a rule, such as the correctness of a final numerical answer~\citep{shaoDeepSeekMathPushingLimits2024,deepseek-aiDeepSeekR1IncentivizingReasoning2025,openaiLearningReasonLLMs2024,lambertTulu3Pushing2025,yangQwen3TechnicalReport2025,teamKimiK3Open2026}, or a process reward that scores each step~\citep{uesatoSolvingMathWord2022,lightmanLetsVerifyStep2023,luoImproveMathematicalReasoning2024}.
 The de facto recipe is a cold-start fine-tuning on reasoning traces followed by RL on verifiable outcome rewards~\citep{zhangSurveyReinforcementLearning2025}.
-At test-time, such a model prompted with a task will decode an intermediate reasoning trace before producing an answer; it can be further scaled by prompting it to continue reasoning, or sampling several candidates and selecting one with a verifier~\citep{snellScalingLLMTestTime2024,brownLargeLanguageMonkeys2024,setlurScalingTestTimeCompute2025,muennighoffS1SimpleTesttime2025}.
+At test time, such models decode an intermediate reasoning trace before producing an answer; it can be further scaled by prompting it to continue reasoning, or sampling several candidates and selecting one with a verifier~\citep{snellScalingLLMTestTime2024,brownLargeLanguageMonkeys2024,setlurScalingTestTimeCompute2025,muennighoffS1SimpleTesttime2025}.
 
-Two properties of the traces that this recipe produces matter for this proposal.
+Two properties of the traces these approaches use matter for this proposal.
 First, they are natural-language prose that is not constructed to follow any systematic procedure~\citep{guhaOpenThoughtsDataRecipes2025,lambertTulu3Pushing2025}.
 As a result, strategies such as verification, backtracking, subgoal setting, and backward chaining do not appear in them systematically, although their presence correlates with performance and with the gains from RL~\citep{gandhiFourHabitsHighly2025}, and the models can overthink simple problems~\citep{chenNOTThinkThat2025}, switch between lines of thought without completing them~\citep{wangThoughtsAreAll}, and loop on self-corrections~\citep{pipisWaitWaitWait2026}.
-Second, effective fine-tuning with RL requires the models to possess reasoning capabilities \textit{a priori}, and the quality of tine-tuning depends on the quality of the base model's reasoning~\citep{yueDoesReinforcementLearning2025}.
-Furthermore, whether RL can discover reasoning strategies beyond the ones present in the base model is contested: some studies show RL improves single-sample accuracy, but the base model matches it when many samples are drawn~\citep{yueDoesReinforcementLearning2025}, while others point out that longer training may help to discover new strategies~\citep{liuProRL2025}.
-Thus, acquiring more systematic problem-solving skills, such as search derived form a sound and structured algorithm, can help language models to improve their reasoning strategies and effectiveness of RL fine-tuning stage, which is part of the motivation for this work.
+Second, effective RL fine-tuning requires models to possess reasoning capabilities \textit{a priori}, and its quality depends on the base model's reasoning~\citep{yueDoesReinforcementLearning2025}.
+Furthermore, whether RL can discover reasoning strategies beyond those present in the base model is contested: some studies show RL improves single-sample accuracy, but the base model matches it when many samples are drawn~\citep{yueDoesReinforcementLearning2025}, while others point out that longer training may help to discover new strategies~\citep{liuProRL2025}.
+Thus, acquiring more systematic problem-solving skills, such as search derived from a sound and structured algorithm, can help language models to improve their reasoning strategies and effectiveness of RL fine-tuning stage, which is part of the motivation for this work.
 
 \section{Language model reasoning with search}
 \label{sec:bg_search_lm}
 
-Section \ref{sec:bg_search} introduced the concept of state-space search as a way to implement a sound and complete problem-solving procedure, and Section \ref{sec:bg_reasoning} described transformer-based language models that either produce solution directly, or use intermediate computation that scales with problem complexity.
-This section combines these two concepts together and reviews the literature that merges them together.
+Section \ref{sec:bg_search} introduced state-space search as a sound and complete problem-solving procedure, and Section \ref{sec:bg_reasoning} described transformer-based language models that either produce solutions directly or use intermediate computation that scales with problem complexity.
+This section combines these two concepts and reviews the literature that merges them.
 First, Section \ref{sec:bg_search_lm_internal} reviews evaluations of solution-only models on search problems.
 Then, Section \ref{sec:bg_search_lm_external} reviews approaches that combine such language models with an external search algorithm to improve performance on search problems.
 Finally, Section \ref{sec:bg_search_lm_incontext} reviews literature on language models that imitate search by simulating it in its context.
@@ -115,14 +121,15 @@ Finally, Section \ref{sec:bg_search_lm_incontext} reviews literature on language
 \subsection{Internalised search in the weights: solution-only models}
 \label{sec:bg_search_lm_internal}
 
-The baseline approach is \emph{solution-only}~(SO)~\citep{lehnertBetterPlanningTransformers2024}, where the model is trained on pairs of a problem and its solution path and decodes the solution directly.
+The baseline approach is a \emph{solution-only}~(SO) model~\citep{lehnertBetterPlanningTransformers2024}, where the model is trained on $(\texttt{problem}, \texttt{solution})$ pairs, and solution decoding is done without any intermediate trace (i.e., directly).
 For search problems, the direct solution is a sequence of steps through the state space that starts at the initial state and leads directly to the goal state.
 For example, in maze navigation, that would be a sequence of cells between a start and a goal cells; in theorem proving, the shortest sequence of statements that prove the theorem.
-Since training uses teacher forcing on the solution tokens, every decoded step in the direct solution must be correct, and for some problems the first step can be chosen correctly only after the whole problem is solved~\citep{bachmannPitfallsNexttokenPrediction2025}.
-Without explicit demonstrations of problem-solving strategies, the model can develop any procedure to compute a sequence of correct steps during training, including procedures that need not be a form of search.
-Furthermore, as mentioned in Section \ref{sec:bg_reasoning_expressivity_learnability}, expressivity of any such procedure is bound by the network depth as it must be executed implicitly in the forward pass.
+Since training uses teacher forcing on the solution tokens, every decoded step in the direct solution must be correct.
+Hence, for some problems, the model can choose the first step correctly only after solving the whole problem~\citep{bachmannPitfallsNexttokenPrediction2025}.
+Without explicit demonstrations of problem-solving strategies, the model can develop any procedure to compute a sequence of correct steps during training, including procedures that do not involve search.
+Furthermore, as mentioned in Section \ref{sec:bg_reasoning_expressivity_learnability}, the expressivity of any such procedure is bounded by network depth, since it must be executed implicitly in the forward pass.
 
-Studies of transformers on graph problems establish what such a model can compute and where it fails.
+Studies of transformers on graph problems establish what transformers can and cannot compute.
 Deciding connectivity between two nodes of an in-context graph requires logarithmic depth and polynomial width~\citep{sanfordUnderstandingTransformerReasoning2024,sanfordTransformersParallelComputation2024}.
 On a path-finding task, a transformer learns an exponential path-merging algorithm in its forward pass, which expands the reachable set of every node once per layer~\citep{saparovTransformersStruggleLearn2025}; when the graph diameter exceeds its depth capacity, the model falls back on heuristic shortcuts~\citep{yeTransformersProvablyLearn2026}, as transformers do on other algorithmic tasks whose exact solution is serial~\citep{liuTransformersLearnShortcuts2023}.
 Trained on paths from a single graph, a transformer learns adjacency and observed reachability but not transitive reachability~\citep{wangALPINEUnveilingPlanning2024}.
@@ -133,7 +140,7 @@ Taken together, these studies show that a transformer can execute a search in it
 \subsection{External search with language models as actions and values}
 \label{sec:bg_search_lm_external}
 
-To extend a solution-only language model with search, one can integrate it with a symbolic search algorithm which controls the exploration and calls the model to propose successor states and to evaluate them.
+To extend a solution-only language model with search, one can integrate it with a symbolic search algorithm that controls the exploration and calls the model to propose successor states and to evaluate them.
 Tree of Thoughts runs breadth-first or depth-first search over model-generated reasoning steps with the model as the evaluator~\citep{yaoTreeThoughtsDeliberate2023}; Reasoning via Planning runs Monte Carlo tree search with the model acting as both policy and world model~\citep{haoReasoningLanguageModel2023}; LLM-First Search lets the model decide when to continue and when to branch~\citep{herrLLMFirstSearchSelfGuided2025}.
 These methods improve over direct decoding on planning and reasoning benchmarks, and the improvement is consistent with the generator--verifier gap that \citet{xiangSystem2Reasoning2025} describe: a model that cannot decode the solution directly can still recognise it among candidates.
 However, the major disadvantage of this method is that the search strategy is fixed by the program: the model does not learn to search, both search process and state evaluations with a language model must be tuned together, and adapting this method to different problems may require manual adjustments.
@@ -144,7 +151,7 @@ For the purpose of creating a general system for complex reasoning, I do not con
 
 Section \ref{sec:bg_reasoning} argued that intermediate computation is necessary for expressivity and learnability of solutions to complex problems.
 If we wanted to solve search problems using intermediate computation, what should such computation look like, and how should we learn it?
-\citet{xiangSystem2Reasoning2025} argue that often, solutions to complex problems are the outcomes of a background `search' process which itself is not captured in the data.
+\citet{xiangSystem2Reasoning2025} argue that solutions to complex problems often result from a background `search' process that is not captured in the data.
 Therefore, the intermediate trace should be process-driven, i.e., it should reproduce the search that generated the solution, and that reasoning models should be trained to imitate such a process, beginning with fine-tuning on synthetic search traces.
 To learn such a process, the model is trained on triples of a problem, a search trace, and the solution, where the trace is produced either by running a symbolic search algorithm from Section~\ref{sec:bg_search} on the problem~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024}, or generating it by prompting an existing language model~\citep{kimASTROTeachingLanguage2025}; in this work, I will focus on the former as it allows to generate large search trace datasets cheaply and precisely.
 At inference, the model decodes a trace first, thereby executing the search in its own context, and then derives the solution from the trace.
@@ -154,29 +161,31 @@ The SA-CoT approach has several advantages.
 First, search trace data factorises a complex conditional distribution of a hard problem into easier `local' steps with causal forward dependency, which is the same quality that improves task learnability described in Section \ref{sec:bg_reasoning_expressivity_learnability}.
 Intuitively, the transition rule between states is generally a much simpler distribution than the original problem and thus is easier to infer from data.
 The idea appears first as `procedure cloning', where a policy that predicts expert's problem-solving procedure generalises better than `behaviour cloning', which is equivalent to training on solution-only data~\citep{yangChainThoughtImitation2022}.
-\citet{lehnertBetterPlanningTransformers2024} introduced Searchformer -- a transformer that trained to solve search tasks end-to-end, executing the entire search process in context and producing the full step-by-step solution plan, instead of generating only a single action at a time; they found that SA-CoT models outperform SO models, and that SA-CoT models can be bootstrapped to produce shorter traces than A*.
-Second, modelling search in-context allows to discover new search strategies beyond human-designed algorithms that generated original supervision data.
-\citet{gandhiStreamSearchSoS2024} introduced Stream of Search with DFS and BFS traces on Countdown and showed that a model trained on suboptimal or even failed traces can outperform an SO model that trained on optimal direct solutions; fine-tuning the model with reinforcement learning allows it to surpass the original suboptimal traces in accuracy.
-Later work extends the approach in several directions: Dualformer trains on traces with randomly dropped parts so that the model learns to switch automatically between searching and answering directly~\citep{suDualformerControllableFast2025}; LinTree adds pointers to the trace, making it easier for the model to track position in the search tree~\citep{kangLinTreeImprovingLLM2026}; and \citet{opedalLearningReasonEfficiently2026} shows how using a more efficient search algorithm in post-training stage can improve reasoning efficiency of language models.
-\citet{schultzMasteringBoardGames2025}, who train a model to plan in context on chess and other board games, and show that in-context search is competitive with the external search approach described in Section \ref{sec:bg_search_lm_external}.
-Finally, \citet{kimASTROTeachingLanguage2025} provides evidence that the position of Section~\ref{sec:bg_reasoning} holds in practice by post-training a pretrained language model on linearised traces of Monte Carlo tree search over its own solution attempts which improves its performance on mathematical reasoning.
+\citet{lehnertBetterPlanningTransformers2024} introduced Searchformer -- a transformer trained to solve search tasks end-to-end, executing the entire search process in context and producing the full step-by-step solution plan, instead of generating only a single action at a time; they found that SA-CoT models outperform SO models, and that SA-CoT models can be bootstrapped to produce shorter traces than A*.
+Second, modelling search in-context allows us to discover new search strategies beyond the human-designed algorithms that generated the original supervision data.
+\citet{gandhiStreamSearchSoS2024} introduced Stream of Search with DFS and BFS traces on Countdown and showed that a model trained on suboptimal or even failed traces can outperform an SO model that is trained on optimal direct solutions; fine-tuning the model with reinforcement learning allows it to surpass the original suboptimal traces in accuracy.
+Later work extends the approach in several directions: Dualformer trains on traces with randomly dropped parts so that the model learns to switch automatically between searching and answering directly~\citep{suDualformerControllableFast2025}; LinTree adds pointers to the trace, making it easier for the model to track position in the search tree~\citep{kangLinTreeImprovingLLM2026}; and \citet{opedalLearningReasonEfficiently2026} shows how using a more efficient search algorithm in the post-training stage can improve reasoning efficiency of language models.
+\citet{schultzMasteringBoardGames2025} train a model to plan in context on chess and other board games, and show that in-context search is competitive with the external search approach described in Section \ref{sec:bg_search_lm_external}.
+Finally, \citet{kimASTROTeachingLanguage2025} provides evidence that the position of Section~\ref{sec:bg_reasoning} holds in practice by post-training a pretrained language model on linearised traces of Monte Carlo tree search over its own solution attempts, which improves its performance on mathematical reasoning.
 
-However, among the evidence of their utility, results from some studies raise a question whether the search traces are worth their cost of increased compute and extra data collection.
+However,
+% among the evidence of their utility, results from
+some studies raise the question of whether the search traces are worth the added compute and extra data collection.
 In their Searchformer work, \citeauthor{lehnertBetterPlanningTransformers2024} acknowledge that, given enough diverse data, SO models seem to reach the same performance as SA-CoT models on maze navigation and Sokoban.
 \citet{qinBacktrackNotBacktrack2025} compare SA-CoT and SO models on Countdown and Sudoku at test-time compute parity, scaling the SO model by sampling several candidate solutions and selecting one with an external verifier, and find that the SO model can outperform the SA-CoT model on Countdown under this protocol.
 \citet{valmeekamSemanticsUnreasonableEffectiveness2025} replace the A* trace of each maze in the Searchformer setup with a trace from an unrelated maze and find that the model trained on unrelated traces performs as well as the model trained on the original ones.
 
-The literature therefore agrees that SA-CoT outperforms SO learning when both are trained on the same fixed dataset, and disagrees on whether the traces are necessary, whether the advantage survives more data and test-time compute, and whether the content of the traces matters.
+The literature therefore agrees that SA-CoT outperforms SO learning when both are trained on the same fixed dataset, but disagrees on whether traces are necessary, whether the advantage holds when more data and test-time compute are provided, and whether the content of the traces matters.
 
 \section{Efficiency, trace representation, and length generalisation: three gaps in the literature}
 \label{sec:bg_gaps}
 
-In this section, I assess what prior work from Section \ref{sec:bg_search_lm} does not establish about the open question of the thesis, and state three gaps, each of which is addressed by one research question in Chapter~\ref{ch:proposal}.
+In this section, I assess what prior work from Section \ref{sec:bg_search_lm} does not establish about this proposal's main research question, and state three gaps, each aligned with one research question in Chapter~\ref{ch:proposal}.
 Since the question compares SA-CoT and SO reasoning in terms of their efficiency and generalisation, I define the measures first.
-\emph{Sample efficiency} is the number of problems a model requires during training to reach a target error on held-out dataset.
+\emph{Sample efficiency} is the number of problems a model requires during training to reach a target error on a held-out dataset.
 \emph{Training compute efficiency} is the number of floating-point operations~(FLOPs) required to reach that error.
 \emph{Test-time compute} is the number of FLOPs per decoded problem, proportional to the number of generated tokens; for an SO model it can be scaled by sampling several candidate solutions and selecting one with a verifier~\citep{qinBacktrackNotBacktrack2025,snellScalingLLMTestTime2024}.
-\emph{In-distribution}~(ID) generalisation is accuracy on held-out problems drawn from the same distribution as the training problems, in particular of the same size, whereas \emph{length generalisation} is a type of out-of-distribution~(OOD) generalisation on problems larger than any seen in training.
+Finally, \emph{in-distribution}~(ID) generalisation is the accuracy on held-out problems drawn from the same distribution as the training problems, in particular of the same size, whereas \emph{length generalisation} is a type of out-of-distribution~(OOD) generalisation on problems larger than any seen in training.
 
 \subsection{Efficiency: when and why is search-augmented CoT more efficient?}
 \label{sec:bg_gap_efficiency}
@@ -184,20 +193,21 @@ Since the question compares SA-CoT and SO reasoning in terms of their efficiency
 Direct solution decoding is the most computationally efficient approach per training example and per test-time generation, and it requires only SO data.
 By comparison, a search trace in SA-CoT can be an order of magnitude longer than the solution, which increases training and test-time compute per sample in proportion~\citep{qinBacktrackNotBacktrack2025}.
 At the same time, SA-CoT does not force the model to produce a correct solution path immediately, and systematic exploration from explicit demonstrations of state transitions may be easier to learn than direct solutions, potentially requiring \textit{less} data and compute to reach ID generalisation~\citep{wenSparseDependenceSparse2025,abbeHowFarCan2024}.
-Furthermore, the learnability theory reviewed in Section~\ref{sec:bg_reasoning} shows that, on some tasks, SO models require exponentially more data or bigger size~\citep{wenSparseDependenceSparse2025,fengRevealingMysteryChain2023}, although for other tasks SO data may be enough, as parallelisable tasks admit shortcut solutions for which traces are unnecessary~\citep{liuTransformersLearnShortcuts2023,sanfordUnderstandingTransformerReasoning2024,yeTransformersProvablyLearn2026,wangALPINEUnveilingPlanning2024}.
+Furthermore, the theory reviewed in Section~\ref{sec:bg_reasoning} shows that, on some tasks, SO models require exponentially more data or bigger size~\citep{wenSparseDependenceSparse2025,fengRevealingMysteryChain2023}, although for other tasks SO data may be enough, as parallelisable tasks admit shortcut solutions for which traces are unnecessary~\citep{liuTransformersLearnShortcuts2023,sanfordUnderstandingTransformerReasoning2024,yeTransformersProvablyLearn2026,wangALPINEUnveilingPlanning2024}.
 However, at this moment, it is not obvious how this theory translates into a more realistic setting, i.e., training with larger models on more practical search problems with diverse structure and representation that extend beyond in-context graphs, and how to determine which approach is more efficient on a given problem.
-The comparisons on reviewed in Section~\ref{sec:bg_search_lm_incontext} do not settle the question either, since most fix the dataset size, and several studies also fix the model size, and score the two approaches per example rather than per unit of compute.
+The comparisons reviewed in Section~\ref{sec:bg_search_lm_incontext} do not settle the question either, since most fix the dataset size, and several studies fix the model size, scoring the two approaches per example rather than per unit of compute.
 Specifically, \citet{lehnertBetterPlanningTransformers2024} sweep model sizes but do not account for compute, and they stop at the point where their SO model reaches the performance of their worst SA-CoT model; \citet{qinBacktrackNotBacktrack2025} match test-time compute but fix the training data; \citet{valmeekamSemanticsUnreasonableEffectiveness2025} use a single dataset size.
 The closest study of trace supervision against relative training compute uses a single architecture and no search tasks~\citep{pengmeiKineticsReasoning2025}, and the closest study of the cost of intermediate tokens on algorithmic tasks counts tokens per example on arithmetic~\citep{leeTeachingArithmeticSmall2023}.
 
-Determining when SA-CoT is more efficient requires comparing it to SO learning as problems change, in order to capture the factors in the problem structure and representation that are responsible for changing training and test-time efficiency.
-The literature offers candidate factors, but for non-search tasks and under SO training only.
+Determining when SA-CoT is more efficient requires comparing it to SO learning as problems change, in order to capture the factors in the problem structure and representation responsible for changing training and test-time efficiency.
+The literature offers candidate factors, but only for non-search tasks and under SO training.
 Choices of problem formatting and chain-of-thought structure have a significant effect on sample efficiency in arithmetic~\citep{leeTeachingArithmeticSmall2023} and path-star tasks~\citep{bachmannPitfallsNexttokenPrediction2025}.
-Models that learn grid-based tasks, for example board games, build internal world models of the grid in order to compute a legal move~\citep{liEmergentWorldRepresentations2024,spiesTransformersUseCausal2024}, which may help them to derive distance-based heuristics.
+Models that learn grid-based tasks, for example board games, build internal world models of the grid in order to compute a legal move~\citep{liEmergentWorldRepresentations2024,spiesTransformersUseCausal2024}, which may help them derive distance-based heuristics.
 An in-context graph makes a transformer learn a path-merging algorithm~\citep{saparovTransformersStruggleLearn2025}, but does not guarantee learnability, since teacher forcing can still fail on lookahead~\citep{bachmannPitfallsNexttokenPrediction2025}.
 Theory offers candidate predictors of when intermediate supervision is required: the `globality' degree of the target~\citep{abbeHowFarCan2024}, whether the task can be written as a short RASP-L program~\citep{zhouWhatAlgorithmsCan2023}, and the locality of dependencies in the training data~\citep{prystawskiWhyThinkStep2023}.
 None of these factors has been tested as a predictor of the relative efficiency of SA-CoT and SO learning, while other factors are entirely missing, for example, problems with a static but hidden global state space graph where the data only ever observes a small fraction of the whole graph.
 Therefore, I formulate the first gap as follows:
+%%%%% COMMENT %%%%%%
 
 \begin{tcolorbox}[title=Gap 1: Efficiency, colback=ThesisGreen!5, colframe=ThesisGreen, fonttitle=\bfseries, fontupper=\itshape]
     The literature does not establish the factors that determine if search-augmented CoT learning is more sample- and compute-efficient than solution-only learning on a given search problem.
@@ -210,17 +220,17 @@ It argues with experimental evidence that a search problem can fall into two lea
 \label{sec:bg_gap_trace}
 
 A search trace supplies two things to the model: the \emph{semantics} of the search, i.e., which states were expanded, how they were evaluated, and where the algorithm backtracked, and the \emph{serial computation} provided by the additional tokens, regardless of their content, and scaled with problem complexity.
-What role each plays in the success of search traces is not clear at the moment, and answering this question can help to improve efficiency and performance of search traces, or replace them with a better alternative.
-Specifically, if the semantics are not required, then the trace is a scaffold that can be replaced by a cheaper source of intermediate computation when solver traces are not available, which simplifies the model development pipeline.
-If a method with shorter traces or with computation that is not unrolled in tokens can achieve better sample- or compute efficiency, it pushes the frontier for search problems beyond SA-CoT data, which is bound to the structure and length of the symbolic trace.
+The role each plays in the success of search traces is unclear at the moment, and answering this question could improve the efficiency and performance of search traces, or replace them with a better alternative.
+Specifically, if semantics are not required, the trace is a scaffold that can be replaced by a cheaper source of intermediate computation when solver traces are unavailable, simplifying the model development pipeline.
+If a method with shorter traces, or with computation not unrolled into tokens, can achieve better sample or compute efficiency, it pushes the frontier for search problems beyond SA-CoT data, which is bound by the structure and length of the symbolic trace.
 
-Within the search literature, the evidence that the semantics are unnecessary comes from two studies on maze navigation: unrelated traces perform as well as related ones~\citep{valmeekamSemanticsUnreasonableEffectiveness2025}, and traces with randomly dropped parts train a model that can answer without searching at all~\citep{suDualformerControllableFast2025}.
+In the search literature, evidence that semantics are unnecessary comes from two studies on maze navigation: unrelated traces perform as well as related ones~\citep{valmeekamSemanticsUnreasonableEffectiveness2025}, and traces with randomly dropped parts train a model that can answer without searching at all~\citep{suDualformerControllableFast2025}.
 Both are conducted at a single dataset size on a problem where, as Chapter~\ref{ch:progress_report} shows, SO models already reach the same performance as SA-CoT models with comparable data and less compute, so their setup cannot distinguish a trace whose semantics are unnecessary from a problem on which no trace is necessary.
-On the other hand, results on the game of Countdown reported in Chapter~\ref{ch:progress_report} show that suboptimal or invalid traces do harm performance in the setting where search traces seem to be necessary for efficient ID generalisation.
-Specifically, we reproduce the setup from \citet{gandhiStreamSearchSoS2024}, which reported that suboptimal traces provide performance advantage over SO data, but show that with more training those traces saturate and the learning stalls, while efficient optimal traces attain near-zero error.
-Thus, given the literature and our results, the question whether search traces are necessary remains open.
+On the other hand, results on the game of Countdown reported in Chapter~\ref{ch:progress_report} show that suboptimal or invalid traces harm performance in settings where search traces seem necessary for efficient ID generalisation.
+Specifically, we reproduce the setup from \citet{gandhiStreamSearchSoS2024}, which reported that suboptimal traces provide a performance advantage over SO data, but show that with more training those traces saturate and the learning stalls, while efficient optimal traces attain near-zero error.
+Thus, given the literature and our results, the question of whether search traces are necessary remains open.
 
-Outside the search literature, the general CoT literature has investigated alternatives to symbolic traces extensively, but none has been applied to search problems.
+Outside the search literature, the general CoT literature has extensively investigated alternatives to symbolic traces, but none has been applied to search problems.
 The methods can be ordered by how much structure they retain in the intermediate computation.
 At one end, content-free filler and pause tokens help on some algorithmic tasks~\citep{goyalPauseTokens2024,pfauLetsThinkDot2024}, but they provably add parallel width rather than the serial depth that search requires~\citep{londonPauseExpressivity2025,pfauLetsThinkDot2024}.
 Next, traces that follow a valid reasoning structure but whose content is invalid for the task at hand achieve similar accuracy to valid traces on arithmetic and multi-hop reasoning~\citep{wangUnderstandingCoTPrompting2023}.
@@ -241,7 +251,7 @@ It is also an exact test: the target function is defined at every size, so extra
 For SA-CoT in particular, length generalisation is evidence that the model has learned internal representations and token-level outputs consistent with a neural implementation of a search algorithm rather than with some other procedure, which also matters for the faithfulness of the trace with respect to the solution.
 It has practical utility as well: when larger problems are intractable for symbolic solvers, for example large Sokoban puzzles, the training set cannot include them, and a model that generalises in length can solve problems that no solver could label.
 
-Outside search, length generalisation of autoregressive transformers has been studied on arithmetic, logic, and state-tracking tasks.
+Outside search, previous works have studied length generalisation of autoregressive transformers on arithmetic, logic, and state-tracking tasks.
 \citet{anilExploringLengthGeneralization} showed that naive fine-tuning does not extrapolate regardless of model scale, whereas prompting with step-by-step CoT improves it.
 Theory proposes conditions under which length generalisation is possible: a transformer can generalise in length on a task that a short RASP-L program solves for any input size~\citep{zhouWhatAlgorithmsCan2023,weissThinkingTransformers2021}, or on a task whose execution follows an ``inductive'' computation in which every step depends only on the current state~\citep{houUniversalLengthGeneralization2024,abbeHowFarCan2024}, and transformers with chain-of-thought provably generalise in length on state tracking~\citep{huangTransformersProvablyLearn2025}.
 In practice, however, length generalisation was shown to be hard to achieve: success on arithmetic comes from engineering the position encoding to match the task structure~\citep{kazemnejadNoPE2023,mcleishAbacus2024,choPositionCoupling2024}, but can flip across random seeds~\citep{zhouTransformersCanAchieve2024}.
@@ -251,7 +261,7 @@ Within the search literature, the question is largely unaddressed.
 In the setup closest to this proposal, an SA-CoT model trained on $20\times20$ mazes maintains near-perfect pass@64 accuracy on \textit{smaller} and asymmetric grids, for example $20\times14$~\citep{suDualformerControllableFast2025}; however, smaller mazes measure robustness to a changed input rather than size extrapolation.
 A naive maze setup may not be able to generalise in length at all, since training on smaller grids leaves the embeddings of larger coordinates untrained.
 \citet{caiExtrapolationAssociationLength2025} avoid this by fixing the grid size and sampling mazes with fewer nodes within it, which yields smaller mazes with full coverage of all coordinates.
-They find that training on DFS traces does not generalise to larger mazes, but that adding an auxiliary task that does cover larger mazes lifts the performance of the traces on the same sizes.
+They find that training on DFS traces does not generalise to larger mazes, but that adding an auxiliary task that covers larger mazes lifts the performance of the traces on the same sizes.
 This is the only study that directly addresses size extrapolation of SA-CoT and the only one with a positive result; however, the auxiliary task is SO learning, and maze navigation is a problem on which SO models can reach perfect accuracy at large sizes, so the mechanism is a transfer of maze-traversal capability from SO to SA-CoT rather than algorithmic size extrapolation.
 The conditions that, according to theory, enable length generalisation, i.e., inductive trace formats and equivalence to short size-independent programs, have therefore not been instantiated on search problems with either learning approach, and no study compares SA-CoT with SO learning or with the alternatives of Section~\ref{sec:bg_gap_trace} on length generalisation of a search problem for which the trace is necessary.
 
@@ -262,8 +272,8 @@ The literature does not investigate length generalisation in search-augmented Co
 \section{Summary}
 \label{sec:bg_summary}
 
-The state of the art provides evidence that SA-CoT can be beneficial as a reasoning strategy for language models applied to search problems, potentially due to search process demonstrations having localised dependencies and simple transition rules that makes learning easier.
-However, it does not adequately measure this benefit against the sample and compute cost of the trace, nor identifies the factors that determine such cost~(Gap~1); it does not show which ingredient of the trace the benefit depends on, nor whether a token-based trace is the best approach to supply that ingredient~(Gap~2); and it does not evaluate whether search imitation via search trace supervision can generalise to problems beyond the size seen during training~(Gap~3).
+The state of the art provides evidence that SA-CoT can be beneficial as a reasoning strategy for language models applied to search problems, potentially due to search process demonstrations having localised dependencies and simple transition rules that make learning easier.
+However, it does not adequately measure this benefit against the sample and compute cost of the trace, nor does it (1)~identify the factors that determine such cost~(Gap~1), (2)~show which ingredient of the trace the benefit depends on, nor whether a token-based trace is the best approach to supply that ingredient~(Gap~2), and (3)~evaluate whether search imitation via search trace supervision can generalise to problems beyond the size seen during training~(Gap~3).
 Each gap is addressed by one research question in Chapter~\ref{ch:proposal}, and each research question is intended to become one core chapter of the thesis.
 The three gaps are not independent: the answer to the first supplies the experimental frame in which the second and the third must be posed, and Chapter~\ref{ch:proposal} makes this dependency explicit.
 Chapter~\ref{ch:progress_report} presents the first study of this project, which partially addresses Gap~1 and Gap~2, and describes baseline results related to Gap~3.
