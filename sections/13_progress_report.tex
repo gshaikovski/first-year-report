@@ -40,7 +40,7 @@ Search traces therefore have limited effect on accuracy, but a substantial negat
 % TODO: Figure: final_countdown_error and countdown_pass_at_k_flops.
 Our experiments suggest that only SA-CoT models with optimal DFS traces can learn the task efficiently.
 On SoS Countdown, SO models generalise only after seeing 120x more data than SA-CoT models, which takes 5x more training FLOPs.
-On modular Countdown, SO models with 6x more parameters fail to generalise in our experiments even after training on 200x more data and 140x more FLOPs than the most compute-efficient SA-CoT model.
+On modular Countdown, SO models with 6x more parameters fail to generalise in our experiments even after training on 200x more examples seen and 140x more FLOPs than the most compute-efficient SA-CoT model.
 At test-time compute parity, the best SO model with sampling and a verifier reaches 75\% accuracy, compared with the near-perfect accuracy for a single SA-CoT rollout, and the test-time scaling curves of the 59M- and 344M-parameter SO models overlap, so model size provides little benefit in this regime.
 Compared to maze navigation, this result inverts the argument for search trace utility, which motivates our hypothesis that relative efficiency of SA-CoT depends on the problem structure.
 This result feeds directly into the work that will address Gap~1, and will be further discussed in Section~\ref{sec:proposal_rq1}.

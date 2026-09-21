@@ -2,64 +2,60 @@
 \label{ch:background}
 
 % NOTE: the open-problem sentence below should match the Thesis Question box in Chapter 1 once its wording is fixed.
-The open problem addressed in this proposal is applying autoregressive language models with intermediate `reasoning' steps to state-space search problems.
+The open problem addressed in this proposal is how to use intermediate `reasoning' computation in autoregressive language models to solve state-space search problems.
 This chapter reviews the literature and identifies the gaps this thesis will address.
-Section~\ref{sec:bg_search} defines state-space search problems and the symbolic algorithms that solve them.
-Section~\ref{sec:bg_reasoning} describes how language models solve problems by producing an intermediate `Chain-of-Thought'~(CoT), why this helps, how it is implemented, and what alternatives exist.
-Section~\ref{sec:bg_search_lm} argues that intermediate computation must supply a search process, not just a step-by-step solution, and describes three ways search has been combined with language models.
-% , distinguished by where the search is executed: in an external program, in the weights of the model, or in the output stream of the model.
-Finally, Section~\ref{sec:bg_gaps} states three key gaps in the literature, each corresponding to a research question of the proposed thesis, and Section~\ref{sec:bg_summary} summarises this chapter.
+Section~\ref{sec:bg_search} defines state-space search problems and search algorithms.
+Section~\ref{sec:bg_reasoning} describes language models, how they use intermediate computation such as Chain-of-Thought~(CoT), why it helps, how it is implemented, and what alternatives exist.
+Section~\ref{sec:bg_search_lm} describes how language models are applied to search problems and argues that search-based CoT is the most promising approach.
+Finally, Section~\ref{sec:bg_gaps} states three key gaps in the literature on search-based CoT, each corresponding to a research question of the proposed thesis, and Section~\ref{sec:bg_summary} summarises this chapter.
 
-\section{State-space search and symbolic approaches}
+\section{State-space search and symbolic algorithms}
 \label{sec:bg_search}
 
-Formulating problem solving as search through a space of states is a foundational formalism in artificial intelligence~\citep{newell1972human}.
-A state-space search problem is defined by an initial state, a set of actions available in each state, a transition function that maps a state and an action to a successor state, a goal test that identifies desired states, and, optionally, a path-cost function that assigns a cost to each transition~\citep{russel2010}.
+% Formulating problem solving as search through a space of states is a foundational formalism in artificial intelligence~\citep{newell1972human}.
+A state-space \emph{search problem} is defined by an initial state, a set of actions available in each state, a transition function that maps a state and an action to a successor state, a goal test that identifies desired states, and, optionally, a path-cost function that assigns a cost to each transition~\citep{russel2010,newell1972human}.
 Together, the states and transitions form a directed graph, which we call the \emph{state graph}, where a solution is a path from the initial state to a goal state.
-An optimal solution minimises the sum of its transition costs.
+% An optimal solution minimises the sum of its transition costs.
 Many problems can be formulated this way.
 For example, in theorem proving, states are proof states and actions are inference rules.
-In planning, states describe the world, and actions are operators that change them~\citep{russel2010}.
+In planning, states describe the world, and actions are operators that change them.
 In maze navigation, states are grid cells, actions are moves to adjacent free cells, and the goal is a designated cell.
 
-A symbolic search algorithm solves such a problem by constructing a \emph{search tree}: starting from the initial state, it repeatedly selects a recorded state, expands it by applying all available actions, and records the successors until it reaches a goal state.
-Uninformed algorithms such as depth-first search~(DFS) and breadth-first search~(BFS)~\citep{russel2010} differ only in the order in which recorded states are selected for expansion: DFS follows one branch until it terminates and then backtracks to the most recent unexpanded alternative, while BFS expands all the nodes in each depth level of the tree before it proceeds to the next level.
-Informed algorithms such as A*~\citep{hartFormalBasisHeuristic1968} keep the recorded states together with their path cost and a \emph{heuristic} estimate of the remaining cost to the goal, and expand the state with the lowest estimated total cost first, which, with an admissible heuristic, guarantees an optimal solution while expanding fewer states than uninformed search.
+A symbolic \emph{search algorithm} solves such a problem by constructing a \emph{search tree}: starting from the initial state, it repeatedly selects a recorded state, expands it by applying all available actions, and records the successors until it reaches a goal state.
+% Uninformed\footnote{Search without additional information, for example, distance heuristics.} algorithms such as depth-first search~(DFS) and breadth-first search~(BFS)~\citep{russel2010} differ only in the order in which recorded states are selected for expansion: DFS expands the deepest node first, while BFS expands the shallowest node first.
+% Heuristic algorithms such as A*~\citep{hartFormalBasisHeuristic1968} first expand the nodes with the lowest remaining cost to the goal state, estimated using a heuristic function.
 In all cases, each algorithm's execution can be recorded as a \emph{search trace}: the sequence of expansions, evaluations, and backtracking steps performed before the solution was found.
 
 In this proposal, symbolic search algorithms play two roles.
-First, they define the behaviour that the language models are meant to imitate.
-A symbolic search algorithm is sound and complete by construction, and it is agnostic to the problem size: A* finds a path in a maze of any grid size, although larger grids require more time and memory~\citep{russel2010}.
-Hence, if a language model follows the same process, it will be able to
-% solve more problems than a model following a non-systematic reasoning approach, for the reasons that I elaborate on in Section \ref{sec:bg_reasoning_practice}, and promises to
-generalise from training on small examples to solving larger ones.
-% , which I am concerned with in Section \ref{sec:bg_gap_length}.
+First, they define the behaviour that the language models are meant to imitate: a structured and systematic search process for a solution.
+The algorithms are also agnostic to the problem size: A* finds a path in a maze of any grid size, although larger grids require more time and memory~\citep{russel2010}.
+Hence, if a model follows the same process, it will be able to generalise from training on small examples to solving larger ones.
 Second, because the cost of symbolic search is set by the problem rather than the algorithm, trace length grows with the branching factor of the state graph and the depth of the solution.
-When a search algorithm provides search traces as training data for language models, this has both benefits and drawbacks.
-One benefit is that a language model that imitates search traces scales its computation proportionately to the problem complexity, aligning with theoretical work on the expressivity and learnability of transformers applied to inherently serial problems, which I describe in Section \ref{sec:bg_reasoning_expressivity_learnability}.
-However, longer traces challenge compute efficiency, which I elaborate on in Section \ref{sec:bg_gap_efficiency}.
+% When a search algorithm provides search traces as training data for language models, this has both benefits and drawbacks.
+Therefore, a language model that imitates search traces scales its computation proportionately to the problem complexity, aligning with theoretical work on the expressivity and learnability of transformers applied to inherently serial problems~\citep{merrillExpressivePowerTransformers2024,sanfordUnderstandingTransformerReasoning2024,abbeHowFarCan2024}.
+% However, longer traces challenge compute efficiency, which I elaborate on in Section \ref{sec:bg_gap_efficiency}.
 
 %%%%%%%%%%%%% COMMENT %%%%%%%%%%%%%
 
 \section{Reasoning language models and intermediate computation}
 \label{sec:bg_reasoning}
 
-\subsection{Autoregressive decoding and solution-only models}
+\subsection{Autoregressive decoding}
 \label{sec:bg_reasoning_intro}
 
 An autoregressive language model is a neural network, which this proposal assumes is a transformer~\citep{vaswaniAttentionAllYou2017,radfordLanguageModelsAre}, that defines a distribution $p_\theta(x_t \mid x_{<t})$ over the next token of a sequence given the preceding tokens.
-It is trained by maximising the likelihood of a corpus of sequences, and it is applied to a problem by encoding the problem as a token sequence, choosing the next token based on the computed distribution, appending the token to the sequence, and repeating this loop until terminated.
-A search problem can therefore be posed to a language model by serialising its description, and the model's answer is whatever sequence it decodes after the description.
-Which tokens the model is trained to decode after the problem is a design choice, and it is the subject of this thesis.
+It is used by encoding a query as a token sequence and growing the sequence by sampling next tokens in a loop until terminated.
+If a search problem can be serialised as a query, it can be posed to a language model and solved using such autoregressive decoding.
+How the model decodes the solution is a design choice, and it is the subject of this thesis.
+
+The simplest approach is to train a language model to decode a solution directly.
+For example, given an arithmetic expression as an initial sequence, the model decodes only the tokens of the answer the expression evaluates to.
+This approach has a disadvantage: the model often must solve the problem in a single evaluation, before the first token is emitted~\citep{bachmannPitfallsNexttokenPrediction2025}.
+If solving the problem requires search, then training models on solution-only data obscures that process, forcing the model to develop its own process in order to fit the data, which can cause it to focus on shortcuts and correlations that do not generalise \citep{xiangSystem2Reasoning2025,geirhosShortcutLearning2020,liuTransformersLearnShortcuts2023}.
 
 \subsection{Expressivity and learnability of intermediate computation in transformers}
 \label{sec:bg_reasoning_expressivity_learnability}
 
-The simplest approach to training and using a language model given a problem is to decode the answer directly.
-% , that is, given a problem, the model immediately starts decoding its solution.
-For example, given an arithmetic expression as an initial sequence, the model decodes only the tokens of the answer the expression evaluates to.
-This \emph{direct solution} approach has a disadvantage: the model often must solve the problem in a single evaluation.
-If solving the problem requires complex reasoning and extensive exploration, then training models on solution-only data obscures that process, forcing the model to develop its own process in order to fit the data, which can cause it to focus on shortcuts and correlations that do not generalise \citep{xiangSystem2Reasoning2025,geirhosShortcutLearning2020,liuTransformersLearnShortcuts2023}.
 Emitting intermediate tokens before the answer, variously called a scratchpad or `Chain-of-Thought'~(CoT), improves accuracy on tasks that require several sequential steps, whether the tokens are elicited by demonstrations in the prompt~\citep{weiChainofThoughtPromptingElicits2023}, by an instruction to think step by step~\citep{kojimaLargeLanguageModels2022}, or by training on them~\citep{nyeShowYourWork2021}.
 For example, given an arithmetic expression, a model with CoT decodes tokens that evaluate the first simple sub-expression, then the second sub-expression, essentially breaking down the problem into simpler steps and combining them at the end to produce the answer.
 However, the benefit of this approach is not universal: a meta-analysis shows that gains concentrate on mathematical and symbolic problems, where CoT improves the execution of symbolic steps but still underperforms a symbolic solver~\citep{spragueToCoTorNot2025}; CoT prompting fails to induce a general procedure on planning problems~\citep{stechlyChainThoughtlessnessAnalysis2024}, accumulates errors as the computation depth grows~\citep{dziriFaithFateLimits2023}, and can lower accuracy on tasks where deliberation also hurts humans~\citep{liuMindYourStep2025}; and longer chains are not monotonically better~\citep{wuWhenMoreLess2025}.

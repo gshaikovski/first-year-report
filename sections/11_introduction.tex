@@ -1,34 +1,33 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-Research into language models has adopted techniques from human reasoning to solve complex problems, such as Chain-of-Thought~(CoT), where a solution is broken into simpler chunks and solves the problem step by step~\citep{nyeShowYourWork2021,weiChainofThoughtPromptingElicits2023,kojimaLargeLanguageModels2022}.
-While this improves performance on simpler tasks, it is unfit for complex problems, as a direct step-by-step solution does not capture the process of reasoning that was used to arrive at the solution.
-Hence, as argued by \citet{xiangSystem2Reasoning2025} and echoed throughout this proposal, we should teach models the intermediate reasoning process that was used to arrive at the solution, particularly if we want them to be able to achieve general intelligence and self-improvement.
+Research into language models has adopted techniques from human reasoning to solve complex problems, such as Chain-of-Thought~(CoT), by which the problem is broken into simpler chunks and solved step by step.
+While this improves performance on problems solved by a routine process\footnote{\citet{polya1945solve} calls such problems "routine problems".}, such as counting and logical reasoning~\citep{nyeShowYourWork2021,weiChainofThoughtPromptingElicits2023,kojimaLargeLanguageModels2022}, the gains diminish when the path to a solution is uncertain and the process to find it involves exploration and backtracking~\citep{gandhiStreamSearchSoS2024,yaoTreeThoughtsDeliberate2023,selAlgorithmThoughtsEnhancing2024,dziriFaithFateLimits2023,stechlyChainThoughtlessnessAnalysis2024}.
+Hence, as argued by \citet{xiangSystem2Reasoning2025} and echoed throughout this proposal, we should teach models the intermediate reasoning process that was used to arrive at the solution, particularly if we want them to discover novel reasoning approaches and achieve higher intelligence via self-improvement.
 
-The question then becomes which intermediate reasoning process should the models learn in order to attain high performance on complex tasks at the lowest cost, which translates into a question of the right data and training method.
+The question then becomes: which intermediate reasoning process should the models learn in order to attain high performance on complex tasks at the lowest cost?
 Cognitive Science holds that people solve complex problems by a process similar to heuristic search.
 In the theory of \citet{newell1972human}, a person represents an unfamiliar problem as a space of states and operators, explores and evaluates new states, and abandons unpromising directions.
 Behavioural modelling supports this account~\citep{vanopheusdenExpertiseIncreasesPlanning2023} and shows that the skill is general, as people adapt their search strategy to the structure of the problem~\citep{callawayRationalUseCognitive2022}.
 The process proceeds sequentially until a solution is found, or the attempt is abandoned~\citep{CognitiveSearchEvolution2012,fuInterfacingMindEnvironment2015a}.
 
-A naive approach to adopt such reasoning in language models bootstraps their fine-tuning stage from a small dataset of recorded human reasoning traces~\citep{deepseek-aiDeepSeekR1IncentivizingReasoning2025,guhaOpenThoughtsDataRecipes2025,zhangSurveyReinforcementLearning2025}, which appears to lead to suboptimal, inconsistent, and inefficient reasoning in the models~\citep{gandhiFourHabitsHighly2025,chenNOTThinkThat2025,wangThoughtsAreAll,pipisWaitWaitWait2026,arcuschinChainofThoughtReasoningWild}.
-This suggests that most recorded examples of human reasoning may not provide enough structure and information about the actual process.
+A naive approach to adopt such reasoning in language models bootstraps their fine-tuning stage from a small dataset of reasoning traces distilled from base models or annotated by humans~\citep{deepseek-aiDeepSeekR1IncentivizingReasoning2025,guhaOpenThoughtsDataRecipes2025,zhangSurveyReinforcementLearning2025}, which appears to lead to suboptimal, inconsistent, and inefficient reasoning in the models~\citep{gandhiFourHabitsHighly2025,chenNOTThinkThat2025,wangThoughtsAreAll,pipisWaitWaitWait2026,arcuschinChainofThoughtReasoningWild}.
+This suggests that learning only from recorded examples of human (or human-like) reasoning may not provide enough structure and information about the actual process.
 An alternative, advocated by \citet{xiangSystem2Reasoning2025}, is to teach the models to imitate a systematic, structured, and sound process, such as algorithmic search, and execute it in the models' context~\citep{lehnertBetterPlanningTransformers2024,gandhiStreamSearchSoS2024,kimASTROTeachingLanguage2025}.
-A structured process can be predicted, which means it can be validated, monitored, and adjusted, it can be tuned with process reward feedback, which addresses the credit-assignment problem~\citep{uesatoSolvingMathWord2022,lightmanLetsVerifyStep2023}, and it can be improved systematically.
+A structured process follows a predictable interpretable trajectory, which means (1) it may be easier to validate than an unstructured reasoning output, since the latter is harder to analyse for mistakes and inefficiencies, and (2) it may be easier to tune with algorithmic process reward feedback, since giving process feedback on the unstructured reasoning output currently requires using a specially-trained LM or human annotators to score their reasoning trajectories~\citep{uesatoSolvingMathWord2022,lightmanLetsVerifyStep2023}.
 
 Despite the apparent benefits, the literature on the utility of systematic search imitation is scarce and ambiguous, with small-scale studies reaching conflicting conclusions~\citep{lehnertBetterPlanningTransformers2024,suDualformerControllableFast2025,saparovTransformersStruggleLearn2025,selAlgorithmThoughtsEnhancing2024,schultzMasteringBoardGames2025,kangLinTreeImprovingLLM2026,gandhiFourHabitsHighly2025,gandhiStreamSearchSoS2024,caiExtrapolationAssociationLength2025}, including that in-context search can be inefficient or unnecessary for generalisation on some search problems~\citep{qinBacktrackNotBacktrack2025,valmeekamSemanticsUnreasonableEffectiveness2025,katzThoughtSearchPlanning2024}.
 Therefore, I propose asking the following general research question:
 
 \begin{tcolorbox}[title=Thesis Question, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
-Should language models learn to imitate a structured and systematic search process to solve complex problems?
+When and why training language models to imitate a structured and systematic search process is useful, and how to make them better?
 \end{tcolorbox}
 
-I address this question by identifying and closing three gaps in the literature: \textbf{(Gap~1)} which properties of a problem make search imitation more efficient than learning from solutions directly, \textbf{(Gap~2)} which ingredients of the search trace make it more efficient and can those same ingredients be supplied without a symbolic trace, and \textbf{(Gap~3)} whether the learned search can generalise to problems larger than those seen in training.
-Closing them will advance the field past proof-of-concept studies on small datasets that investigate narrow questions, and contribute to the community a rigorous and actionable analysis of the practical merits and limitations of this reasoning strategy.
+I address this question by identifying and closing three gaps in the literature: \textbf{(Gap~1)} which properties in search problems make learning search imitation a more efficient approach than learning from solutions directly or using alternative reasoning methods, \textbf{(Gap~2)} which ingredients of the search trace are important for sample and compute efficiency, and can those same ingredients be supplied without a symbolic trace, and \textbf{(Gap~3)} whether the learned search can generalise to problems larger than those seen in training.
+Closing them will advance the field past proof-of-concept studies of narrow questions, and contribute a rigorous and actionable analysis of this reasoning strategy to the community.
 
 The rest of this proposal is organised as follows.
-Chapter~\ref{ch:background} reviews state-space search, intermediate computation in language models, and the literature that combines them, and states the three gaps.
+Chapter~\ref{ch:background} reviews state-space search, intermediate computation in language models, the literature that combines them, and states the three research gaps.
 Chapter~\ref{ch:progress_report} presents the first study of this project, which addresses parts of the first two gaps and provides baselines for the third.
-Chapter~\ref{ch:proposal} states the specific research questions the thesis will study, as well as a plan for exploring each question.
-% the success criteria and risks.
+In Chapter~\ref{ch:proposal}, I propose the research questions the thesis will study, as well as a plan for exploring each question.
 Finally, Chapter~\ref{ch:workplan} presents the timetable for completing the thesis.
