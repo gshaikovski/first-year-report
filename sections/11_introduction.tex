@@ -3,7 +3,7 @@
 
 Research into language models has adopted techniques from human reasoning to solve complex problems, such as Chain-of-Thought~(CoT), by which the problem is broken into simpler chunks and solved step by step.
 While this improves performance on problems solved by a routine process\footnote{\citet{polya1945solve} calls such problems "routine problems".}, such as counting and logical reasoning~\citep{nyeShowYourWork2021,weiChainofThoughtPromptingElicits2023,kojimaLargeLanguageModels2022}, the gains diminish when the path to a solution is uncertain and the process to find it involves exploration and backtracking~\citep{gandhiStreamSearchSoS2024,yaoTreeThoughtsDeliberate2023,selAlgorithmThoughtsEnhancing2024,dziriFaithFateLimits2023,stechlyChainThoughtlessnessAnalysis2024}.
-Hence, as argued by \citet{xiangSystem2Reasoning2025} and echoed throughout this proposal, we should teach models the intermediate reasoning process that was used to arrive at the solution, particularly if we want them to discover novel reasoning approaches and achieve higher intelligence via self-improvement.
+Hence, as argued by \citet{xiangSystem2Reasoning2025} and echoed throughout this proposal, we should teach models the intermediate reasoning process that was used to arrive at the solution, particularly if we want them to discover novel reasoning approaches via self-improvement.
 
 The question then becomes: which intermediate reasoning process should the models learn in order to attain high performance on complex tasks at the lowest cost?
 Cognitive Science holds that people solve complex problems by a process similar to heuristic search.
@@ -20,7 +20,7 @@ Despite the apparent benefits, the literature on the utility of systematic searc
 Therefore, I propose asking the following general research question:
 
 \begin{tcolorbox}[title=Thesis Question, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
-When and why training language models to imitate a structured and systematic search process is useful, and how to make them better?
+When and why training language models to imitate a structured and systematic search process is useful, and how to make it better?
 \end{tcolorbox}
 
 I address this question by identifying and closing three gaps in the literature: \textbf{(Gap~1)} which properties in search problems make learning search imitation a more efficient approach than learning from solutions directly or using alternative reasoning methods, \textbf{(Gap~2)} which ingredients of the search trace are important for sample and compute efficiency, and can those same ingredients be supplied without a symbolic trace, and \textbf{(Gap~3)} whether the learned search can generalise to problems larger than those seen in training.
