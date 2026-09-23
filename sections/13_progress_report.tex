@@ -50,7 +50,7 @@ Increasing puzzle complexity increases the size of the state-space graph, while 
 
 We train GPT-2 transformers~\citep{radfordLanguageModelsAre} from scratch on SA or SO data, training on increasing fractions of the full dataset to account for data-scaling effects.
 % each run completes its own learning-rate schedule, and we run each setup five times with different seeds.
-Models are compared on held-out problems at matched training compute measured in FLOPs, and at matched test-time compute, where SO models may sample several candidates and select one with a symbolic verifier, following~\citet{qinBacktrackNotBacktrack2025}.
+Models are compared at matched training compute measured in FLOPs and at matched test-time compute following~\citet{qinBacktrackNotBacktrack2025}.
 
 \section{Summary of Results}
 \label{sec:progress_results}
@@ -84,48 +84,52 @@ Models are compared on held-out problems at matched training compute measured in
     Relative efficiency and performance of SA and SO supervision depends on the task.
     (\subref{fig:final_maze_error})~On maze navigation, SO models are more compute-efficient than SA models, and also more sample efficient at larger model sizes.
     (\subref{fig:final_countdown_sos_20m_error})~On SoS Countdown, models with a near-optimal DFS trace are more compute and sample efficient than SO models at any model size; a sub-optimal SoS trace can saturate early and thus underperform SO models.
-    
+    (\subref{fig:final_countdown_error})~On modular Countdown, SO models have the worst sample and compute efficiency.
     }
     \label{fig:results}
 \end{figure}
 
 \paragraph{Maze navigation is search-optional.}
 % TODO: Figure: final_maze_vs_flops (solution error vs training FLOPs, SA vs SO, three depths).
-Our results show that SO models can reach the same near-perfect accuracy as SA models with less total training compute, require marginally more data with smaller models, and close the remaining sample-efficiency gap with larger models while preserving the compute advantage of SO models.
+Our results presented in Figure~\ref{fig:final_maze_error} show that SO models can reach the same near-perfect accuracy as SA models with less total training compute, require marginally more data with smaller models, and close the remaining sample-efficiency gap with larger models while preserving the compute advantage of SO models.
 Search traces therefore have limited effect on accuracy, but a substantial negative effect on training and test-time compute efficiency on this problem.
 
 \paragraph{Countdown is search-efficient.}
 % TODO: Figure: final_countdown_error and countdown_pass_at_k_flops.
-Our experiments suggest that only SA models with optimal DFS traces can learn the task efficiently.
-On SoS Countdown, SO models generalise only after seeing 120x more data than SA models, which takes 5x more training FLOPs.
-On modular Countdown, SO models with 6x more parameters fail to generalise in our experiments even after training on 200x more examples seen and 140x more FLOPs than the most compute-efficient SA model.
-At test-time compute parity, the best SO model with sampling and a verifier reaches 75\% accuracy, compared with the near-perfect accuracy for a single SA rollout, and the test-time scaling curves of the 59M- and 344M-parameter SO models overlap, so model size provides little benefit in this regime.
+Our experiments suggest that SA models with optimal DFS traces learn the task most efficiently (Figures~\ref{fig:final_countdown_sos_20m_error} and ~\ref{fig:final_countdown_error}).
+% On SoS Countdown, SO models generalise only after seeing 120x more data than SA models, which takes 5x more training FLOPs.
+% On modular Countdown, SO models with 6x more parameters fail to generalise in our experiments even after training on 200x more examples seen and 140x more FLOPs than the most compute-efficient SA model.
+% At test-time compute parity, the best SO model with sampling and a verifier reaches 75\% accuracy, compared with the near-perfect accuracy for a single SA rollout, and the test-time scaling curves of the 59M- and 344M-parameter SO models overlap, so model size provides little benefit in this regime.
 Compared to maze navigation, this result inverts the argument for search trace utility, which motivates our hypothesis that relative efficiency of SA depends on the problem structure.
-This result feeds directly into the work that will address Gap~1, and will be further discussed in Section~\ref{sec:proposal_rq1}.
+This result feeds directly into the work that will address Gap~1~(Section~\ref{sec:proposal_rq1}).
 
 Another result in this experiment highlights how the trace itself affects learning efficiency.
 The original SA traces from~\citet{gandhiStreamSearchSoS2024} were derived from suboptimal search strategies designed to fail $43\%$ of the time.
 In our experiments, we find they underperform SO as sample size increases and saturate above the $5\%$ solution error threshold, hence never achieving ID generalisation.
 This provides evidence that even in the search-efficient regime, a suboptimal trace can limit learning.
-The same traces were also used to compare SO and SA models on test-time compute parity by~\citet{qinBacktrackNotBacktrack2025}, which may explain why SO models outperformed SA models at test-time compute parity.
+The same traces were also used to train SA models, which was the compared to SO models at test-time compute parity by~\citet{qinBacktrackNotBacktrack2025}, which may explain why SO models outperformed SA models there.
 This result highlights the importance of considering the trace structure when analysing learning efficiency, contradicts some conclusions in prior work discussed in Section~\ref{sec:bg_gap_trace}, and will be considered later in Section~\ref{sec:proposal_rq2} where we investigate the ingredients that enable efficient learning with search traces.
 
-\paragraph{Two learning regimes, determined by the problem.}
-These observations are formalised in the following definition, which we use throughout Chapter~\ref{ch:proposal}.
-\begin{tcolorbox}[title=Definition (Learning regimes), colback=ThesisGrey!5, colframe=ThesisGrey, fonttitle=\bfseries]
-For a supervision mode $m \in \{\text{SA}, \text{SO}\}$ and a model size $N$, let $C_m(\epsilon; N)$ be the least training compute, and $D_m(\epsilon; N)$ the smallest number of training samples, with which a size-$N$ model trained under mode $m$ reaches held-out solution error $\epsilon$.
-The learning problem is $\epsilon$-\emph{search-optional} if for every model size $N_\epsilon$ at which SA reaches error $\epsilon$ there is a model size $N$ with $C_\text{SO}(\epsilon; N) \le C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) \le D_\text{SA}(\epsilon; N_\epsilon)$.
-It is $\epsilon$-\emph{search-efficient} if there is a model size $N_\epsilon$ such that every model size $N$ satisfies $C_\text{SO}(\epsilon; N) > C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) > D_\text{SA}(\epsilon; N_\epsilon)$.
+\paragraph{Two types of search tasks.}
+Our experiments suggest there exist at least two types of problems with very different scaling behaviour and relative efficiency and performance of SA supervision compared to SO models.
+This observation is formalised in the following definition, which we use throughout Chapter~\ref{ch:proposal}.
+\begin{tcolorbox}[title=Definition (Search task types), colback=ThesisGrey!5, colframe=ThesisGrey, fonttitle=\bfseries]
+For a supervision mode $m \in \{\text{SA}, \text{SO}\}$ and a model size $N$, let $C_m(\epsilon; N)$ be the least training compute, and $D_m(\epsilon; N)$ the smallest number of training samples, with which a size-$N$ model trained under mode $m$ reaches held-out solution error $\epsilon$, each minimised separately over remaining hyperparameters.
+We consider target errors $\epsilon$ between the trivial baseline and the irreducible error of the task, and assume both modes can reach any such $\epsilon$ given sufficient (finite) data and model parameters.
+In this context, we say a learning problem is $\epsilon$-\emph{search-optional} if, for every model size $N_\epsilon$ at which SA reaches error $\epsilon$, there is a model size $N$ with $C_\text{SO}(\epsilon; N) \le C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) \le D_\text{SA}(\epsilon; N_\epsilon)$. Intuitively, this implies that an SO model can achieve the same error as any SA model within the same training compute and data budget.
+In contrast, we say a learning problem is $\epsilon$-\emph{search-efficient} if there is a model size $N_\epsilon$ such that every model size $N$ satisfies $C_\text{SO}(\epsilon; N) > C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) > D_\text{SA}(\epsilon; N_\epsilon)$. Intuitively, this implies that there exists at least one SA model that reaches error $\epsilon$ with less training compute and data than every SO model with the same error.
 \end{tcolorbox}
-We hypothesise that the regime is determined by the problem and its structure. For example, maze navigation is search-optional, and Countdown is search-efficient.
+% We hypothesise that the regime is determined by the problem and its structure.
+Our experiments provide evidence that maze navigation is search-optional, while Countdown is search-efficient.
 Crucially, SA models outperform SO models at small dataset sizes in both regimes, so a comparison at a single dataset size cannot identify the regime; this is why the prior comparisons described in Section~\ref{sec:bg_search_lm_incontext} disagree.
 
 \paragraph{The effect of trace semantics depends on the regime.}
 % TODO: Figure: final_trace_types_8l.
-Following~\citet{valmeekamSemanticsUnreasonableEffectiveness2025}, we replace each search trace with a trace from an unrelated problem.
-This makes SA models perform worse on search-optional maze navigation than both SA with genuine traces and SO models, although all three are asymptotically equivalent.
-However, on search-efficient modular Countdown, unrelated traces are more sample efficient than SO models, although they still underperform genuine traces.
-Trace semantics, therefore, matter in both regimes, contrary to prior work, although the sample-efficiency advantage of unrelated traces in the search-efficient regime is left unexplained.
+% Following~\citet{valmeekamSemanticsUnreasonableEffectiveness2025}, we replace each search trace with a trace from an unrelated problem.
+% This makes SA models perform worse on search-optional maze navigation than both SA with genuine traces and SO models, although all three are asymptotically equivalent.
+% However, on search-efficient modular Countdown, unrelated traces are more sample efficient than SO models, although they still underperform genuine traces.
+Following~\citet{valmeekamSemanticsUnreasonableEffectiveness2025}, we experiment with training SA models on unrelated traces and show that, contrary to their work, trace semantics matter for search tasks.
+However, we do find that models with unrelated traces are more sample-efficient than SO models on Countdown, which is left unexplained.
 This result informs my approach when I describe a proposal to address Gap~2 in Section~\ref{sec:proposal_rq2}.
 
 \paragraph{Knowing the regime yields a more compute-efficient data mixture.}
