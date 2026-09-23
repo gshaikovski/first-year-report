@@ -80,11 +80,21 @@ Models are compared at matched training compute measured in FLOPs and at matched
         \caption{Modular Countdown.}
         \label{fig:final_countdown_error}
     \end{subfigure}
+
+    \vspace{\baselineskip}
+
+    \begin{subfigure}[t]{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/final_mixture_error.pdf}
+        \caption{Placeholder subcaption: mixture.}
+        \label{fig:final_mixture_error}
+    \end{subfigure}
     \caption{
     Relative efficiency and performance of SA and SO supervision depends on the task.
     (\subref{fig:final_maze_error})~On maze navigation, SO models are more compute-efficient than SA models, and also more sample efficient at larger model sizes.
     (\subref{fig:final_countdown_sos_20m_error})~On SoS Countdown, models with a near-optimal DFS trace are more compute and sample efficient than SO models at any model size; a sub-optimal SoS trace can saturate early and thus underperform SO models.
     (\subref{fig:final_countdown_error})~On modular Countdown, SO models have the worst sample and compute efficiency.
+    % TODO: sentences for (c) modular Countdown and (d) mixture.
     }
     \label{fig:results}
 \end{figure}
