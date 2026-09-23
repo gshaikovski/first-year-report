@@ -10,73 +10,84 @@ Section~\ref{sec:proposal_success} states the criteria by which the research sho
 \section{Motivation}
 \label{sec:proposal_motivation}
 
-In Chapter~\ref{ch:background}, I discussed how symbolic state-space search algorithms and language models with intermediate computation combine and apply to complex tasks.
-Section~\ref{sec:bg_search} introduced state-space search as a sound and complete problem-solving procedure agnostic to problem size.
-Section~\ref{sec:bg_reasoning} established that transformers require intermediate computation to express and learn inherently serial problems, that in practice this computation is acquired from traces with unsystematic natural language prose where search-like strategies do not appear reliably, and that alternatives to a token-level trace exist but have not been developed for search.
-Section~\ref{sec:bg_search_lm} shows how two concepts can be combined: language models can learn to imitate a search algorithm as intermediate computation, trained on traces representing a serialised search algorithm execution.
-The literature demonstrates that such search-augmented models can learn more efficiently than models trained on direct solutions, and can be further fine-tuned to discover new search strategies.
-Yet, it also shows that SO models with more data and test-time compute can achieve the same performance, and search semantics derived from a symbolic solver may not matter for reasoning.
+% In Chapter~\ref{ch:background}, I discussed how symbolic state-space search algorithms and language models with intermediate computation combine and apply to complex tasks.
+% Section~\ref{sec:bg_search} introduced state-space search as a sound and complete problem-solving procedure agnostic to problem size.
+% Section~\ref{sec:bg_reasoning} established that transformers require intermediate computation to express and learn inherently serial problems, that in practice this computation is acquired from traces with unsystematic natural language prose where search-like strategies do not appear reliably, and that alternatives to a token-level trace exist but have not been developed for search.
+% Section~\ref{sec:bg_search_lm} shows how two concepts can be combined: language models can learn to imitate a search algorithm as intermediate computation, trained on traces representing a serialised search algorithm execution.
+% The literature demonstrates that such search-augmented models can learn more efficiently than models trained on direct solutions, and can be further fine-tuned to discover new search strategies.
+% Yet, it also shows that SO models with more data and test-time compute can achieve the same performance, and search semantics derived from a symbolic solver may not matter for reasoning.
 
-Overall, prior work leaves an ambiguous picture of search trace utility: sample efficient and adaptable on one side, expensive and replaceable on the other.
-Section~\ref{sec:bg_gaps} identified three gaps that cause this ambiguity: \textbf{(Gap~1)} prior studies do not establish the factors that determine sample and compute efficiency of SO and SA-CoT models and thus do not precisely identify which problems can benefit from them, \textbf{(Gap~2)} the ingredients and mechanisms in search traces that make training more or less efficient on different problems are unknown, and thus it is unclear if they are essential or alternative traces or methods for intermediate computation can implement them, and \textbf{(Gap~3)} potential solutions to length generalisation problem in SA-CoT models have not been explored, which limits the argument for their utility.
-Chapter~\ref{ch:progress_report} then made the first controlled comparison of the two approaches at training compute parity. It presented evidence that search problems can fall into one of two learning regimes, that regime membership depends on problem structure, and that each regime determines sample and compute efficiency, the impact of trace quality, and the impact of model scaling on SO and SA-CoT training.
-These findings converge on the question that the proposed thesis aims to answer:
+Prior work leaves an ambiguous picture of search trace utility: sample efficient and adaptable on one side, expensive and replaceable on the other.
+Section~\ref{sec:bg_gaps} identified three gaps that cause this ambiguity.
+% \textbf{(Gap~1)} the factors in problem structure and representation that determine learning efficiency are unknown, \textbf{(Gap~2)} the analysis of search trace mechanisms and alternative forms of intermediate computation for search is missing, and \textbf{(Gap~3)} how to enable length generalisation remains under-explored.
+Chapter~\ref{ch:progress_report} then made the first controlled comparison of SO and SA supervision at training compute parity in response to these gaps.
+% It demonstrated that two search problems can have very different scaling profiles and learning efficiency, and suggested that comparing SA and SO models on a fixed training dataset may confuse an under-trained model for general limitation in capability.
+% that each regime determines sample and compute efficiency, the impact of trace quality, and the impact of model scaling on SO and SA training.
+Together, they motivate the following question:
 
 % NOTE: wording must match the Thesis Question box in Chapter 1.
 \begin{tcolorbox}[title=Thesis Question, colback=ThesisPurple!5, colframe=ThesisPurple, fonttitle=\bfseries, fontupper=\itshape]
-Should language models learn to imitate a structured and systematic search process to solve complex problems?
+When and why training language models to imitate a structured and systematic search process is useful, and how to make it better?
 \end{tcolorbox}
 
-The thesis will address this question by establishing conditions for better efficiency and generalisation of SA-CoT over SO learning in precise terms.
-First, imitating search is only useful when the problem is not efficiently learnable from direct solutions alone.
-Chapter~\ref{ch:progress_report} proposed two learning regimes that connect efficiency and problem structure.
-Establishing a causal link between problem structure, learning regimes, and efficiency is the first research question (Gap~1, Section~\ref{sec:proposal_rq1}).
+The thesis will address this question by establishing conditions for better efficiency and generalisation of SA over SO supervision in precise terms.
+To do this, I address each research gap by formulating and answering a related research question.
 
-Second, the search trace is the most expensive part of training and generation: a symbolic solver must produce it, or it must be obtained by other means, and it substantially lengthens every training sequence.
-Whether this cost can be reduced depends on the mechanisms in the trace that contribute to its advantage over SO learning.
-Chapter~\ref{ch:progress_report} shows that a dataset with suboptimal and invalid search traces underperforms in the search-efficient regime, yet completely unrelated traces do not collapse into solution-only learning.
-My second research question therefore identifies the mechanisms behind search-trace efficiency and tests whether other forms of intermediate computation can implement them (Gap~2, Section~\ref{sec:proposal_rq2}).
-This question depends on Research Question~1 since we must identify which problems are search-efficient, and how to vary the problem structure without changing the regime, which will be important for controlled experiments.
+% First, imitating search is only useful when the problem is not efficiently learnable from direct solutions alone.
+% Chapter~\ref{ch:progress_report} proposed two learning regimes that connect efficiency and problem structure.
+% Establishing a causal link between problem structure, learning regimes, and efficiency is the first research question (Gap~1, Section~\ref{sec:proposal_rq1}).
 
-Third, imitating a search algorithm should allow SA-COT models to generalise to larger problem sizes.
-This is especially useful on problems where a symbolic algorithm is not viable for larger sizes.
-Prior literature on search problems reviewed in Section~\ref{sec:bg_gap_length} does not investigate length generalisation, and the pilot experiment of Section~\ref{sec:progress_pilots} shows that the current setup fails.
-My third and last research question therefore asks what prevents transformers with SA-CoT from extrapolating to larger problem sizes, and whether alternative approaches to intermediate computation can learn to search and generalise better than token-level SA-CoT(Gap~3, Section~\ref{sec:proposal_rq3}).
-This section depends on Research Question~2, since improving length generalisation requires understanding how the model uses the trace for searching.
+% Second, the search trace is the most expensive part of training and generation: a symbolic solver must produce it, or it must be obtained by other means, and it substantially lengthens every training sequence.
+% Whether this cost can be reduced depends on the mechanisms in the trace that contribute to its advantage over SO learning.
+% Chapter~\ref{ch:progress_report} shows that a dataset with suboptimal and invalid search traces underperforms in the search-efficient regime, yet completely unrelated traces do not collapse into solution-only learning.
+% My second research question therefore identifies the mechanisms behind search-trace efficiency and tests whether other forms of intermediate computation can implement them (Gap~2, Section~\ref{sec:proposal_rq2}).
+% This question depends on Research Question~1 since we must identify which problems are search-efficient, and how to vary the problem structure without changing the regime, which will be important for controlled experiments.
 
-\section{Discover what in the problem structure determines whether search-augmented CoT is more efficient than solution-only learning}
+% Third, imitating a search algorithm should allow SA models to generalise to larger problem sizes.
+% This is especially useful on problems where a symbolic algorithm is not viable for larger sizes.
+% Prior literature on search problems reviewed in Section~\ref{sec:bg_gap_length} does not investigate length generalisation, and the pilot experiment of Section~\ref{sec:progress_pilots} shows that the current setup fails.
+% My third and last research question therefore asks what prevents transformers with SA from extrapolating to larger problem sizes, and whether alternative approaches to intermediate computation can learn to search and generalise better than token-level SA(Gap~3, Section~\ref{sec:proposal_rq3}).
+% This section depends on Research Question~2, since improving length generalisation requires understanding how the model uses the trace for searching.
+
+\section{Determine factors in task structure that determine learning efficiency}
 \label{sec:proposal_rq1}
 
-The first step towards clarifying the utility of SA-CoT is to compare it to SO learning.
-Section~\ref{sec:bg_gap_efficiency} established that the literature does not do so under controlled conditions: every study fixes the dataset below the size at which both approaches generalise, and does not compare the models at the same training compute.
-It is, therefore, possible that the models, especially SO models, in prior work are under-trained; hence, the results cannot adequately compare the utility of SA-CoT and SO learning and do not precisely establish when search traces are required.
-At the same time, without establishing when a search trace is necessary and the most efficient solution to a search problem, we cannot proceed to understand and tune the mechanisms behind their advantage.
+% First, imitating search is only useful when the problem is not efficiently learnable from direct solutions alone.
+% Chapter~\ref{ch:progress_report} proposed two learning regimes that connect efficiency and problem structure.
+% Establishing a causal link between problem structure, learning regimes, and efficiency is the first research question (Gap~1, Section~\ref{sec:proposal_rq1}).
+
+Imitating search is only useful when the search problem is not efficiently learnable from solutions directly.
+% The first step towards clarifying the utility of SA is to compare it to SO learning.
+Section~\ref{sec:bg_gap_efficiency} established that the prior studies do not compare SA and SO models at the right scale, possibly under-training the models.
+% every study fixes the dataset below the size at which both approaches generalise, and does not compare the models at the same training compute.
+% It is possible that the models, especially SO models, in prior work are under-trained.
+Hence, the results cannot adequately compare the utility of SA and SO learning and do not precisely establish when search traces are required.
+At the same time, without establishing when a search trace is necessary and the most efficient solution to a search problem, we cannot proceed to understand and tune the mechanisms behind their efficiency advantage~(Gap~1).
 This motivates the following question:
 
 \begin{tcolorbox}[title=Research Question 1, colback=ThesisGreen!5, colframe=ThesisGreen, fonttitle=\bfseries, fontupper=\itshape]
-When is SA-CoT more sample- and compute-efficient than SO learning, when is it optional or even detrimental, and what in the problem's structure determines this?
+When is SA supervision more sample- and compute-efficient than SO alternative, when is it optional or even detrimental, and what in the problem structure determines this?
 \end{tcolorbox}
 
-To answer this question, I aim to (1) precisely define and demonstrate two learning regimes for search problems, one in which SA-CoT is more efficient than SO learning at any model size, and another in which SO learning is more efficient, (2) demonstrate that the learning regime of a problem is determined by its structure, (3) isolate the factors in the structure and representation that cause a specific regime, and (4) uncover the mechanisms by which they influence the learning process.
+% To answer this question, I aim to (1) precisely define and demonstrate two learning regimes for search problems, one in which SA is more efficient than SO learning at any model size, and another in which SO learning is more efficient, (2) demonstrate that the learning regime of a problem is determined by its structure, (3) isolate the factors in the structure and representation that cause a specific regime, and (4) uncover the mechanisms by which they influence the learning process.
 
 The first study of this project, presented in Chapter~\ref{ch:progress_report}, provides the starting point.
-The novel result unambiguously demonstrates that, for some search problems, SA-CoT is the most sample- and compute-efficient method for in-distribution generalisation, but not for all.
-To establish this, we compare SA-CoT and SO learning across dataset sizes and model sizes at matched training and test-time compute.
-We formalise this as search-efficient and search-optional learning regimes, and provide evidence that they are determined by the problem structure: changing the problem from maze navigation to Countdown switches learning from search-optional to search-efficient regime.
-However, this evidence rests on experiments with two problems, and tests but does not conclude which factors in the problem structure are responsible.
-
-The current literature and the first study suggest candidate factors that determine the learning regime: whether the state graph is given in context, the locality of the transition function, and the existence of a cheap heuristic.
+The novel result unambiguously demonstrates that, for some search problems, SA is the most sample- and compute-efficient method for ID generalisation, but not for all.
+% To establish this, we compare SA and SO learning across dataset sizes and model sizes at matched training and test-time compute.
+% We formalise this as search-efficient and search-optional learning regimes, and provide evidence that they are determined by the problem structure: changing the problem from maze navigation to Countdown switches learning from search-optional to search-efficient regime.
+% However, this evidence rests on experiments with two problems, and tests but does not conclude which factors in the problem structure are responsible.
+The differences between tasks in the study suggest candidate factors that may explain when search is unnecessary: a state graph given in context, a local transition function defined on a metric space, and the existence of a cheap heuristic.
 However, each may not be a factor, and additional factors may remain unidentified.
-Hence, I propose investigating additional problems where the structure can be changed without fundamentally altering the task.
-Maze navigation from the first study may not be the right task, since the maze cannot be defined without an explicit graph.
+Hence, I propose to investigate additional problems where the structure can be changed without fundamentally altering the task.
+% Maze navigation from the first study may not be the right task, since the maze cannot be defined without an explicit graph.
 Finding grid tasks where an in-context grid is optional, such as chess or other board games, can help isolate its effect.
 For the locality of the transition function, a task with non-local structure can be made local by constraining its transition function.
-For example, a game of Blocks World\footnote{\url{https://en.wikipedia.org/wiki/Blocks_world}} can be constrained so blocks can move only to an adjacent location on the board, instead of to any location.
+For example, a game of Blocks World\footnote{\url{https://en.wikipedia.org/wiki/Blocks_world}} can be constrained so blocks can move only to an adjacent location on the board.
 Finally, tasks can be modified to remove heuristics that correlate with success.
 The experiments in Chapter~\ref{ch:progress_report} already do this by changing Countdown from regular to modular arithmetic.
-In the former, integer magnitude-based heuristics correlate with the choice of the first operand and the first operation, something that does not hold in the latter.
+In the former, integer magnitude-based heuristics correlate with the choice of the first operand and the first operation -- something that does not hold in the latter.
 % , such heuristics do not correlate with the optimal solution.
-Our study shows that heuristics in regular Countdown do not make SO learning more efficient than SA-CoT, even at the smallest non-trivial game size (three input integers).
+Our study shows that heuristics in regular Countdown do not make SO learning more efficient than SA, even at the smallest non-trivial game size (three input integers).
 More analysis of heuristics and their influence is thus needed on tasks where a heuristic can make it trivial to learn the solution directly.
 
 The work will proceed as follows.
@@ -84,116 +95,134 @@ First, I will attempt to identify at least one causal factor by fixing the task,
 Then, to show the causal effect is not task-specific, I will conduct an intervention study on another task in which this factor is present and measure whether the factor predicts the change in the regime.
 I will then shift to other factors, informed by the success or failure of the previous attempts, until we identify a set of causal factors that covers major search problems in the literature.
 
-In parallel, I intend to match the formalisms that theory offers for learnability as a function of data distribution and representation, specifically, the `globality' of the target, the locality of dependencies (Section~\ref{sec:bg_reasoning}), and RASP-L expressibility (Section~\ref{sec:bg_gap_efficiency}).
-This step will determine whether proposed theoretical factors
-% in the theory literature on non-search tasks
-predict the properties responsible for a problem's learning regime, or surface the gaps in theory if they cannot.
+In parallel, I intend to match the formalisms that theory offers for learnability as a function of data distribution and representation, specifically, the `globality' of the target, the locality of dependencies, and RASP-L expressibility (Section~\ref{sec:bg_gap_efficiency}).
+This step will test whether proposed theoretical factors can predict sample efficiency of diverse search problems~\citep{abbeHowFarCan2024,prystawskiWhyThinkStep2023,zhouWhatAlgorithmsCan2023}.
 
-Finally, the definition of the two learning regimes is not exhaustive, and other regimes are possible.
-Specifically, there might be a problem where \textit{some} SO model uses more training compute but \textit{less} training data to generalise, or vice versa; the current definition does not capture these scenarios.
+Finally, the definition of the learning regimes is not exhaustive, and other regimes may be possible in practice.
+Specifically, there might be a problem where \textit{some} SO model uses more training compute but \textit{less} training data to generalise, or vice versa.
 I propose formalising these missing regimes, analysing the conditions under which they can occur, and testing whether they can occur in practice.
 This work complements the plans above: observing the regimes relies on the same experiments with causal factors, with the only difference that instead of two possible regimes, we allow for the possibility that the problem can be in four.
 
-Therefore, the expected outcomes of studying this research question are: (1) an extended map of learning regimes across search problems and complexity levels studied in the literature, which will settle the question whether SA-CoT is beneficial; (2) a causal and predictive framework that shows which factors of a search problem's structure change the learning regime and by how much, validated by intervention; (3) a framework of learning regimes that characterises missing regimes or proves them impossible; and (4) a demonstration of how these insights can influence practice, for example, through regime-informed choices of reasoning approach in a training mixture, as in Chapter~\ref{ch:progress_report}.
+Therefore, the expected outcomes of studying this research question are: (1) empirical study of scaling profiles and relative efficiency of SA and SO supervision across diverse search tasks with different complexities; (2) a framework of learning regimes that categorises search tasks and search traces by training efficiency; (3) a predictive framework that shows which factors of a search problem's structure determine the learning regime; and (4) a demonstration of how these insights can influence practice, for example, through informed choices of SA or SO data for training mixtures with different search tasks.
 
-\section{Identify the mechanism that makes the search trace efficient and validate if other types of intermediate reasoning can implement it}
+\section{Determine what makes search traces efficient}
 \label{sec:proposal_rq2}
 
-Section~\ref{sec:bg_gap_trace} established that a search trace supplies both the semantics of the search \emph{and} the serial computation obtained from generating additional tokens, and that the literature does not analyse how each of these ingredients benefits efficiency: the evidence that the semantics are unnecessary comes from a problem on which no trace is necessary, and the alternatives to symbolic traces reviewed in Section~\ref{sec:bg_reasoning} have not been compared to SA-CoT on search problems at matched compute.
-To address SA-CoT's limitations -- its reliance on search trace data and its high compute cost -- we need to understand the mechanisms behind it.
+The search trace is the most expensive part of training and generation: a symbolic solver must produce it, or it must be obtained by other means, and it substantially lengthens every training sequence.
+Whether this cost can be reduced depends on our understanding of the mechanisms in the trace that contribute to its efficiency advantage over SO supervision.
+% Chapter~\ref{ch:progress_report} shows that a dataset with suboptimal and invalid search traces underperforms in the search-efficient regime, yet completely unrelated traces do not collapse into solution-only learning.
+% My second research question therefore identifies the mechanisms behind search-trace efficiency and tests whether other forms of intermediate computation can implement them (Gap~2, Section~\ref{sec:proposal_rq2}).
+% This question depends on Research Question~1 since we must identify which problems are search-efficient, and how to vary the problem structure without changing the regime, which will be important for controlled experiments.
+% Section~\ref{sec:bg_gap_trace} established that a search trace supplies both the semantics of the search \emph{and} the serial computation obtained from generating additional tokens.
+However, the literature does not establish definitively how optimal search traces enable efficient learning in the search-efficient regime, how to reduce their cost on these problems, and if alternative methods of intermediate computation can achieve the same performance~(Gap~2, Section~\ref{sec:proposal_rq2}).
+% the evidence that the semantics are unnecessary comes from a problem on which no trace is necessary, and the alternatives to symbolic traces reviewed in Section~\ref{sec:bg_reasoning} have not been compared to SA on search problems at matched compute.
+% To address SA's limitations -- its reliance on search trace data and its high compute cost -- we need to understand the mechanisms behind it.
 Hence, the second Research Question this thesis will address is:
+\looseness-1
 
 \begin{tcolorbox}[title=Research Question 2, colback=ThesisOrange!5, colframe=ThesisOrange, fonttitle=\bfseries, fontupper=\itshape]
-What are the mechanisms behind improved efficiency of search traces, and can other types of intermediate reasoning, which do not require search traces, achieve the same performance with fewer resources?
+What are the mechanisms behind improved efficiency of search traces, and can other types of intermediate reasoning, which do not require search traces, achieve the same performance with less training and test-time compute?
 \end{tcolorbox}
 
 Answering this question has clear consequences.
-First, if an alternative reasoning method replicates the efficiency of SA-CoT without search trace data, it simplifies the model development pipeline when such traces are not readily available.
-Second, a method with shorter traces or lower overall computation can improve compute efficiency in the search-efficient regime beyond SA-CoT, which is bound to the structure and semantics of search in its traces.
-Third, if SA-CoT is the most viable approach after all, a better understanding of its mechanisms will help develop self-improvement methods that can increase performance and efficiency of the traces beyond the original symbolic strategy.
-Therefore, in this thesis chapter, I aim to determine what the search trace does in the search-efficient regime specifically, test whether the same effect can be obtained by intermediate reasoning methods that do not learn to imitate symbolic search, and apply these insights to improve policy improvement strategies used in post-training to surpass the base model's performance (Section~\ref{sec:bg_reasoning_practice}).
+First, if an alternative reasoning method replicates the efficiency of SA supervision without search trace data, it simplifies the model development pipeline when such traces are not readily available.
+Second, a method with shorter traces or lower overall computation can have better compute efficiency in the search-efficient regime than the full traces, which is bound to the structure and semantics of search.
+Third, if SA supervision is the most viable approach after all, a better understanding of its mechanisms will help develop self-improvement methods that can increase its performance and efficiency.
+% Therefore, in this thesis chapter, I aim to determine what the search trace does in the search-efficient regime specifically, test whether the same effect can be obtained by intermediate reasoning methods that do not learn to imitate symbolic search, and apply these insights to improve policy improvement strategies used in post-training to surpass the base model's performance (Section~\ref{sec:bg_reasoning_practice}).
 
-Chapter~\ref{ch:progress_report} provides the first evidence on this question, and it shows that the answer depends on the learning regime.
-Training on valid search traces unrelated to a given modular Countdown problem improves sample efficiency compared to SO learning, although it does not reduce generalisation error at the same rate per sample and FLOP as the SA-CoT data, and it does not reach generalisation.
-However, on maze navigation, the unrelated traces are asymptotically equivalent to SA-CoT and SO data: they have the worst sample and compute efficiency of the three but still generalise with a comparable number of samples, showing that the influence of errors in traces diminishes with scale.
-Preliminary experiments with pause and filler tokens showed that they are trivially learnable by the model, thereby collapsing the problem into SO learning, and models trained with corrupted traces on maze navigation learn to ignore the traces once they generalise in-distribution, which also collapses to SO learning.
-These results suggest that investigating alternative traces requires observing their effect in both regimes: observing only the search-optional regime, as related work on search problems has done so far, can lead to wrong conclusions about their utility.
+% Chapter~\ref{ch:progress_report} provides the first evidence towards answering this question, and it shows that the answer depends on the learning regime.
+% Training on valid search traces unrelated to a given modular Countdown problem improves sample efficiency compared to SO learning, although it does not reduce generalisation error at the same rate per sample and FLOP as the SA data, and it does not reach generalisation.
+% However, on maze navigation, the unrelated traces are asymptotically equivalent to SA and SO data: they have the worst sample and compute efficiency of the three but still generalise with a comparable number of samples, showing that the influence of errors in traces diminishes with scale.
+% Preliminary experiments with pause and filler tokens showed that they are trivially learnable by the model, thereby collapsing the problem into SO learning.
+% Models trained with corrupted traces on maze navigation learn to ignore the traces once they generalise in-distribution, which also collapses to SO learning.
+% These results suggest that investigating alternative traces requires observing their effect in both regimes: observing only the search-optional regime, as related work on search problems has done so far, can lead to wrong conclusions about their utility.
 
-Hence, I propose to proceed in four steps.
-First, I will establish baselines for the alternative forms of intermediate computation reviewed in Section~\ref{sec:bg_reasoning} --- content-free tokens, unrelated and corrupted traces, continuous latent thoughts, and looped or recurrent-depth architectures --- against SA-CoT and SO models on the problems of Chapter~\ref{ch:progress_report}, in both regimes and at matched training and test-time compute, which yields a map of which alternatives collapse to SO learning in which regime.
-Second, I will investigate the mechanisms in the learning algorithm and the transformer architecture that lead to the higher efficiency of search traces in the search-efficient regime.
+To answer this research question, I propose to proceed in four steps.
+First, I will establish baselines for the alternative forms of intermediate computation reviewed in Section~\ref{sec:bg_reasoning} -- content-free tokens, unrelated and corrupted traces, continuous latent thoughts, and looped or recurrent-depth architectures -- against SA and SO models on the problems of Chapter~\ref{ch:progress_report}, in both regimes and at matched training and test-time compute.
+Second, I will investigate the mechanisms in the learning algorithm and the transformer architecture that lead to the higher efficiency of optimal search traces in the search-efficient regime.
 I will do this by observing the causal impact of changes to search traces on efficiency and generalisation, analysing attention patterns and information flow during training, and probing internal representations to see what they learned.
-The goal is to evaluate whether SA-CoT merely helps to train more efficiently via additional gradient signal unrelated to search dynamics, or whether the model represents and executes the aspects of a search algorithm internally, for example, state tracking, step transition rules, order rules for node expansion, etc.
+The goal is to evaluate whether SA merely helps to train more efficiently via additional gradient signal unrelated to search dynamics, or whether the model represents and executes the aspects of a search algorithm internally, for example, state tracking, step transition rules, order rules for node expansion, etc.
 Third, I will apply the same analysis to unrelated traces and other alternative forms of token-level intermediate computation to compare their internal problem solving mechanism, identify if and how the problem structure forces the latter to develop any shared parts of it without seeing the valid search data, and test whether the crucial parts can be transferred from search to alternative forms of intermediate computation using inductive biases or auxiliary supervision signals.
-Fourth, I intend to investigate latent reasoning methods and recurrent-depth methods to determine whether SA-CoT can be amortised into recursive steps with latent states instead of being unrolled in the token space, which may improve its test-time efficiency without a drop in performance.
+Fourth, I intend to investigate latent reasoning methods and recurrent-depth methods to determine whether SA can be amortised into recursive steps with latent states instead of being unrolled in the token space, which may improve its test-time efficiency without a drop in performance.
+This work depends on the answers to the Research Question~1 since we must identify which problems are search-efficient, and how to vary the problem structure without changing the regime, which will be important for controlled experiments.
 
-The expected outcomes of answering this research question are: (1) a comparison of alternative forms of intermediate computation with SA-CoT and SO models across both learning regimes at matched compute; (2) an account of mechanisms by which genuine search traces achieve superior efficiency in the search-efficient regime; and (3) a method that transfers the crucial parts of the mechanism to the alternative methods such that they improve their efficiency and performance in the search-efficient regime, or an explanation of why this is not possible.
+The expected outcomes of answering this research question are: (1) a comparison of alternative forms of intermediate computation; (2) an account of mechanisms by which optimal search traces achieve superior efficiency in the search-efficient regime; and (3) a method that transfers the crucial parts of the mechanism to the alternative methods such that they improve their efficiency and performance to reach search-efficient regime, or an explanation of why this is not possible.
 
 \section{Improve length generalisation of search-augmented models}
 \label{sec:proposal_rq3}
 
-The preceding two research questions are posed in the context of in-distribution generalisation, whereas the search algorithms that SA-CoT models learn to imitate are size-agnostic by construction.
-Section~\ref{sec:bg_gap_length} established that length generalisation of SA-CoT is largely unaddressed: the only study with a positive result obtains it by transfer from SO learning on a search-optional problem rather than by algorithmic size extrapolation, and the conditions that theory predicts to enable length generalisation have not been instantiated on search problems with either reasoning approach.
-The failure to extrapolate to larger problems while learning to imitate a process that does so by design invites a question:
+Imitating a search algorithm should allow SA models to generalise to larger problem sizes.
+This is especially useful on problems where a symbolic algorithm is not viable for larger sizes.
+% Prior literature on search problems reviewed in Section~\ref{sec:bg_gap_length} does not investigate length generalisation, and the pilot experiment of Section~\ref{sec:progress_pilots} shows that the current setup fails.
+% My third and last research question therefore asks what prevents transformers with SA from extrapolating to larger problem sizes, and whether alternative approaches to intermediate computation can learn to search and generalise better than token-level SA (Gap~3, Section~\ref{sec:proposal_rq3}).
+% This section depends on Research Question~2, since improving length generalisation requires understanding how the model uses the trace for searching.
+% The preceding two research questions are posed in the context of in-distribution generalisation, whereas the search algorithms that SA models learn to imitate are size-agnostic by construction.
+However, Section~\ref{sec:bg_gap_length} showed that length generalisation of SA models is largely unaddressed in the literature~(Gap~3, Section~\ref{sec:proposal_rq3}), while our pilot experiments described in Chapter~\ref{ch:progress_report} showed that current methods of training SA models do not allow them to length-generalise.
+% he only study with a positive result obtains it by transfer from SO learning on a search-optional problem rather than by algorithmic size extrapolation, and the conditions that theory predicts to enable length generalisation have not been instantiated on search problems with either reasoning approach.
+% The failure to extrapolate to larger problems while learning to imitate a process that does so by design invites a question:
+This motivates the following question:
 
 \begin{tcolorbox}[title=Research Question 3, colback=ThesisBlue!5, colframe=ThesisBlue, fonttitle=\bfseries, fontupper=\itshape]
-Can search-augmented CoT achieve length generalisation?
+How to enable search-augmented transformers trained on smaller problem sizes to extrapolate in-context search to larger problem sizes at test time and outperform alternative approaches to intermediate computation?
 \end{tcolorbox}
 
 %
-Length generalisation tests OOD generalisation: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned. For SA-CoT, length generalisation is evidence that the model learned a neural implementation of a search algorithm rather than some other procedure (Section~\ref{sec:bg_gap_length}).
-It also has practical utility: a model that generalises in length can solve problems intractable for the symbolic solver that generated its training data, whereas a model that does not is bound to the problems that the solver can already solve.
-In this thesis chapter, I aim to determine what prevents SA-CoT models from generalising in length, using the framework developed in Section~\ref{sec:proposal_rq1} and insights from Section~\ref{sec:proposal_rq2} regarding the mechanisms in the search trace that enable efficient ID generalisation, and propose potential modifications to SA-CoT to extend them to length generalisation.
+% Length generalisation tests OOD generalisation: the target function is defined at every size, so extrapolation identifies which of the many solutions consistent with the training data was actually learned.
+% For SA, length generalisation is evidence that the model learned a neural implementation of a search algorithm rather than some other procedure (Section~\ref{sec:bg_gap_length}).
+% It also has practical utility: a model that generalises in length can solve problems intractable for the symbolic solver that generated its training data, whereas a model that does not is bound to the problems that the solver can already solve.
+% In this thesis chapter, I aim to determine what prevents SA models from generalising in length, using the framework developed in Section~\ref{sec:proposal_rq1} and insights from Section~\ref{sec:proposal_rq2} regarding the mechanisms in the search trace that enable efficient ID generalisation, and propose potential modifications to SA to extend them to length generalisation.
 
-Addressing length generalisation is the most challenging goal of this project, and the current setup is unlikely to generalise.
-Taking the best SA-CoT model trained on modular Countdown with three numbers, which was evaluated in Chapter~\ref{ch:progress_report}, and testing it on puzzles with four and five numbers results in a severe drop in performance; this setup therefore serves as a control baseline.
+Addressing length generalisation is the most challenging goal of this project.
+Current setup does not generalise and therefore serves as a control baseline.
+% Taking the best SA model trained on modular Countdown with three numbers, which was evaluated in Chapter~\ref{ch:progress_report}, and testing it on puzzles with four and five numbers results in a severe drop in performance; this setup therefore serves as a control baseline.
 To improve on it, I turn to the transformer theory reviewed in Section~\ref{sec:bg_gap_length}, which suggests that, with the right problem structure and trace format, length generalisation can be achieved for an arbitrary task.
 Applying this theory to search problems will thus stress-test its predictions and claims of universality, as search problems are arguably more challenging to learn than the arithmetic and state-tracking tasks investigated in the theory literature.
 
-Based on the theory literature, the most obvious first step is to convert search traces into an ``inductive'' (Markovian) format, such that each step depends only on the previous one.
-Currently, the trace format in related work and in the first study requires the transformer to track intermediate search states across the entire trace.
-I also intend to check how search problems can be expressed in the RASP language, which has not been done before, and to test the prediction that any problem which a fixed RASP program solves for any input size will generalise.
+Based on the theory literature, the most obvious first step is to convert search traces into an ``inductive'' (Markovian) format, such that each step depends only on the previous one~\citep{houUniversalLengthGeneralization2024,abbeHowFarCan2024}; currently, the trace format in related work and in the first study requires the transformer to track intermediate search states across the entire trace.
+Another theory predicts that a transformer will length-generalise on a problem if there exists a fixed RASP program which solves the problem for any input size~\citep{zhouWhatAlgorithmsCan2023,weissThinkingTransformers2021}; thus, I intend to check how search problems can be expressed in the RASP language and whether this will enable SA models to generalise, which has not been done before and will test the theory on a new class of problems.
 The mechanism identified in Section~\ref{sec:proposal_rq2} will indicate which component of the trace carries the search and therefore which component must generalise.
 The problem setup will be chosen so that all tokens required for larger problem sizes are covered during training on smaller sizes, following \citet{caiExtrapolationAssociationLength2025}, since a setup that leaves tokens used in the larger problems untrained cannot generalise \textit{a priori}.
 Finally, comparing these interventions in the search-efficient and search-optional regimes will be necessary to establish whether they generalise search itself or merely add useful shortcuts.
 
-The expected outcomes of addressing this research question are: (1) an evaluation protocol for length generalisation of search problems; (2) an account of the mechanisms that prevent \mbox{SA-CoT} models from generalising in length; and (3) a trace format or training method that extrapolates to larger search problems in the search-efficient regime, or a demonstrated failure of the theory's claims of universality on search problems.
+The expected outcomes of addressing this research question are: (1) an evaluation protocol for length generalisation of search problems; (2) an account of the mechanisms that prevent SA models from generalising in length; and (3) a trace format or training method that extrapolates to larger search problems in the search-efficient regime, or a demonstrated failure of the theory's claims of universality on search problems.
 
 \section{Summary}
 \label{sec:proposal_summary}
 
-In summary, the proposed research will begin by establishing when search imitation is more efficient than solution-only learning and what in the problem structure determines this, yielding a framework of learning regimes in which the remaining questions are posed.
-It will then identify what the search trace supplies in the search-efficient regime and whether the same can be instantiated in the alternative methods, evaluated in both regimes at matched compute.
+In summary, the proposed research will begin by establishing when search imitation is more efficient than solution-only supervision and what in the problem structure determines this, yielding a framework of learning regimes in which the remaining questions are posed.
+It will then identify the mechanisms that make optimal search traces efficient and whether their efficiency can be replicated in the alternative methods, evaluated in both learning regimes at matched compute.
 Finally, it will address length generalisation, which depends on the first question for the regimes and the evaluation protocol, and on the second for the mechanism that indicates which component of the trace must generalise.
-The three questions therefore form a chain rather than a set of independent studies, and each is intended to become a core thesis chapter and at least one paper.
+Each research question is intended to become a core thesis chapter and at least one paper.
 
 The outcomes of this research should advance our ability to use language models on problems that require search.
 This research is timely, as the field currently generates and trains on search traces at considerable cost without a proper understanding of when a problem benefits from in-context search.
-This proposal explores methodologies for (1) deciding when in-context search is worth it, (2) replacing traces when they are not needed, and (3) learning search models that extrapolate beyond their training problem.
+This proposal explores methodologies for (1) deciding when in-context search is worth it, (2) replacing traces when they are not needed, and (3) training search models that length-generalise beyond their training corpus.
 Addressing length generalisation of transformers on search problems in particular promises to lead the field to review current language model training practices that excel at in-distribution capabilities but fail to generalise out of distribution.
 
 \section{Success Criteria and Potential Risks}
 \label{sec:proposal_success}
 
 This research primarily aims to contribute an evaluation methodology and explanations of phenomena, with proof-of-concept algorithmic developments to demonstrate their impact.
-The overarching success criterion is that the learning-regime perspective introduced in Chapter~\ref{ch:progress_report} has practical value for the research community: the research must show that comparing reasoning modes at matched compute across regimes reveals conclusions that fixed-data comparisons cannot, and that the factors it identifies inform the design of training data and algorithms for search problems that can generalise out of distribution.
+The overarching success criterion is that the learning-regime perspective introduced in Chapter~\ref{ch:progress_report} has practical value for the research community: the research must show that comparing SA and SO supervision at matched compute across regimes reveals the full picture of their capabilities which is impossible to see in fixed-data experiments, and that the factors it identifies inform the design of training data and algorithms for search problems that can generalise out of distribution.
 
-Concretely, the chapter of Section~\ref{sec:proposal_rq1} succeeds if it identifies a property of the problem's structure or representation that predicts the learning regime of a problem, confirmed by an intervention that changes the regime as predicted.
+Concretely, the chapter of Section~\ref{sec:proposal_rq1} succeeds if it identifies a property of the problem's structure or representation that predicts the learning regime, confirmed by an intervention that changes the regime as predicted.
 
-The chapter of Section~\ref{sec:proposal_rq2} succeeds if it (1) produces an evidence-based mechanistic explanation for superior efficiency of SA-CoT, and (2) either produces an alternative form of intermediate computation that matches SA-CoT in efficiency for search-efficient problems, or shows why the search trace cannot be replaced; a negative result with an explanation is an acceptable outcome.
+The chapter of Section~\ref{sec:proposal_rq2} succeeds if it (1) produces an evidence-based mechanistic explanation for superior efficiency of search traces, and (2) either produces an alternative form of intermediate computation that matches SA in efficiency for search-efficient problems, or shows why the search trace cannot be replaced; a negative result with an explanation is an acceptable outcome.
 
-The chapter of Section~\ref{sec:proposal_rq3} succeeds if it demonstrates extrapolation to problem sizes beyond those seen in training on a search-efficient problem, exceeding SO models and the alternatives of Section~\ref{sec:proposal_rq2}, or if it demonstrates that the conditions predicted by theory to enable length generalisation fail on search problems.
-Finally, any algorithmic contribution must be competitive with baseline SA-CoT and SO models at matched compute; otherwise, it will not be adopted.
+The chapter of Section~\ref{sec:proposal_rq3} succeeds if it demonstrates extrapolation to problem sizes beyond those seen in training on a search-efficient problem, exceeding SO models and the alternatives explored in Section~\ref{sec:proposal_rq2}, or if it demonstrates that the conditions predicted by theory to enable length generalisation fail on search problems.
+Finally, any algorithmic contribution must be competitive with baseline SA and SO models at matched compute; otherwise, it will not be adopted.
 
 Several potential risks should be anticipated.
 The plan in Section~\ref{sec:proposal_rq1} assumes that the factors in the problem structure that determine the regime are identifiable and non-trivial.
 While the former is highly likely, the latter can diminish the novelty and impact of the contribution, for example, if the answer is simply that the in-context graph is the sole factor.
 In that case, this research can determine whether the benefits of the in-context graph can transfer to other problems via distillation or transfer learning.
 
-The research proposed in Section~\ref{sec:proposal_rq2} carries the risk that we will not be able to implement the mechanisms that enable SA-CoT models to learn efficiently in the alternative trace and non-trace methods \textit{and} will fail to explain why.
+The research proposed in Section~\ref{sec:proposal_rq2} carries the risk that we will not be able to implement the mechanisms that enable SA models to learn efficiently in the alternative trace and non-trace methods \textit{and} will fail to explain why.
 This can happen if the experiments are inconclusive and no theoretical framework explains the result.
 In this case, I will pivot to finding ways to leverage the insight into the mechanisms to improve search efficiency further in the post-training regime via self-improvement beyond the base algorithm used in search trace imitation learning, and will use alternative methods as baselines.
 
 The research proposed in Section~\ref{sec:proposal_rq3} is the most likely to fail, since no study has yet achieved algorithmic length generalisation of SA reasoning.
 If the theory-guided interventions do not extrapolate, the result is a stress-test of the theory's claims of universality, which is itself a valuable contribution.
 In that case, I will pivot to the alternative methods discussed in Section~\ref{sec:proposal_rq2}, such as loop and recursive transformers, some of which already have published results that demonstrate length generalisation, although not on search problems.
+
+Finally, research proposed in Sections~\ref{sec:proposal_rq2} and~\ref{sec:proposal_rq3} is enabled by the success of Section~\ref{sec:proposal_rq1} to identify the factors in the problem structure and representation that determine the learning regime and efficiency. If I fail to identify such factors altogether, I will fall back on using empirical framework from this research line that established the learning regime of a problem by scaling compute and dataset and evaluating SA and SO models at training compute parity.

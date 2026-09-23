@@ -122,21 +122,21 @@ This result feeds directly into the work that will address Gap~1~(Section~\ref{s
 Another result in this experiment highlights how the trace itself affects learning efficiency.
 The original SA traces from~\citet{gandhiStreamSearchSoS2024} were derived from suboptimal search strategies designed to fail $43\%$ of the time.
 In our experiments, we find they underperform SO as sample size increases and saturate above the $5\%$ solution error threshold, hence never achieving ID generalisation.
-This provides evidence that even in the search-efficient regime, a suboptimal trace can limit learning.
+This provides evidence that a suboptimal trace can limit learning and thus change the learning regime.
 The same traces were also used to train SA models, which was the compared to SO models at test-time compute parity by~\citet{qinBacktrackNotBacktrack2025}, which may explain why SO models outperformed SA models there.
 This result highlights the importance of considering the trace structure when analysing learning efficiency, contradicts some conclusions in prior work discussed in Section~\ref{sec:bg_gap_trace}, and will be considered later in Section~\ref{sec:proposal_rq2} where we investigate the ingredients that enable efficient learning with search traces.
 
-\paragraph{Two types of search tasks.}
-Our experiments suggest there exist at least two types of problems with very different scaling behaviour and relative efficiency and performance of SA supervision compared to SO models.
+\paragraph{Two learning regimes for search tasks.}
+Our experiments suggest there exist at least two learning regimes with very different scaling behaviour and relative efficiency and performance of SA supervision compared to SO models.
 This observation is formalised in the following definition, which we use throughout Chapter~\ref{ch:proposal}.
-\begin{tcolorbox}[title=Definition (Search task types), colback=ThesisGrey!5, colframe=ThesisGrey, fonttitle=\bfseries]
+\begin{tcolorbox}[title=Definition (Learning regimes), colback=ThesisGrey!5, colframe=ThesisGrey, fonttitle=\bfseries]
 For a supervision mode $m \in \{\text{SA}, \text{SO}\}$ and a model size $N$, let $C_m(\epsilon; N)$ be the least training compute, and $D_m(\epsilon; N)$ the smallest number of training samples, with which a size-$N$ model trained under mode $m$ reaches held-out solution error $\epsilon$, each minimised separately over remaining hyperparameters.
 We consider target errors $\epsilon$ between the trivial baseline and the irreducible error of the task, and assume both modes can reach any such $\epsilon$ given sufficient (finite) data and model parameters.
-In this context, we say a learning problem is $\epsilon$-\emph{search-optional} if, for every model size $N_\epsilon$ at which SA reaches error $\epsilon$, there is a model size $N$ with $C_\text{SO}(\epsilon; N) \le C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) \le D_\text{SA}(\epsilon; N_\epsilon)$. Intuitively, this implies that an SO model can achieve the same error as any SA model within the same training compute and data budget.
+In this context, we say a learning problem is $\epsilon$-\emph{search-optional} if, for every model size $N_\epsilon$ at which SA reaches error $\epsilon$, there is a model size $N$ with $C_\text{SO}(\epsilon; N) \le C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) \le D_\text{SA}(\epsilon; N_\epsilon)$. Intuitively, this implies that an SO model can achieve the same error as an SA model of any size within the same training compute and data budget.
 In contrast, we say a learning problem is $\epsilon$-\emph{search-efficient} if there is a model size $N_\epsilon$ such that every model size $N$ satisfies $C_\text{SO}(\epsilon; N) > C_\text{SA}(\epsilon; N_\epsilon)$ and $D_\text{SO}(\epsilon; N) > D_\text{SA}(\epsilon; N_\epsilon)$. Intuitively, this implies that there exists at least one SA model that reaches error $\epsilon$ with less training compute and data than every SO model with the same error.
 \end{tcolorbox}
 % We hypothesise that the regime is determined by the problem and its structure.
-Our experiments provide evidence that maze navigation is search-optional, while Countdown is search-efficient.
+Our experiments provide evidence that maze navigation with any trace is search-optional, while Countdown with a DFS trace is search-efficient.
 Crucially, SA models outperform SO models at small dataset sizes in both regimes, so a comparison at a single dataset size cannot identify the regime; this is why the prior comparisons described in Section~\ref{sec:bg_search_lm_incontext} disagree.
 
 \paragraph{The effect of trace semantics depends on the regime.}
@@ -160,20 +160,23 @@ Additional details about experiments and results can be found in the attached pa
 % NOTE: unpublished pilots; state seeds/settings if any are reported as numbers.
 Three further experiments, not included in the paper, inform the research questions of Chapter~\ref{ch:proposal}.
 First, pause and filler tokens~\citep{goyalPauseTokens2024,pfauLetsThinkDot2024} appended to SO data are trivially learnable by the model and produce no effect on either task, so the learning problem collapses into SO learning.
-Second, models trained with corrupted or unrelated traces on maze navigation learn to ignore the traces once they generalise in-distribution, which likewise collapses to SO learning; only on modular Countdown do unrelated traces retain an effect, as reported above.
-Third, the best SA model trained on modular Countdown with three numbers, tested on puzzles with four and five numbers, shows a severe drop in performance; the current trace format and setup therefore do not generalise in length, and this result serves as the control baseline for Section~\ref{sec:proposal_rq3} which addresses Gap~3.
+Second, models trained with corrupted or unrelated traces on maze navigation learn to ignore the traces once they generalise, and the traces can be completely removed at test-time; only on modular Countdown do unrelated traces retain an effect.
+Third, the accuracy of the best SA model trained on modular Countdown drops from $99\%$ on ID held-out dataset to $0\%$ on an OOD dataset of modular Countdown puzzles but with more integers; the current trace format and setup therefore do not generalise in length, and this result serves as the control baseline for Section~\ref{sec:proposal_rq3} which addresses Gap~3.
 
 \section{Outlook}
 \label{sec:progress_outlook}
 
-Our study reported in this chapter argues that there are search problems on which SA learning is the most sample- and compute-efficient method for in-distribution generalisation, that this is not the case for every search problem, and that which case applies is decided by the problem's structure rather than by model scale.
-It defines two learning regimes for search problems that separate the problems by the relative sample and compute efficiency of SA compared to SO learning, and shows that scaling the model size only helps in the regime where SO learning is more efficient.
-It also demonstrates that suboptimal or unrelated traces hinder performance and learning efficiency of SA, which may fall behind SO learning even on problems where optimal SA is more efficient.
-Finally, it provides the protocol, specifically, matched-compute comparison across data and model sweeps in both regimes, which establishes the regime for a given problem.
-For Research Question~1, it leaves open which structural properties determine the regime: the evidence rests on two problems with different structure and representation, and interventions within the problem only show that they do not change the regime; thus, the candidate factors are not yet isolated.
-It also leaves open whether other regimes are possible in practice, since the provided definition does not exhaustively define all possible regimes.
-For Research Question~2, it only provides evidence that trace quality and semantics matter in the search-efficient regime, but does not explain why that is the case, why suboptimal traces perform worse, and why unrelated traces retain part of the benefit and outperform SO data.
-For Research Question~3, it shows only that the current setup does not generalise in length, and everything beyond in-distribution generalisation remains to be done.
-Chapter~\ref{ch:proposal} takes up each of these in turn.
+Our study reported in this chapter demonstrates that there are search problems on which learning with optimal search traces is the most sample- and compute-efficient method for ID generalisation, but also that this is not the case for every search problem.
+We define two learning regimes based on a difference in scaling profiles between SA and SO supervision across samples and compute, and show that scaling the model size only helps in the regime where SO supervision is more efficient.
+By applying evaluations from existing work to our setup, we provide evidence that comparing SA and SO models on a fixed training dataset may confuse an under-trained model for general limitation in capability.
+We also demonstrate that suboptimal or unrelated traces hinder performance and learning efficiency of SA models, which may fall behind SO learning even on problems where training with optimal search traces is more efficient.
+Finally, we provide a protocol, specifically, matched-compute comparison across data and model sweeps, which establishes the learning regime for a combination of a search problem and a search trace.
+
+Regarding \textbf{Gap~1}, it leaves open which structural properties of search problems determine their scaling profile and, hence, the learning regime.
+Our current evidence rests on two tasks with different structure and representation, and interventions within the problem show that they do not change the learning regime; thus, the candidate factors are not yet isolated.
+It also leaves open whether other regimes are possible in practice, since the provided definition does not exhaustively define all of them.
+Regarding \textbf{Gap~2}, it only provides evidence that the trace quality and semantics matter for the search-efficient regime, but does not explain why that is the case, why suboptimal traces perform worse, and why unrelated traces retain part of the benefit and outperform SO data.
+Regarding \textbf{Gap~3}, it shows only that the current setup does not generalise in length, and everything beyond ID generalisation remains to be done.
+% Chapter~\ref{ch:proposal} takes up each of these in turn.
 
 %

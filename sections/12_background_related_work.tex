@@ -73,7 +73,7 @@ Since search traces are content-specific and grow proportionately to the size of
 Beyond extending transformer expressivity, CoT has also been shown to improve task learnability.
 Specifically, intermediate supervision makes composite tasks that cannot be learned end-to-end learnable with polynomially many samples~\citep{wiesSubTaskDecompositionEnables2023,malachAutoRegressiveNexttokenPredictors2024,prystawskiWhyThinkStep2023,joshiTheoryLearningAutoregressive2025}.
 For example, \citet{wenSparseDependenceSparse2025} shows that $k$-sparse parity requires $2^{\Omega(k)}$ samples from answers alone but near-linearly many with supervised steps.
-\citet{abbeHowFarCan2024} proves that CoT specifically benefits tasks with high target `globality', where a solution requires aggregating information across the entire context (e.g., graph cycle detection)~\citep{abbeHowFarCan2024}.
+\citet{abbeHowFarCan2024} proves that CoT specifically benefits tasks with high target `globality', where a solution requires aggregating information across the entire context (e.g., graph cycle detection).
 The reason is gradient descent: when applied to a transformer, it is biased towards low-sensitivity functions, so high-sensitivity targets such as parity are hard to reach from answers alone~\citep{hahnWhySensitiveFunctions2024}.
 Yet, they are learned in a single gradient step when the intermediate parities are supervised~\citep{kimTransformersProvablySolve2025}.
 The results suggest that prepending a search trace should make a solution easier to learn.
@@ -262,7 +262,8 @@ Only two studies change the structure of search traces and measure their effect 
 % In the search literature, evidence that semantics are unnecessary comes from two studies on maze navigation: unrelated traces perform as well as related ones~\citep{valmeekamSemanticsUnreasonableEffectiveness2025}, and traces with randomly dropped parts train a model that can answer without searching at all~\citep{suDualformerControllableFast2025}.
 Their results suggest that following the exact search process is unnecessary.
 However, both are conducted on the same maze navigation task with a fixed dataset size.
-In Chapter~\ref{ch:progress_report}, we will show that SO models can reach performance of SA models on this task with comparable data and less compute; on other tasks, the same interventions can harm performance.
+In Chapter~\ref{ch:progress_report}, we will show that SO models can reach performance of SA models on this task with comparable data and less compute, thus search traces are unnecessary in the first place.
+On other tasks, however, the same interventions can harm performance.
 Therefore, I formulate the research gap as follows:
 % Thus, given the literature and our results, the question of whether search traces are necessary remains open.
 % Specifically, we reproduce the setup from \citet{gandhiStreamSearchSoS2024}, which reported that suboptimal traces provide a performance advantage over SO data, but show that with more training those traces saturate and the learning stalls, while efficient optimal traces attain near-zero error.
@@ -275,7 +276,7 @@ Therefore, I formulate the research gap as follows:
 
 \begin{tcolorbox}[title=Gap 2: Trace structure, colback=ThesisOrange!5, colframe=ThesisOrange, fonttitle=\bfseries, fontupper=\itshape]
 % The literature does not establish whether or why exact imitation of a search algorithm is necessary, and whether the same performance can be achieved by alternative methods of intermediate computation.
-(1) The initial conclusions about the role of search traces presented in the literature are misleading, since they do not establish whether search traces are necessary for the task first, (2) the analysis of what makes traces effective and necessary is missing, and (3) none of the alternative methods of intermediate serial computation described in Section~\ref{sec:bg_reasoning_alternatives} have been applied to search problems.
+(1) The initial conclusions about the role of search traces presented in the literature are misleading, (2) the analysis of what makes traces effective and necessary is missing, and (3) none of the alternative methods of intermediate serial computation described in Section~\ref{sec:bg_reasoning_alternatives} have been applied to search problems.
 \end{tcolorbox}
 
 \subsection{Length generalisation for in-context search}
