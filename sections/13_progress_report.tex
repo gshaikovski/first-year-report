@@ -55,6 +55,35 @@ Models are compared on held-out problems at matched training compute measured in
 \section{Summary of Results}
 \label{sec:progress_results}
 
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/final_maze_error.pdf}
+        \caption{Placeholder subcaption: maze navigation.}
+        \label{fig:final_maze_error}
+    \end{subfigure}
+
+    \vspace{\baselineskip}
+
+    % widths chosen so both panels render at the same scale (equal natural heights)
+    \begin{subfigure}[t]{0.505\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/final_countdown_sos_20m_error.pdf}
+        \caption{Placeholder subcaption: SoS Countdown.}
+        \label{fig:final_countdown_sos_20m_error}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.473\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/final_countdown_error.pdf}
+        \caption{Placeholder subcaption: modular Countdown.}
+        \label{fig:final_countdown_error}
+    \end{subfigure}
+    \caption{Placeholder caption: TODO describe the main results.}
+    \label{fig:results}
+\end{figure}
+
 \paragraph{Maze navigation is search-optional.}
 % TODO: Figure: final_maze_vs_flops (solution error vs training FLOPs, SA vs SO, three depths).
 Our results show that SO models can reach the same near-perfect accuracy as SA models with less total training compute, require marginally more data with smaller models, and close the remaining sample-efficiency gap with larger models while preserving the compute advantage of SO models.
