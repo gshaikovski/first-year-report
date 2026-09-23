@@ -94,7 +94,7 @@ Models are compared at matched training compute measured in FLOPs and at matched
     (\subref{fig:final_maze_error})~On maze navigation, SO models are more compute-efficient than SA models, and also more sample efficient at larger model sizes.
     (\subref{fig:final_countdown_sos_20m_error})~On SoS Countdown, models with a near-optimal DFS trace are more compute and sample efficient than SO models at any model size; a sub-optimal SoS trace can saturate early and thus underperform SO models.
     (\subref{fig:final_countdown_error})~On modular Countdown, SO models have the worst sample and compute efficiency.
-    % TODO: sentences for (c) modular Countdown and (d) mixture.
+    (\subref{fig:final_mixture_error})~An informed choice of SA or SO supervision per task yields generalisation with the least amount of compute and comparable amount of data for all the tasks.
     }
     \label{fig:results}
 \end{figure}
@@ -144,7 +144,9 @@ This result informs my approach when I describe a proposal to address Gap~2 in S
 
 \paragraph{Knowing the regime yields a more compute-efficient data mixture.}
 % TODO: Figure: final_mixture_error.
-Our experiments also demonstrate that training a model on both tasks with the reasoning approach chosen per task based on its regime, SO for maze navigation and SA for modular Countdown, reaches generalisation on both tasks with less training compute than training with SA or with SO data on both.
+Our experiments also demonstrate that training a single model on multiple search tasks with an informed choice between SO and SA supervision per task (in our case, SO for maze navigation and SA for modular Countdown) generalises ID with less training compute and comparable dataset sizes (Figure~\ref{fig:final_mixture_error}).
+
+Additional details about experiments and results can be found in the attached paper in Appendix~\ref{app:paper}.
 
 \section{Additional pilot experiments}
 \label{sec:progress_pilots}
